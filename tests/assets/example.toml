@@ -1,0 +1,15 @@
+[meta]
+title = "Título do Documento"
+creation_date = 2024-09-22T10:27:00
+last_modified = 2024-09-22T18:27:00
+slug = "titulo-do-documento"
+type = "page"
+category = "example"
+keywords = ["bla", "biu", "bein"]
+tags = ["foo", "bar", "baz"]
+status = "draft"  # one of draft, hidden, skip or published
+
+[content]
+stuff = """
+Texto de exemplo.
+"""

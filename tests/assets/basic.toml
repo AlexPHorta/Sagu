@@ -1,0 +1,9 @@
+[meta]
+title = "Document title"
+creation_date = 2024-09-22T10:27:00
+
+
+[content]
+stuff = """
+Example text.
+"""
