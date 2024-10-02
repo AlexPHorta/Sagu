@@ -21,6 +21,9 @@ class TestReader(unittest.TestCase):
 		with self.assertRaises(KeyError):
 			ssg.reader(os.path.join(assets, "wrong_content.toml"))
 
+	def test_wrong_post_file_type(self):
+		self.assertFalse()
+
 
 if __name__ == '__main__':
     unittest.main()
