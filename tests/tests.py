@@ -1,6 +1,8 @@
 import datetime
 import os.path
 import unittest
+import unittest.mock as mock
+import uuid
 
 from .assets import results
 
@@ -30,6 +32,7 @@ class TestPost(unittest.TestCase):
 	def test_basic_post(self):
 		basic_post = ssg.reader(os.path.join(assets, "basic.toml"))
 		post_instance = ssg.Post(basic_post)
+		self.assertEqual(post_instance.id, '161b7313299edeaa9a130fea6021382f')  # MD5 hex digest
 		self.assertEqual(post_instance.title, "Document title")
 		self.assertEqual(post_instance.creation_date, datetime.datetime(2024, 9, 22, 10, 27))
 		self.assertEqual(post_instance.last_update, datetime.datetime(2024, 9, 22, 10, 27))
@@ -43,6 +46,18 @@ class TestPost(unittest.TestCase):
 		self.assertEqual(post_instance.summary, None)
 		self.assertEqual(post_instance.status, None)
 		self.assertEqual(post_instance.path, None)
+
+
+class TestPostsCollection(unittest.TestCase):
+
+	def test_empty_posts_collection(self):
+		posts = ssg.PostsCollection()
+		self.assertEqual(posts.size, 0)
+		self.assertEqual(posts.tree, [])
+
+	def test_empty_posts_collection_with_paths(self):
+		paths = ssg.PostsCollection(os.path.join(assets, "paths.toml"))
+		self.assertEqual(paths.tree, results.test_paths)
 
 
 if __name__ == '__main__':
