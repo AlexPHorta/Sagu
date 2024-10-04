@@ -32,20 +32,14 @@ class TestPost(unittest.TestCase):
 	def test_basic_post(self):
 		basic_post = ssg.reader(os.path.join(assets, "basic.toml"))
 		post_instance = ssg.Post(basic_post)
-		self.assertEqual(post_instance.id, '161b7313299edeaa9a130fea6021382f')  # MD5 hex digest
-		self.assertEqual(post_instance.title, "Document title")
-		self.assertEqual(post_instance.creation_date, datetime.datetime(2024, 9, 22, 10, 27))
-		self.assertEqual(post_instance.last_update, datetime.datetime(2024, 9, 22, 10, 27))
-		self.assertEqual(post_instance.raw_content, results.basic["content"])
-		self.assertEqual(post_instance.author, None)
-		self.assertEqual(post_instance.authors, None)
-		self.assertEqual(post_instance.category, None)
-		self.assertEqual(post_instance.tags, None)
-		self.assertEqual(post_instance.keywords, None)
-		self.assertEqual(post_instance.slug, None)
-		self.assertEqual(post_instance.summary, None)
-		self.assertEqual(post_instance.status, None)
-		self.assertEqual(post_instance.path, None)
+		p_i_attrs = {"id": '161b7313299edeaa9a130fea6021382f', "title": "Document title", 
+			"creation_date": datetime.datetime(2024, 9, 22, 10, 27), 
+			"last_update": datetime.datetime(2024, 9, 22, 10, 27),
+			"raw_content": results.basic["content"], "author": None, "authors": None,
+			"category": None, "tags": None, "keywords": None, "slug": None, 
+			"summary": None, "status": None, "path": None}
+		for attr in p_i_attrs:
+			self.assertEqual(getattr(post_instance, attr), p_i_attrs[attr])
 
 
 class TestPostsCollection(unittest.TestCase):
@@ -62,7 +56,6 @@ class TestPostsCollection(unittest.TestCase):
 	def test_posts_collection_with_path_and_posts(self):
 		paths = ssg.PostsCollection(os.path.join(assets, "TestPostsCollection/basic_paths.toml"))
 		self.assertEqual(paths.tree, results.test_basic_paths)
-
 
 
 if __name__ == '__main__':
