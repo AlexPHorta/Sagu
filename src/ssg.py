@@ -26,6 +26,18 @@ class Post:
 
 		Arguments:
 		post_object - a dictionary"""
-		self.title = post_object["meta"]["title"]
-		self.creation_date = post_object["meta"]["creation_date"]
+		m = post_object["meta"]
+		self.title = m["title"]
+		self.creation_date = m["creation_date"]
+		self.last_update = m["creation_date"]
+		self.author = m.get("author")
+		self.authors = m.get("authors")
+		self.category = m.get("category")
+		self.tags = m.get("tags")
+		self.keywords = m.get("keywords")
+		self.slug = m.get("slug")
+		self.summary = m.get("summary")
+		self.status = m.get("status")
+		self.path = m.get("path")
 		self.raw_content = post_object["content"]
+
