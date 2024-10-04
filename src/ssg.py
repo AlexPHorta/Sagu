@@ -53,10 +53,8 @@ class PostsCollection:
 
 	def load_paths(self, paths):
 
-		if paths is None:
-			return []
-
-		with open(paths, "rb") as paths_file:
-			paths = tomllib.load(paths_file)
+		if paths is not None:
+			with open(paths, "rb") as paths_file:
+				paths = tomllib.load(paths_file)
 
 		return paths

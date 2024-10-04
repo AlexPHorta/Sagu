@@ -12,3 +12,6 @@ test_paths = {'about': [{'applications': {}, 'quotes': {}, 'getting_started': {}
 				{'beginners_guide': {}, 'developers_guide': {}, 'faq': {}}], 
 				'community': [{'mailing_lists': {}, 'forums': {}, 
 				'conferences': {}}], 'news': {}}
+
+
+test_basic_paths = {'about': [{'applications': {}, 'getting_started': {}}]}

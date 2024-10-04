@@ -20,11 +20,11 @@ class TestReader(unittest.TestCase):
 	def test_wrong_post_format(self):
 		"""Check if there's meta and content tables."""
 		with self.assertRaises(KeyError):
-			ssg.reader(os.path.join(assets, "wrong_meta.toml"))
-			ssg.reader(os.path.join(assets, "no_meta.toml"))
+			ssg.reader(os.path.join(assets, "TestReader/wrong_meta.toml"))
+			ssg.reader(os.path.join(assets, "TestReader/no_meta.toml"))
 		with self.assertRaises(KeyError):
-			ssg.reader(os.path.join(assets, "no_content.toml"))
-			ssg.reader(os.path.join(assets, "wrong_content.toml"))
+			ssg.reader(os.path.join(assets, "TestReader/wrong_content.toml"))
+			ssg.reader(os.path.join(assets, "TestReader/no_content.toml"))
 
 
 class TestPost(unittest.TestCase):
@@ -53,11 +53,16 @@ class TestPostsCollection(unittest.TestCase):
 	def test_empty_posts_collection(self):
 		posts = ssg.PostsCollection()
 		self.assertEqual(posts.size, 0)
-		self.assertEqual(posts.tree, [])
+		self.assertEqual(posts.tree, None)
 
 	def test_empty_posts_collection_with_paths(self):
-		paths = ssg.PostsCollection(os.path.join(assets, "paths.toml"))
+		paths = ssg.PostsCollection(os.path.join(assets, "TestPostsCollection/paths.toml"))
 		self.assertEqual(paths.tree, results.test_paths)
+
+	def test_posts_collection_with_path_and_posts(self):
+		paths = ssg.PostsCollection(os.path.join(assets, "TestPostsCollection/basic_paths.toml"))
+		self.assertEqual(paths.tree, results.test_basic_paths)
+
 
 
 if __name__ == '__main__':
