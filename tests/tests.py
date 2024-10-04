@@ -25,5 +25,14 @@ class TestReader(unittest.TestCase):
 			ssg.reader(os.path.join(assets, "wrong_content.toml"))
 
 
+class TestPost(unittest.TestCase):
+
+	def test_basic_post(self):
+		basic_post = ssg.reader(os.path.join(assets, "basic.toml"))
+		post_instance = ssg.Post(basic_post)
+		self.assertEqual(post_instance.title, "Document title")
+		self.assertEqual(post_instance.creation_date, datetime.datetime(2024, 9, 22, 10, 27))
+		self.assertEqual(post_instance.raw_content, results.basic["content"])
+
 if __name__ == '__main__':
     unittest.main()
