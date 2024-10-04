@@ -16,9 +16,12 @@ class TestReader(unittest.TestCase):
 			results.basic)
 
 	def test_wrong_post_format(self):
+		"""Check if there's meta and content tables."""
 		with self.assertRaises(KeyError):
 			ssg.reader(os.path.join(assets, "wrong_meta.toml"))
+			ssg.reader(os.path.join(assets, "no_meta.toml"))
 		with self.assertRaises(KeyError):
+			ssg.reader(os.path.join(assets, "no_content.toml"))
 			ssg.reader(os.path.join(assets, "wrong_content.toml"))
 
 

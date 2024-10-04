@@ -10,6 +10,6 @@ def reader(post_path):
 			data = tomllib.load(post_file)
 		all((data["meta"], data["content"]))
 	except KeyError:
-		raise KeyError("Wrong file format.")
+		raise KeyError("Wrong file sections.")
 
 	return data
