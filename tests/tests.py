@@ -22,7 +22,6 @@ class TestReader(unittest.TestCase):
 		with self.assertRaises(KeyError):
 			ssg.reader(os.path.join(assets, "TestReader/wrong_meta.toml"))
 			ssg.reader(os.path.join(assets, "TestReader/no_meta.toml"))
-		with self.assertRaises(KeyError):
 			ssg.reader(os.path.join(assets, "TestReader/wrong_content.toml"))
 			ssg.reader(os.path.join(assets, "TestReader/no_content.toml"))
 
@@ -45,7 +44,7 @@ class TestPost(unittest.TestCase):
 		post1 = ssg.Post(ssg.reader(os.path.join(assets, "post1.toml")))
 		self.assertEqual(post1.path, ("about", "applications"))
 
-	def test_post_with_wrong_path(self):
+	def test_post_with_wrong_parent_path(self):
 		with self.assertRaises(KeyError):
 			ssg.Post(ssg.reader(os.path.join(assets, "post2.toml")))
 
