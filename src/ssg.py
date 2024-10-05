@@ -27,12 +27,16 @@ class Post:
 
 		Arguments:
 		post_object - a dictionary"""
+
 		m = post_object["meta"]
+		
 		self.title = m["title"]
 		self.creation_date = m["creation_date"]
+		self.last_update = m["creation_date"]
+		
 		self.id = hashlib.md5(bytes(f"{self.title}{self.creation_date.isoformat()}",
 			encoding="utf-8"), usedforsecurity=False).hexdigest()
-		self.last_update = m["creation_date"]
+		
 		self.author = m.get("author")
 		self.authors = m.get("authors")
 		self.category = m.get("category")
