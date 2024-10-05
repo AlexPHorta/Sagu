@@ -41,8 +41,14 @@ class Post:
 		self.slug = m.get("slug")
 		self.summary = m.get("summary")
 		self.status = m.get("status")
-		self.path = m.get("path")
+
+		post_path = m.get("path")
+		self.path = post_path if post_path is None else self.parse_post_path(post_path)
+		
 		self.raw_content = post_object["content"]
+
+	def parse_post_path(self, post_path):
+		return tuple(post_path.split(":"))
 
 
 class PostsCollection:

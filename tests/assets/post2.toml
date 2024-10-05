@@ -2,7 +2,7 @@
 title = "Document 2"
 creation_date = 2024-09-22T10:27:00
 last_modified = 2024-09-22T18:27:00
-path = "about:getting_started"
+path = "news:getting_started"
 
 [content]
 stuff = """

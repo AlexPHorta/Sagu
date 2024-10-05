@@ -42,10 +42,12 @@ class TestPost(unittest.TestCase):
 			self.assertEqual(getattr(post_instance, attr), p_i_attrs[attr])
 
 	def test_post_with_path(self):
-		post1 = ssg.reader(os.path.join(assets, "post1.toml"))
-		post2 = ssg.reader(os.path.join(assets, "post2.toml"))
+		post1 = ssg.Post(ssg.reader(os.path.join(assets, "post1.toml")))
 		self.assertEqual(post1.path, ("about", "applications"))
-		self.assertEqual(post2.path, ("about", "getting_started"))
+
+	def test_post_with_wrong_path(self):
+		with self.assertRaises(KeyError):
+			ssg.Post(ssg.reader(os.path.join(assets, "post2.toml")))
 
 
 class TestPostsCollection(unittest.TestCase):
