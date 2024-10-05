@@ -4,30 +4,16 @@ import tomllib
 
 
 
-def reader(post_path):
-	"""Read the texts and return a post object.
-
-	Arguments:
-	post_path - path to a post file"""
-
-	try:
-		with open(post_path, "rb") as post_file:
-			post = tomllib.load(post_file)
-		all((post["meta"], post["content"]))
-	except KeyError:
-		raise KeyError("Wrong file sections.")
-
-	return post
-
 
 class Post:
 
-	def __init__(self, post_object):
+	def __init__(self, post_path):
 		"""Create a post instance.
 
 		Arguments:
 		post_object - a dictionary"""
-
+		self.post_path = post_path
+		post_object = self.reader(self.post_path)
 		m = post_object["meta"]
 		
 		self.title = m["title"]
@@ -51,7 +37,22 @@ class Post:
 		
 		self.raw_content = post_object["content"]
 
-	def parse_post_path(self, post_path):
+	def reader(self, post_path):
+		"""Read the texts and return a post object.
+
+		Arguments:
+		post_path - path to a post file"""
+
+		try:
+			with open(post_path, "rb") as post_file:
+				post = tomllib.load(post_file)
+			all((post["meta"], post["content"]))
+		except KeyError:
+			raise KeyError("Wrong file sections.")
+
+		return post
+
+	def parse_post_path(self, post_path, paths):
 		return tuple(post_path.split(":"))
 
 

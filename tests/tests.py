@@ -11,26 +11,38 @@ from src import ssg
 assets = "tests/assets"
 
 
-class TestReader(unittest.TestCase):
+# class TestReader(unittest.TestCase):
+
+	# def test_reader(self):
+	# 	self.assertEqual(ssg.reader(os.path.join(assets, "basic.toml")), 
+	# 		results.basic)
+
+	# def test_wrong_post_format(self):
+	# 	"""Check if there's meta and content tables."""
+	# 	with self.assertRaises(KeyError):
+	# 		ssg.reader(os.path.join(assets, "TestReader/wrong_meta.toml"))
+	# 		ssg.reader(os.path.join(assets, "TestReader/no_meta.toml"))
+	# 		ssg.reader(os.path.join(assets, "TestReader/wrong_content.toml"))
+	# 		ssg.reader(os.path.join(assets, "TestReader/no_content.toml"))
+
+
+class TestPost(unittest.TestCase):
 
 	def test_reader(self):
-		self.assertEqual(ssg.reader(os.path.join(assets, "basic.toml")), 
+		post = ssg.Post(os.path.join(assets, "basic.toml"))
+		self.assertEqual(post.reader(post.post_path), 
 			results.basic)
 
 	def test_wrong_post_format(self):
 		"""Check if there's meta and content tables."""
 		with self.assertRaises(KeyError):
-			ssg.reader(os.path.join(assets, "TestReader/wrong_meta.toml"))
-			ssg.reader(os.path.join(assets, "TestReader/no_meta.toml"))
-			ssg.reader(os.path.join(assets, "TestReader/wrong_content.toml"))
-			ssg.reader(os.path.join(assets, "TestReader/no_content.toml"))
-
-
-class TestPost(unittest.TestCase):
+			ssg.Post(os.path.join(assets, "TestReader/wrong_meta.toml"))
+			ssg.Post(os.path.join(assets, "TestReader/no_meta.toml"))
+			ssg.Post(os.path.join(assets, "TestReader/wrong_content.toml"))
+			ssg.Post(os.path.join(assets, "TestReader/no_content.toml"))
 
 	def test_basic_post(self):
-		basic_post = ssg.reader(os.path.join(assets, "basic.toml"))
-		post_instance = ssg.Post(basic_post)
+		post_instance = ssg.Post(os.path.join(assets, "basic.toml"))
 		p_i_attrs = {"id": '161b7313299edeaa9a130fea6021382f', "title": "Document title", 
 			"creation_date": datetime.datetime(2024, 9, 22, 10, 27), 
 			"last_update": datetime.datetime(2024, 9, 22, 10, 27),
@@ -41,12 +53,13 @@ class TestPost(unittest.TestCase):
 			self.assertEqual(getattr(post_instance, attr), p_i_attrs[attr])
 
 	def test_post_with_path(self):
-		post1 = ssg.Post(ssg.reader(os.path.join(assets, "post1.toml")))
+		post1 = ssg.Post(os.path.join(assets, "post1.toml"))
 		self.assertEqual(post1.path, ("about", "applications"))
 
 	def test_post_with_wrong_parent_path(self):
+		paths = ssg.PostsCollection(os.path.join(assets, "basic_paths.toml"))
 		with self.assertRaises(KeyError):
-			ssg.Post(ssg.reader(os.path.join(assets, "post2.toml")))
+			ssg.Post(os.path.join(assets, "post2.toml"))
 
 
 class TestPostsCollection(unittest.TestCase):
@@ -61,7 +74,7 @@ class TestPostsCollection(unittest.TestCase):
 		self.assertEqual(paths.tree, results.test_paths)
 
 	def test_posts_collection_with_path_and_posts(self):
-		paths = ssg.PostsCollection(os.path.join(assets, "TestPostsCollection/basic_paths.toml"))
+		paths = ssg.PostsCollection(os.path.join(assets, "basic_paths.toml"))
 		self.assertEqual(paths.tree, results.test_basic_paths)
 
 
