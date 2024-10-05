@@ -3,16 +3,14 @@ import hashlib
 import tomllib
 
 
-
-
 class Post:
 
-	def __init__(self, post_path):
+	def __init__(self, post_fs_path):
 		"""Create a post instance.
 
 		Arguments:
 		post_object - a dictionary"""
-		self.post_path = post_path
+		self.post_path = post_fs_path
 		post_object = self.reader(self.post_path)
 		m = post_object["meta"]
 		
@@ -32,8 +30,8 @@ class Post:
 		self.summary = m.get("summary")
 		self.status = m.get("status")
 
-		post_path = m.get("path")
-		self.path = post_path if post_path is None else self.parse_post_path(post_path)
+		post_url_path = m.get("path")
+		self.path = post_url_path if post_url_path is None else self.parse_post_path(post_url_path)
 		
 		self.raw_content = post_object["content"]
 
@@ -52,8 +50,13 @@ class Post:
 
 		return post
 
-	def parse_post_path(self, post_path, paths):
-		return tuple(post_path.split(":"))
+	def parse_post_path(self, post_path, paths=None):
+		post_path = tuple(post_path.split(":"))
+
+		if paths is not None:
+			pass
+		else:
+			return post_path
 
 
 class PostsCollection:

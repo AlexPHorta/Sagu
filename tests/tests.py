@@ -53,6 +53,7 @@ class TestPost(unittest.TestCase):
 			self.assertEqual(getattr(post_instance, attr), p_i_attrs[attr])
 
 	def test_post_with_path(self):
+		paths = ssg.PostsCollection(os.path.join(assets, "basic_paths.toml"))
 		post1 = ssg.Post(os.path.join(assets, "post1.toml"))
 		self.assertEqual(post1.path, ("about", "applications"))
 
