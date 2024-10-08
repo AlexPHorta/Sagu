@@ -81,18 +81,20 @@ class PostsCollection:
 
 	# Adapted from https://stackoverflow.com/a/62186053
 	def flatten(self, dictionary, parent_key=False, separator=':'):
-	    """
-	    Turn a nested dictionary into a flattened dictionary
-	    :param dictionary: The dictionary to flatten
-	    :param parent_key: The string to prepend to dictionary's keys
-	    :param separator: The string used to separate flattened keys
-	    :return: A flattened dictionary
-	    """
-	    items = []
-	    for key, value in dictionary.items():
-	        new_key = str(parent_key) + separator + key if parent_key else key
-	        if isinstance(value, collections.abc.MutableMapping) and len(value) > 0:
-	            items.extend(self.flatten(value, new_key, separator).items())
-	        else:
-	            items.append((new_key, value))
-	    return dict(items)
+		"""
+		Turn a nested dictionary into a flattened dictionary
+		:param dictionary: The dictionary to flatten
+		:param parent_key: The string to prepend to dictionary's keys
+		:param separator: The string used to separate flattened keys
+		:return: A flattened dictionary
+		"""
+		items = []
+		for key, value in dictionary.items():
+			new_key = str(parent_key) + separator + key if parent_key else key
+			if isinstance(value, collections.abc.MutableMapping) and len(value) > 0:
+				items.extend(self.flatten(value, new_key, separator).items())
+			else:
+				items.append((new_key, value))
+		return dict(items)
+
+
