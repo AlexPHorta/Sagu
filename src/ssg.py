@@ -53,7 +53,7 @@ class Post:
 		return post
 
 	def parse_post_path(self, post_path, paths=None):
-		post_path = tuple(post_path.split(":"))
+		# post_path = tuple(post_path.split(":"))
 
 		if paths is not None:
 			if post_path in paths:
@@ -88,7 +88,6 @@ class PostsCollection:
 	    :param separator: The string used to separate flattened keys
 	    :return: A flattened dictionary
 	    """
-
 	    items = []
 	    for key, value in dictionary.items():
 	        new_key = str(parent_key) + separator + key if parent_key else key

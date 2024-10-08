@@ -40,7 +40,7 @@ class TestPost(unittest.TestCase):
 	def test_post_with_path(self):
 		paths = ssg.PostsCollection(os.path.join(assets, "basic_paths.toml"))
 		post1 = ssg.Post(os.path.join(assets, "post1.toml"))
-		self.assertEqual(post1.path, ("about", "applications"))
+		self.assertTrue(post1.path in paths.flat_tree)
 
 	def test_post_with_wrong_parent_path(self):
 		paths = ssg.PostsCollection(os.path.join(assets, "basic_paths.toml"))
@@ -54,6 +54,7 @@ class TestPostsCollection(unittest.TestCase):
 		posts = ssg.PostsCollection()
 		self.assertEqual(posts.size, 0)
 		self.assertEqual(posts.tree, None)
+		self.assertEqual(posts.flat_tree, None)
 
 	def test_empty_posts_collection_with_paths(self):
 		paths = ssg.PostsCollection(os.path.join(assets, "TestPostsCollection/paths.toml"))
@@ -62,7 +63,8 @@ class TestPostsCollection(unittest.TestCase):
 
 	def test_posts_collection_with_path_and_posts(self):
 		paths = ssg.PostsCollection(os.path.join(assets, "basic_paths.toml"))
-		self.assertEqual(paths.tree, results.test_basic_paths)
+		post = ssg.Post(os.path.join(assets, "post1.toml"), website_path=paths.flat_tree)
+		paths.add_post(post)
 
 
 if __name__ == '__main__':

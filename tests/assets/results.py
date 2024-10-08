@@ -20,4 +20,4 @@ test_flat_paths = ['about:applications', 'about:quotes', 'about:getting_started'
 			'community:conferences', 'news']
 
 
-test_basic_paths = {'about': [{'applications': {}, 'getting_started': {}}]}
+test_basic_paths = ['about:applications', 'about:getting_started']
