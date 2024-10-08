@@ -12,5 +12,12 @@ test_paths = {'about': {'applications': {}, 'quotes': {}, 'getting_started': {}}
 			'developers_guide': {}, 'faq': {}}, 'community': {'mailing_lists': {}, 
 			'forums': {}, 'conferences': {}}, 'news': {}}
 
+test_flat_paths = ['about:applications', 'about:quotes', 'about:getting_started', 
+			'downloads:all_releases', 'downloads:source_code', 'downloads:windows', 
+			'downloads:mac_os', 'downloads:other_platforms', 
+			'documentation:beginners_guide', 'documentation:developers_guide', 
+			'documentation:faq', 'community:mailing_lists', 'community:forums', 
+			'community:conferences', 'news']
+
 
 test_basic_paths = {'about': [{'applications': {}, 'getting_started': {}}]}

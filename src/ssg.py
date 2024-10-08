@@ -1,3 +1,4 @@
+import collections
 import datetime
 import hashlib
 import tomllib
@@ -5,7 +6,7 @@ import tomllib
 
 class Post:
 
-	def __init__(self, post_fs_path):
+	def __init__(self, post_fs_path, website_path=None):
 		"""Create a post instance.
 
 		Arguments:
@@ -31,7 +32,8 @@ class Post:
 		self.status = m.get("status")
 
 		post_url_path = m.get("path")
-		self.path = post_url_path if post_url_path is None else self.parse_post_path(post_url_path)
+		self.path = post_url_path if post_url_path is None else self.parse_post_path(
+					post_url_path, paths=website_path)
 		
 		self.raw_content = post_object["content"]
 
@@ -54,7 +56,10 @@ class Post:
 		post_path = tuple(post_path.split(":"))
 
 		if paths is not None:
-			pass
+			if post_path in paths:
+				return post_path
+			else:
+				raise KeyError
 		else:
 			return post_path
 
@@ -64,6 +69,7 @@ class PostsCollection:
 	def __init__(self, paths_configuration=None):
 		self.size = 0
 		self.tree = self.load_paths(paths_configuration)
+		self.flat_tree = list(self.flatten(self.tree)) if paths_configuration is not None else None
 
 	def load_paths(self, paths):
 
@@ -72,3 +78,22 @@ class PostsCollection:
 				paths = tomllib.load(paths_file)
 
 		return paths
+
+	# Adapted from https://stackoverflow.com/a/62186053
+	def flatten(self, dictionary, parent_key=False, separator=':'):
+	    """
+	    Turn a nested dictionary into a flattened dictionary
+	    :param dictionary: The dictionary to flatten
+	    :param parent_key: The string to prepend to dictionary's keys
+	    :param separator: The string used to separate flattened keys
+	    :return: A flattened dictionary
+	    """
+
+	    items = []
+	    for key, value in dictionary.items():
+	        new_key = str(parent_key) + separator + key if parent_key else key
+	        if isinstance(value, collections.abc.MutableMapping) and len(value) > 0:
+	            items.extend(self.flatten(value, new_key, separator).items())
+	        else:
+	            items.append((new_key, value))
+	    return dict(items)
