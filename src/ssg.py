@@ -7,10 +7,13 @@ import tomllib
 class Post:
 
 	def __init__(self, post_fs_path, website_path=None):
-		"""Create a post instance.
+		"""
+		Create a post instance.
 
-		Arguments:
-		post_object - a dictionary"""
+		:param post_fs_path: The post's (A TOML file) file path
+		:param website_map: The website map (A TOML file)
+		"""
+
 		self.post_path = post_fs_path
 		post_object = self.reader(self.post_path)
 		m = post_object["meta"]
@@ -21,7 +24,7 @@ class Post:
 		
 		self.id = hashlib.md5(bytes(f"{self.title}{self.creation_date.isoformat()}",
 			encoding="utf-8"), usedforsecurity=False).hexdigest()
-		
+
 		self.author = m.get("author")
 		self.authors = m.get("authors")
 		self.category = m.get("category")
@@ -38,10 +41,12 @@ class Post:
 		self.raw_content = post_object["content"]
 
 	def reader(self, post_path):
-		"""Read the texts and return a post object.
+		"""
+		Read the texts and return a post object.
 
-		Arguments:
-		post_path - path to a post file"""
+		:param post_path: The path to a post file
+		:return: A dictionary representing the post
+		"""
 
 		try:
 			with open(post_path, "rb") as post_file:
@@ -53,7 +58,13 @@ class Post:
 		return post
 
 	def parse_post_path(self, post_path, paths=None):
-		# post_path = tuple(post_path.split(":"))
+		"""
+		Check if the post's path is in the website map.
+
+		:param post_path: The post path defined in the TOML file
+		:param paths: The website map
+		:return: The post path in the website
+		"""
 
 		if paths is not None:
 			if post_path in paths:
@@ -84,11 +95,13 @@ class PostsCollection:
 	def flatten(self, dictionary, parent_key=False, separator=':'):
 		"""
 		Turn a nested dictionary into a flattened dictionary
+
 		:param dictionary: The dictionary to flatten
 		:param parent_key: The string to prepend to dictionary's keys
 		:param separator: The string used to separate flattened keys
 		:return: A flattened dictionary
 		"""
+		
 		items = []
 		for key, value in dictionary.items():
 			new_key = str(parent_key) + separator + key if parent_key else key
@@ -99,6 +112,12 @@ class PostsCollection:
 		return dict(items)
 
 	def add_post(self, the_post):
+		"""
+		Add a post to the website structure
+
+		:param the_post: The post instance
+		"""
+
 		if the_post.path in self.flat_tree:
 			self.flat_tree[the_post.path].update({the_post.id: the_post}) 
 			self.size += 1

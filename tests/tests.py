@@ -14,6 +14,7 @@ assets = "tests/assets"
 class TestPost(unittest.TestCase):
 
 	def test_reader(self):
+		"""Read the post's toml file and generate the post object."""
 		post = ssg.Post(os.path.join(assets, "basic.toml"))
 		self.assertEqual(post.reader(post.post_path), 
 			results.basic)
@@ -27,6 +28,7 @@ class TestPost(unittest.TestCase):
 			ssg.Post(os.path.join(assets, "TestReader/no_content.toml"))
 
 	def test_basic_post(self):
+		"""A basic post has the title, the creation date, and the content."""
 		post_instance = ssg.Post(os.path.join(assets, "basic.toml"))
 		p_i_attrs = {"id": '161b7313299edeaa9a130fea6021382f', "title": "Document title", 
 			"creation_date": datetime.datetime(2024, 9, 22, 10, 27), 
@@ -38,11 +40,13 @@ class TestPost(unittest.TestCase):
 			self.assertEqual(getattr(post_instance, attr), p_i_attrs[attr])
 
 	def test_post_with_path(self):
+		"""A post with a path defined will be tested against the website's paths."""
 		paths = ssg.PostsCollection(os.path.join(assets, "basic_paths.toml"))
 		post1 = ssg.Post(os.path.join(assets, "post1.toml"))
 		self.assertTrue(post1.path in paths.flat_tree)
 
 	def test_post_with_wrong_parent_path(self):
+		"""A post with a wrong path will trigger an exception."""
 		paths = ssg.PostsCollection(os.path.join(assets, "basic_paths.toml"))
 		with self.assertRaises(KeyError):
 			ssg.Post(os.path.join(assets, "post2.toml"), website_path=paths.flat_tree)
@@ -51,15 +55,18 @@ class TestPost(unittest.TestCase):
 class TestPostsCollection(unittest.TestCase):
 
 	def test_empty_posts_collection(self):
+		"""The collection of posts."""
 		posts = ssg.PostsCollection()
 		self.assertEqual(posts.size, 0)
 		self.assertEqual(posts.flat_tree, None)
 
 	def test_empty_posts_collection_with_paths(self):
+		"""The website map is defined in a toml file."""
 		paths = ssg.PostsCollection(os.path.join(assets, "TestPostsCollection/paths.toml"))
 		self.assertEqual(paths.flat_tree, results.test_flat_paths)
 
 	def test_posts_collection_with_path_and_posts(self):
+		"""Posts added to the collection will be tested agains the paths when added."""
 		posts = ssg.PostsCollection(os.path.join(assets, "basic_paths.toml"))
 		post1 = ssg.Post(os.path.join(assets, "post1.toml"), website_path=posts.flat_tree)
 		posts.add_post(post1)
@@ -71,7 +78,6 @@ class TestPostsCollection(unittest.TestCase):
 		self.assertEqual(posts.size, 2)
 		self.assertEqual(posts.flat_tree['about:getting_started'], 
 						 {'87ce9d57e6f1a53a887e4834b9d620e0': post3})
-
 
 
 if __name__ == '__main__':
