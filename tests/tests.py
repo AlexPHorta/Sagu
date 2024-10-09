@@ -41,33 +41,33 @@ class TestPost(unittest.TestCase):
 
 	def test_post_with_path(self):
 		"""A post with a path defined will be tested against the website's paths."""
-		paths = ssg.PostsCollection(os.path.join(assets, "basic_paths.toml"))
+		paths = ssg.PostLibrary(os.path.join(assets, "basic_paths.toml"))
 		post1 = ssg.Post(os.path.join(assets, "post1.toml"))
 		self.assertTrue(post1.path in paths.flat_tree)
 
 	def test_post_with_wrong_parent_path(self):
 		"""A post with a wrong path will trigger an exception."""
-		paths = ssg.PostsCollection(os.path.join(assets, "basic_paths.toml"))
+		paths = ssg.PostLibrary(os.path.join(assets, "basic_paths.toml"))
 		with self.assertRaises(KeyError):
 			ssg.Post(os.path.join(assets, "post2.toml"), website_path=paths.flat_tree)
 
 
-class TestPostsCollection(unittest.TestCase):
+class TestPostLibrary(unittest.TestCase):
 
 	def test_empty_posts_collection(self):
 		"""The collection of posts."""
-		posts = ssg.PostsCollection()
+		posts = ssg.PostLibrary()
 		self.assertEqual(posts.size, 0)
 		self.assertEqual(posts.flat_tree, None)
 
-	def test_empty_posts_collection_with_paths(self):
+	def test_empty_posts_collection_with_path(self):
 		"""The website map is defined in a toml file."""
-		paths = ssg.PostsCollection(os.path.join(assets, "TestPostsCollection/paths.toml"))
+		paths = ssg.PostLibrary(os.path.join(assets, "TestPostLibrary/paths.toml"))
 		self.assertEqual(paths.flat_tree, results.test_flat_paths)
 
 	def test_posts_collection_with_path_and_posts(self):
-		"""Posts added to the collection will be tested agains the paths when added."""
-		posts = ssg.PostsCollection(os.path.join(assets, "basic_paths.toml"))
+		"""Posts added to the collection will be tested against the paths when added."""
+		posts = ssg.PostLibrary(os.path.join(assets, "basic_paths.toml"))
 		post1 = ssg.Post(os.path.join(assets, "post1.toml"), website_path=posts.flat_tree)
 		posts.add_post(post1)
 		self.assertEqual(posts.size, 1)
