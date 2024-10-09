@@ -68,8 +68,9 @@ class PostsCollection:
 
 	def __init__(self, paths_configuration=None):
 		self.size = 0
-		self.tree = self.load_paths(paths_configuration)
-		self.flat_tree = list(self.flatten(self.tree)) if paths_configuration is not None else None
+		
+		tree = self.load_paths(paths_configuration)
+		self.flat_tree = self.flatten(tree) if paths_configuration is not None else None
 
 	def load_paths(self, paths):
 
@@ -97,4 +98,7 @@ class PostsCollection:
 				items.append((new_key, value))
 		return dict(items)
 
-
+	def add_post(self, the_post):
+		if the_post.path in self.flat_tree:
+			self.flat_tree[the_post.path].update({the_post.id: the_post}) 
+			self.size += 1

@@ -1,0 +1,11 @@
+[meta]
+title = "Document 3"
+creation_date = 2024-09-22T10:27:00
+last_modified = 2024-09-22T18:27:00
+slug = "document-3"
+path = "about:getting_started"
+
+[content]
+stuff = """
+Example 3.
+"""
