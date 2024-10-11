@@ -80,5 +80,16 @@ class TestPostLibrary(unittest.TestCase):
 						 {'87ce9d57e6f1a53a887e4834b9d620e0': post3})
 
 
+class TestBuilder(unittest.TestCase):
+
+	def test_builder(self):
+		builder = ssg.Builder(os.path.join(assets, "TestBuilder/"))
+		template = builder.env.get_template("index.jinja")
+		self.assertEqual(template.render(name="Test"), "Hello, Test!")
+
+	def test_builder_autoescape(self):
+		builder = ssg.Builder(os.path.join(assets, "TestBuilder/"))
+		self.assertTrue(builder.env.autoescape)
+
 if __name__ == '__main__':
 	unittest.main()

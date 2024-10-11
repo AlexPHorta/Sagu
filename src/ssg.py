@@ -3,6 +3,8 @@ import datetime
 import hashlib
 import tomllib
 
+from jinja2 import Environment, FileSystemLoader, select_autoescape
+
 
 class Post:
 
@@ -121,3 +123,9 @@ class PostLibrary:
 		if the_post.path in self.flat_tree:
 			self.flat_tree[the_post.path].update({the_post.id: the_post}) 
 			self.size += 1
+
+
+class Builder:
+
+	def __init__(self, templates_dir):
+		self.env = Environment(loader=FileSystemLoader(templates_dir), autoescape=True)
