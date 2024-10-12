@@ -8,7 +8,6 @@ from .assets import results
 
 from src import ssg
 
-assets = "tests/assets"
 
 def asset(asset_name):
 	assets = "tests/assets"
@@ -35,12 +34,13 @@ class TestPost(unittest.TestCase):
 	def test_basic_post(self):
 		"""A basic post has the title, the creation date, and the content."""
 		post_instance = ssg.Post(asset("basic.toml"))
-		attributes = {"id": '161b7313299edeaa9a130fea6021382f', "title": "Document title", 
+		attributes = {"id": '161b7313299edeaa9a130fea6021382f', 
+			"title": "Document title", 
 			"creation_date": datetime.datetime(2024, 9, 22, 10, 27), 
 			"last_update": datetime.datetime(2024, 9, 22, 10, 27),
-			"raw_content": results.basic["content"], "author": None, "authors": None,
-			"category": None, "tags": None, "keywords": None, "slug": None, 
-			"summary": None, "status": None, "path": None}
+			"raw_content": results.basic["content"], "author": None, 
+			"authors": None, "category": None, "tags": None, "keywords": None, 
+			"slug": None, "summary": None, "status": None, "path": None}
 		for attr in attributes:
 			self.assertEqual(getattr(post_instance, attr), attributes[attr])
 
