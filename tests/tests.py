@@ -110,7 +110,7 @@ class TestBuilder(unittest.TestCase):
 		self.assertTrue(builder.env.autoescape)
 
 	def test_builder_build_post(self):
-		posts = ssg.Library(asset("TestBuilder/basic_paths.toml"))
+		posts = ssg.Library(asset("basic_paths.toml"))
 		post = ssg.Post(asset("TestBuilder/index.toml"), 
 						website_path=posts.flat_tree)
 		posts.add_post(post)
