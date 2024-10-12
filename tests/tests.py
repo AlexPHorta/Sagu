@@ -79,17 +79,51 @@ class TestPostLibrary(unittest.TestCase):
 		self.assertEqual(posts.flat_tree['about:getting_started'], 
 						 {'87ce9d57e6f1a53a887e4834b9d620e0': post3})
 
+	def test_posts_retrieve_post_content(self):
+		posts = ssg.PostLibrary(os.path.join(assets, "basic_paths.toml"))
+		post = ssg.Post(os.path.join(assets, "post1.toml"), website_path=posts.flat_tree)
+		posts.add_post(post)
+		self.assertEqual(posts.get_post(post.id), {'id':post.id, 'title':post.title, 
+				'content':post.raw_content['markdown'].strip()})
+
 
 class TestBuilder(unittest.TestCase):
 
 	def test_builder(self):
 		builder = ssg.Builder(os.path.join(assets, "TestBuilder/"))
-		template = builder.env.get_template("index.jinja")
+		template = builder.env.get_template("basic.jinja")
 		self.assertEqual(template.render(name="Test"), "Hello, Test!")
 
-	def test_builder_autoescape(self):
+	def test_builder_autoescape_on(self):
 		builder = ssg.Builder(os.path.join(assets, "TestBuilder/"))
 		self.assertTrue(builder.env.autoescape)
+
+	def test_builder_build_post(self):
+		posts = ssg.PostLibrary(os.path.join(assets, "TestBuilder/basic_paths.toml"))
+		post = ssg.Post(os.path.join(assets, "TestBuilder/index.toml"), 
+						website_path=posts.flat_tree)
+		posts.add_post(post)
+		builder = ssg.Builder(os.path.join(assets, "TestBuilder/"))
+		template = builder.env.get_template("index.jinja")
+		self.assertEqual(template.render(posts.get_post(post.id)), """<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Document 1</title>
+</head>
+
+<body>
+
+  <!-- Add your site or application content here -->
+  <h1>Document 1</h1>
+  <p>Example 1.</p>
+
+</body>
+
+</html>""")
+
 
 if __name__ == '__main__':
 	unittest.main()

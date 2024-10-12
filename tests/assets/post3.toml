@@ -6,6 +6,6 @@ slug = "document-3"
 path = "about:getting_started"
 
 [content]
-stuff = """
+markdown = """
 Example 3.
 """

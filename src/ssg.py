@@ -124,6 +124,23 @@ class PostLibrary:
 			self.flat_tree[the_post.path].update({the_post.id: the_post}) 
 			self.size += 1
 
+	def get_post(self, post_id):
+		post = self.find_key_nonrecursive(self.flat_tree, post_id)
+		resp = {'id':post.id, 'title':post.title, 
+				'content':post.raw_content['markdown'].strip()}
+		return resp
+
+	# https://stackoverflow.com/a/2524202
+	def find_key_nonrecursive(self, a_dict, key):
+		stack = [a_dict]
+		while stack:
+			d = stack.pop()
+			if key in d:
+				return d[key]
+			for k, v in d.items():
+				if isinstance(v, dict):
+					stack.append(v)
+
 
 class Builder:
 

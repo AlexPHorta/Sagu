@@ -5,6 +5,6 @@ last_modified = 2024-09-22T18:27:00
 path = "news:getting_started"
 
 [content]
-stuff = """
+markdown = """
 Example text 2.
 """
