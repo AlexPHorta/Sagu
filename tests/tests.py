@@ -47,14 +47,14 @@ class TestPost(unittest.TestCase):
 	def test_post_with_path(self):
 		"""A post with a path defined will be tested against the website's paths."""
 		paths = ssg.PostLibrary(asset("basic_paths.toml"))
-		post1 = ssg.Post(asset("post1.toml"))
+		post1 = ssg.Post(asset("simple_ok_post.toml"))
 		self.assertTrue(post1.path in paths.flat_tree)
 
 	def test_post_with_wrong_parent_path(self):
 		"""A post with a wrong path will trigger an exception."""
 		paths = ssg.PostLibrary(asset("basic_paths.toml"))
 		with self.assertRaises(KeyError):
-			ssg.Post(asset("post2.toml"), website_path=paths.flat_tree)
+			ssg.Post(asset("wrong_parent_path.toml"), website_path=paths.flat_tree)
 
 
 class TestPostLibrary(unittest.TestCase):
@@ -73,7 +73,7 @@ class TestPostLibrary(unittest.TestCase):
 	def test_posts_collection_with_path_and_posts(self):
 		"""Posts added to the collection will be tested against the paths when added."""
 		posts = ssg.PostLibrary(asset("basic_paths.toml"))
-		post1 = ssg.Post(asset("post1.toml"), website_path=posts.flat_tree)
+		post1 = ssg.Post(asset("simple_ok_post.toml"), website_path=posts.flat_tree)
 		posts.add_post(post1)
 		self.assertEqual(posts.size, 1)
 		self.assertEqual(posts.flat_tree['about:applications'], 
@@ -86,7 +86,7 @@ class TestPostLibrary(unittest.TestCase):
 
 	def test_posts_retrieve_post_content(self):
 		posts = ssg.PostLibrary(asset("basic_paths.toml"))
-		post = ssg.Post(asset("post1.toml"), website_path=posts.flat_tree)
+		post = ssg.Post(asset("simple_ok_post.toml"), website_path=posts.flat_tree)
 		posts.add_post(post)
 		self.assertEqual(posts.get_post(post.id), {'id':post.id, 'title':post.title, 
 				'content':post.raw_content['markdown'].strip()})
