@@ -31,7 +31,6 @@ class TestPost(unittest.TestCase):
 			for case in cases:
 				ssg.Post(asset("TestReader/" + case))
 
-
 	def test_basic_post(self):
 		"""A basic post has the title, the creation date, and the content."""
 		post_instance = ssg.Post(asset("basic.toml"))
@@ -57,22 +56,28 @@ class TestPost(unittest.TestCase):
 		with self.assertRaises(KeyError):
 			ssg.Post(asset("wrong_parent_path.toml"), website_path=paths.flat_tree)
 
+	def test_post_content_markdown(self):
+		"""Retrieve a post with markdown content."""
+		paths = ssg.Library(asset("basic_paths.toml"))
+		post = ssg.Post(asset("simple_ok_post_with_markdown_content.toml"), 
+							  website_path=paths.flat_tree)
+		self.assertEqual(post.content, "<h2>Learning Markdown</h2>\n<p>Markdown is a <strong>lightweight markup language</strong> used to format plain text. It's simple to use and can be converted to HTML or other formats. Below are some key features of markdown:</p>\n<h3>1. Headers</h3>\n<p>You can create headers by using the <code>#</code> symbol:\n- <code>#</code> for a main header (H1)\n- <code>##</code> for a subheader (H2)\n- <code>###</code> for a smaller header (H3), and so on.</p>\n<p>Example:\n```markdown</p>\n<h1>This is an H1</h1>\n<h2>This is an H2</h2>")
 
 class TestLibrary(unittest.TestCase):
 
-	def test_empty_posts_collection(self):
-		"""The collection of posts."""
+	def test_empty_library(self):
+		"""The library of posts."""
 		posts = ssg.Library()
 		self.assertEqual(posts.size, 0)
 		self.assertEqual(posts.flat_tree, None)
 
-	def test_empty_posts_collection_with_path(self):
+	def test_empty_library_with_path(self):
 		"""The website map is defined in a toml file."""
 		paths = ssg.Library(asset("TestLibrary/paths.toml"))
 		self.assertEqual(paths.flat_tree, results.test_flat_paths)
 
-	def test_posts_collection_with_path_and_posts(self):
-		"""Posts added to the collection will be tested against the paths when added."""
+	def test_library_with_path_and_posts(self):
+		"""Posts added to the library will be tested against the paths when added."""
 		posts = ssg.Library(asset("basic_paths.toml"))
 		cases = {"simple_ok_post.toml": ('about:applications', 
 							'073032467b1bffb192b560d04f9b0192'),
@@ -84,12 +89,13 @@ class TestLibrary(unittest.TestCase):
 			self.assertEqual(posts.flat_tree[attrs[0]], {attrs[1]: post})
 		self.assertEqual(posts.size, 2)
 
-	def test_posts_retrieve_post_content(self):
+	def test_library_retrieve_post_content(self):
+		"""The library will manage the posts, so, retrieving a post's content is the library's function."""
 		posts = ssg.Library(asset("basic_paths.toml"))
 		post = ssg.Post(asset("simple_ok_post.toml"), website_path=posts.flat_tree)
 		posts.add_post(post)
-		self.assertEqual(posts.get_post(post.id), {'id':post.id, 'title':post.title, 
-				'content':post.content})
+		self.assertEqual(posts.get_post(post.id), {'id':post.id, 
+						 'title':post.title, 'content':post.content})
 
 
 class TestBuilder(unittest.TestCase):

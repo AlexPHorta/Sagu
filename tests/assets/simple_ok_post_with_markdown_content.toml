@@ -1,0 +1,22 @@
+[meta]
+title = "Learning Markdown"
+creation_date = 2024-09-22T10:27:00
+last_modified = 2024-09-22T18:27:00
+slug = "document-1"
+path = "about:applications"
+
+[content]
+markdown = """
+Markdown is a **lightweight markup language** used to format plain text. It's simple to use and can be converted to HTML or other formats. Below are some key features of markdown:
+
+### 1. Headers
+You can create headers by using the `#` symbol:
+- `#` for a main header (H1)
+- `##` for a subheader (H2)
+- `###` for a smaller header (H3), and so on.
+
+Example:
+```markdown
+# This is an H1
+## This is an H2
+"""
