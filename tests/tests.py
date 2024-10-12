@@ -73,16 +73,19 @@ class TestPostLibrary(unittest.TestCase):
 	def test_posts_collection_with_path_and_posts(self):
 		"""Posts added to the collection will be tested against the paths when added."""
 		posts = ssg.PostLibrary(asset("basic_paths.toml"))
+
 		post1 = ssg.Post(asset("simple_ok_post.toml"), website_path=posts.flat_tree)
 		posts.add_post(post1)
 		self.assertEqual(posts.size, 1)
 		self.assertEqual(posts.flat_tree['about:applications'], 
 						 {'073032467b1bffb192b560d04f9b0192': post1})
-		post3 = ssg.Post(asset("post3.toml"), website_path=posts.flat_tree)
-		posts.add_post(post3)
+
+		post2 = ssg.Post(asset("simple_ok_alternative_post.toml"), 
+								website_path=posts.flat_tree)
+		posts.add_post(post2)
 		self.assertEqual(posts.size, 2)
 		self.assertEqual(posts.flat_tree['about:getting_started'], 
-						 {'87ce9d57e6f1a53a887e4834b9d620e0': post3})
+						 {'87ce9d57e6f1a53a887e4834b9d620e0': post2})
 
 	def test_posts_retrieve_post_content(self):
 		posts = ssg.PostLibrary(asset("basic_paths.toml"))
@@ -110,24 +113,13 @@ class TestBuilder(unittest.TestCase):
 		posts.add_post(post)
 		builder = ssg.Builder(asset("TestBuilder/"))
 		template = builder.env.get_template("index.jinja")
-		self.assertEqual(template.render(posts.get_post(post.id)), """<!doctype html>
-<html>
-
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Document 1</title>
-</head>
-
-<body>
-
-  <!-- Add your site or application content here -->
-  <h1>Document 1</h1>
-  <p>Example 1.</p>
-
-</body>
-
-</html>""")
+		self.assertEqual(template.render(posts.get_post(post.id)), 
+						 '<!doctype html>\n<html>\n\n<head>\n  <meta charset="ut'
+						 'f-8">\n  <meta name="viewport" content="width=device-w'
+						 'idth, initial-scale=1">\n  <title>Document 1</title>\n'
+						 '</head>\n\n<body>\n\n  <!-- Add your site or applicati'
+						 'on content here -->\n  <h1>Document 1</h1>\n  <p>Examp'
+						 'le 1.</p>\n\n</body>\n\n</html>')
 
 
 if __name__ == '__main__':
