@@ -1,6 +1,7 @@
 import collections
 import datetime
 import hashlib
+import markdown
 import tomllib
 
 from jinja2 import Environment, FileSystemLoader, select_autoescape
@@ -41,6 +42,7 @@ class Post:
 					post_url_path, paths=website_path)
 		
 		self.raw_content = post_object["content"]
+		self.content = self.process_content()
 
 	def reader(self, post_path):
 		"""
@@ -75,6 +77,13 @@ class Post:
 				raise KeyError
 		else:
 			return post_path
+
+	def process_content(self):
+		final_content = ""
+		for content_type, contents in self.raw_content.items():
+			if content_type == 'markdown':
+				final_content += markdown.markdown(contents)
+		return final_content
 
 
 class Library:
@@ -127,7 +136,7 @@ class Library:
 	def get_post(self, post_id):
 		post = self.find_key_nonrecursive(self.flat_tree, post_id)
 		resp = {'id':post.id, 'title':post.title, 
-				'content':post.raw_content['markdown'].strip()}
+				'content':post.content}
 		return resp
 
 	# https://stackoverflow.com/a/2524202

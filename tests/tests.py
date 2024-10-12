@@ -1,4 +1,5 @@
 import datetime
+import html
 import os.path
 import unittest
 import unittest.mock as mock
@@ -88,7 +89,7 @@ class TestLibrary(unittest.TestCase):
 		post = ssg.Post(asset("simple_ok_post.toml"), website_path=posts.flat_tree)
 		posts.add_post(post)
 		self.assertEqual(posts.get_post(post.id), {'id':post.id, 'title':post.title, 
-				'content':post.raw_content['markdown'].strip()})
+				'content':post.content})
 
 
 class TestBuilder(unittest.TestCase):
@@ -109,13 +110,10 @@ class TestBuilder(unittest.TestCase):
 		posts.add_post(post)
 		builder = ssg.Builder(asset("TestBuilder/"))
 		template = builder.env.get_template("index.jinja")
-		self.assertEqual(template.render(posts.get_post(post.id)), 
-						 '<!doctype html>\n<html>\n\n<head>\n  <meta charset="ut'
-						 'f-8">\n  <meta name="viewport" content="width=device-w'
-						 'idth, initial-scale=1">\n  <title>Document 1</title>\n'
-						 '</head>\n\n<body>\n\n  <!-- Add your site or applicati'
-						 'on content here -->\n  <h1>Document 1</h1>\n  <p>Examp'
-						 'le 1.</p>\n\n</body>\n\n</html>')
+		with open(asset("TestBuilder/index.html")) as f:
+			self.assertEqual(html.unescape(
+								template.render(posts.get_post(post.id))), 
+								f.read().strip())
 
 
 if __name__ == '__main__':
