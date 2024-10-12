@@ -22,3 +22,13 @@ test_flat_paths = {'about:applications': {}, 'about:quotes': {},
 
 
 test_basic_paths = ['about:applications', 'about:getting_started']
+
+content_markdown = ("<p>Markdown is a <strong>lightweight markup language</strong> "
+					"used to format plain text. It's simple to use and can be "
+					"converted to HTML or other formats. Below are some key "
+					"features of markdown:</p>\n<h3>1. Headers</h3>\n<p>You can "
+					"create headers by using the <code>#</code> symbol:\n- "
+					"<code>#</code> for a main header (H1)\n- <code>##</code> for "
+					"a subheader (H2)\n- <code>###</code> for a smaller header "
+					"(H3), and so on.</p>\n<p>Example:\n```markdown</p>\n<h1>This "
+					"is an H1</h1>\n<h2>This is an H2</h2>")
