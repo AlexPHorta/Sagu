@@ -118,8 +118,8 @@ class TestBuilder(unittest.TestCase):
 		template = builder.env.get_template("index.jinja")
 		with open(asset("TestBuilder/index.html")) as f:
 			self.assertEqual(html.unescape(
-								template.render(posts.get_post(post.id))), 
-								f.read().strip())
+							 template.render(posts.get_post(post.id))), 
+							 f.read().strip())
 
 
 if __name__ == '__main__':
