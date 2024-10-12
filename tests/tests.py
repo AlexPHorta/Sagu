@@ -46,49 +46,45 @@ class TestPost(unittest.TestCase):
 
 	def test_post_with_path(self):
 		"""A post with a path defined will be tested against the website's paths."""
-		paths = ssg.PostLibrary(asset("basic_paths.toml"))
+		paths = ssg.Library(asset("basic_paths.toml"))
 		post1 = ssg.Post(asset("simple_ok_post.toml"))
 		self.assertTrue(post1.path in paths.flat_tree)
 
 	def test_post_with_wrong_parent_path(self):
 		"""A post with a wrong path will trigger an exception."""
-		paths = ssg.PostLibrary(asset("basic_paths.toml"))
+		paths = ssg.Library(asset("basic_paths.toml"))
 		with self.assertRaises(KeyError):
 			ssg.Post(asset("wrong_parent_path.toml"), website_path=paths.flat_tree)
 
 
-class TestPostLibrary(unittest.TestCase):
+class TestLibrary(unittest.TestCase):
 
 	def test_empty_posts_collection(self):
 		"""The collection of posts."""
-		posts = ssg.PostLibrary()
+		posts = ssg.Library()
 		self.assertEqual(posts.size, 0)
 		self.assertEqual(posts.flat_tree, None)
 
 	def test_empty_posts_collection_with_path(self):
 		"""The website map is defined in a toml file."""
-		paths = ssg.PostLibrary(asset("TestPostLibrary/paths.toml"))
+		paths = ssg.Library(asset("TestLibrary/paths.toml"))
 		self.assertEqual(paths.flat_tree, results.test_flat_paths)
 
 	def test_posts_collection_with_path_and_posts(self):
 		"""Posts added to the collection will be tested against the paths when added."""
-		posts = ssg.PostLibrary(asset("basic_paths.toml"))
-
-		post1 = ssg.Post(asset("simple_ok_post.toml"), website_path=posts.flat_tree)
-		posts.add_post(post1)
-		self.assertEqual(posts.size, 1)
-		self.assertEqual(posts.flat_tree['about:applications'], 
-						 {'073032467b1bffb192b560d04f9b0192': post1})
-
-		post2 = ssg.Post(asset("simple_ok_alternative_post.toml"), 
-								website_path=posts.flat_tree)
-		posts.add_post(post2)
+		posts = ssg.Library(asset("basic_paths.toml"))
+		cases = {"simple_ok_post.toml": ('about:applications', 
+							'073032467b1bffb192b560d04f9b0192'),
+				 "simple_ok_alternative_post.toml": ('about:getting_started', 
+				 			'87ce9d57e6f1a53a887e4834b9d620e0')}
+		for case, attrs in cases.items():
+			post = ssg.Post(asset(case), website_path=posts.flat_tree)
+			posts.add_post(post)
+			self.assertEqual(posts.flat_tree[attrs[0]], {attrs[1]: post})
 		self.assertEqual(posts.size, 2)
-		self.assertEqual(posts.flat_tree['about:getting_started'], 
-						 {'87ce9d57e6f1a53a887e4834b9d620e0': post2})
 
 	def test_posts_retrieve_post_content(self):
-		posts = ssg.PostLibrary(asset("basic_paths.toml"))
+		posts = ssg.Library(asset("basic_paths.toml"))
 		post = ssg.Post(asset("simple_ok_post.toml"), website_path=posts.flat_tree)
 		posts.add_post(post)
 		self.assertEqual(posts.get_post(post.id), {'id':post.id, 'title':post.title, 
@@ -107,7 +103,7 @@ class TestBuilder(unittest.TestCase):
 		self.assertTrue(builder.env.autoescape)
 
 	def test_builder_build_post(self):
-		posts = ssg.PostLibrary(asset("TestBuilder/basic_paths.toml"))
+		posts = ssg.Library(asset("TestBuilder/basic_paths.toml"))
 		post = ssg.Post(asset("TestBuilder/index.toml"), 
 						website_path=posts.flat_tree)
 		posts.add_post(post)

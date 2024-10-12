@@ -77,7 +77,7 @@ class Post:
 			return post_path
 
 
-class PostLibrary:
+class Library:
 
 	def __init__(self, paths_configuration=None):
 		self.size = 0
