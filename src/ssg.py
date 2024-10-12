@@ -134,6 +134,11 @@ class Library:
 			self.size += 1
 
 	def get_post(self, post_id):
+		"""
+		Return a post's information to be processed.
+
+		:param post_id: The id of the post (A string)
+		"""
 		post = self.find_key_nonrecursive(self.flat_tree, post_id)
 		resp = {'id':post.id, 'title':post.title, 
 				'content':post.content}
@@ -141,6 +146,7 @@ class Library:
 
 	# https://stackoverflow.com/a/2524202
 	def find_key_nonrecursive(self, a_dict, key):
+		"""Find a key in a nested dictionary."""
 		stack = [a_dict]
 		while stack:
 			d = stack.pop()

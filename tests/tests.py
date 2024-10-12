@@ -101,11 +101,13 @@ class TestLibrary(unittest.TestCase):
 class TestBuilder(unittest.TestCase):
 
 	def test_builder(self):
+		"""The builder will manage the mixing of posts and templates."""
 		builder = ssg.Builder(asset("TestBuilder/"))
 		template = builder.env.get_template("basic.jinja")
 		self.assertEqual(template.render(name="Test"), "Hello, Test!")
 
 	def test_builder_autoescape_on(self):
+		"""The builder will have autoescape turned on by default."""
 		builder = ssg.Builder(asset("TestBuilder/"))
 		self.assertTrue(builder.env.autoescape)
 
@@ -117,6 +119,7 @@ class TestBuilder(unittest.TestCase):
 		builder = ssg.Builder(asset("TestBuilder/"))
 		template = builder.env.get_template("index.jinja")
 		with open(asset("TestBuilder/index.html")) as f:
+			# using html.unescape just to ease the comparison
 			self.assertEqual(html.unescape(
 							 template.render(posts.get_post(post.id))), 
 							 f.read().strip())
