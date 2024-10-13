@@ -91,8 +91,8 @@ class Library:
 	def __init__(self, paths_configuration=None):
 		self.size = 0
 		
-		tree = self.load_paths(paths_configuration)
-		self.flat_tree = self.flatten(tree) if paths_configuration is not None else None
+		self.tree = self.load_paths(paths_configuration)
+		self.flat_tree = self.flatten(self.tree) if paths_configuration is not None else None
 
 	def load_paths(self, paths):
 
@@ -161,3 +161,9 @@ class Builder:
 
 	def __init__(self, templates_dir):
 		self.env = Environment(loader=FileSystemLoader(templates_dir), autoescape=True)
+
+
+class Organizer:
+
+	def __init__(self):
+		pass
