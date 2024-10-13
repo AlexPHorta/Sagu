@@ -165,5 +165,5 @@ class Builder:
 
 class Organizer:
 
-	def __init__(self, tree):
-		pass
+	def __init__(self, library):
+		self.origin = library
