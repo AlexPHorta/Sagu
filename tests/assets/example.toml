@@ -10,6 +10,6 @@ tags = ["foo", "bar", "baz"]
 status = "draft"  # one of draft, hidden, skip or published
 
 [content]
-stuff = """
+markdown = """
 Texto de exemplo.
 """

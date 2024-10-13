@@ -4,6 +4,6 @@ creation_date = 2024-09-22T10:27:00
 
 
 [content]
-stuff = """
+markdown = """
 Example text.
 """
