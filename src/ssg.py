@@ -165,5 +165,5 @@ class Builder:
 
 class Organizer:
 
-	def __init__(self):
+	def __init__(self, tree):
 		pass

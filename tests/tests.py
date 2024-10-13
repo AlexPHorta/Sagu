@@ -129,6 +129,12 @@ class TestOrganizer(unittest.TestCase):
 
 	def test_organizer(self):
 		library = ssg.Library(asset("basic_paths.toml"))
+		post1 = ssg.Post(asset("simple_ok_post_with_markdown_content.toml"), 
+							  website_path=library.flat_tree)
+		post2 = ssg.Post(asset("simple_ok_post.toml"), 
+							  website_path=library.flat_tree)
+		library.add_post(post1)
+		library.add_post(post2)
 		organizer = ssg.Organizer(library.tree)
 
 
