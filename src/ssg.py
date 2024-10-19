@@ -2,12 +2,14 @@ import collections
 import datetime
 import hashlib
 import markdown
+import pathlib
 import tomllib
 
 from jinja2 import Environment, FileSystemLoader, select_autoescape
 
 
 class Post:
+# Store information about the posts.
 
 	def __init__(self, post_fs_path, website_path=None):
 		"""
@@ -87,6 +89,7 @@ class Post:
 
 
 class Library:
+# Store information about the website structure and the posts.
 
 	def __init__(self, paths_configuration=None):
 		self.size = 0
@@ -158,12 +161,23 @@ class Library:
 
 
 class Builder:
+# Make the html files.
 
 	def __init__(self, templates_dir):
 		self.env = Environment(loader=FileSystemLoader(templates_dir), autoescape=True)
 
 
 class Organizer:
+# Make the output folder, with the website's structure folders and respective 
+# html files inside.
 
 	def __init__(self, library):
 		self.origin = library
+
+	def make_paths(self):
+		website_struct = self.origin.flat_tree
+		paths = []
+		for k in website_struct.keys():
+			k = k.replace(':', '/')
+			paths.append(pathlib.PurePath(k))
+		return tuple(paths)

@@ -1,6 +1,6 @@
 import datetime
 import html
-import os.path
+import pathlib
 import unittest
 import unittest.mock as mock
 import uuid
@@ -12,28 +12,21 @@ from src import ssg
 
 def asset(asset_name):
 	assets = "tests/assets"
-	return os.path.join(assets, asset_name)
+	return pathlib.PurePath(assets, asset_name)
 
 
 class TestPost(unittest.TestCase):
 
+	def setUp(self):
+		self.post = ssg.Post(asset("basic.toml"))
+
 	def test_reader(self):
 		"""Read the post's toml file and generate the post object."""
-		post = ssg.Post(asset("basic.toml"))
-		self.assertEqual(post.reader(post.post_path), 
+		self.assertEqual(self.post.reader(self.post.post_path), 
 			results.basic)
-
-	def test_wrong_post_format(self):
-		"""Check if there's meta and content tables."""
-		with self.assertRaises(KeyError):
-			cases = ('wrong_meta.toml', 'no_meta.toml', 'wrong_content.toml', 
-					 'no_content.toml')
-			for case in cases:
-				ssg.Post(asset("TestReader/" + case))
 
 	def test_basic_post(self):
 		"""A basic post has the title, the creation date, and the content."""
-		post_instance = ssg.Post(asset("basic.toml"))
 		attributes = {"id": '161b7313299edeaa9a130fea6021382f', 
 			"title": "Document title", 
 			"creation_date": datetime.datetime(2024, 9, 22, 10, 27), 
@@ -42,7 +35,15 @@ class TestPost(unittest.TestCase):
 			"authors": None, "category": None, "tags": None, "keywords": None, 
 			"slug": None, "summary": None, "status": None, "path": None}
 		for attr in attributes:
-			self.assertEqual(getattr(post_instance, attr), attributes[attr])
+			self.assertEqual(getattr(self.post, attr), attributes[attr])
+
+	def test_wrong_post_format(self):
+		"""Check if there's meta and content tables."""
+		with self.assertRaises(KeyError):
+			cases = ('wrong_meta.toml', 'no_meta.toml', 'wrong_content.toml', 
+					 'no_content.toml')
+			for case in cases:
+				ssg.Post(asset("TestReader/" + case))
 
 	def test_post_with_path(self):
 		"""A post with a path defined will be tested against the website's paths."""
@@ -65,6 +66,9 @@ class TestPost(unittest.TestCase):
 
 
 class TestLibrary(unittest.TestCase):
+
+	def setUp(self):
+		self.library = ssg.Library(asset("basic_paths.toml"))
 
 	def test_empty_library(self):
 		"""The library of posts."""
@@ -127,15 +131,16 @@ class TestBuilder(unittest.TestCase):
 
 class TestOrganizer(unittest.TestCase):
 
+	def setUp(self):
+		self.library = ssg.Library(asset("basic_paths.toml"))
+		self.organizer = ssg.Organizer(self.library)
+
 	def test_organizer(self):
-		library = ssg.Library(asset("basic_paths.toml"))
-		post1 = ssg.Post(asset("simple_ok_post_with_markdown_content.toml"), 
-							  website_path=library.flat_tree)
-		post2 = ssg.Post(asset("simple_ok_post.toml"), 
-							  website_path=library.flat_tree)
-		library.add_post(post1)
-		library.add_post(post2)
-		organizer = ssg.Organizer(library.tree)
+		self.assertEqual(self.organizer.origin, self.library)
+
+	def test_organizer_make_paths(self):
+		self.assertEqual(self.organizer.make_paths(), (pathlib.PurePath('about/applications'),
+													  pathlib.PurePath('about/getting_started')))
 
 
 if __name__ == '__main__':
