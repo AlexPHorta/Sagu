@@ -6,6 +6,7 @@ import unittest.mock as mock
 import uuid
 
 from .assets import results
+from utils import temporary_folder
 
 from src import ssg
 
@@ -139,8 +140,12 @@ class TestOrganizer(unittest.TestCase):
 		self.assertEqual(self.organizer.origin, self.library)
 
 	def test_organizer_make_paths(self):
-		self.assertEqual(self.organizer.make_paths(), (pathlib.PurePath('about/applications'),
-													  pathlib.PurePath('about/getting_started')))
+		self.assertEqual(self.organizer.make_paths(), 
+						 (pathlib.PurePath('about/applications'),
+						  pathlib.PurePath('about/getting_started')))
+
+	def test_organizer_gen_output(self):
+		self.assertEqual(self.organizer.gen_output(), 0)
 
 
 if __name__ == '__main__':
