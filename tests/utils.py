@@ -1,6 +1,9 @@
 import shutil
 import tempfile
 
+from contextlib import contextmanager
+
+
 # Stolen from https://getpelican.com
 @contextmanager
 def temporary_folder():

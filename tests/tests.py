@@ -1,4 +1,5 @@
 import datetime
+import filecmp
 import html
 import pathlib
 import unittest
@@ -6,7 +7,7 @@ import unittest.mock as mock
 import uuid
 
 from .assets import results
-from utils import temporary_folder
+from .utils import temporary_folder
 
 from src import ssg
 
@@ -133,7 +134,11 @@ class TestBuilder(unittest.TestCase):
 class TestOrganizer(unittest.TestCase):
 
 	def setUp(self):
+		post1 = ssg.Post(asset("simple_ok_post.toml"))
+		post2 = ssg.Post(asset("simple_ok_alternative_post.toml"))
 		self.library = ssg.Library(asset("basic_paths.toml"))
+		self.library.add_post(post1)
+		self.library.add_post(post2)
 		self.organizer = ssg.Organizer(self.library)
 
 	def test_organizer(self):
@@ -145,7 +150,14 @@ class TestOrganizer(unittest.TestCase):
 						  pathlib.PurePath('about/getting_started')))
 
 	def test_organizer_gen_output(self):
-		self.assertEqual(self.organizer.gen_output(), 0)
+		ignores = ['index.jinja', 'index.toml']
+		with temporary_folder() as temp:
+			self.organizer.gen_output(temp)
+			self.assertEqual(filecmp.dircmp(
+								asset("TestOrganizer"), 
+								temp, 
+								ignore=ignores).common, 
+							 ['about'])
 
 
 if __name__ == '__main__':

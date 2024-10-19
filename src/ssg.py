@@ -181,3 +181,6 @@ class Organizer:
 			k = k.replace(':', '/')
 			paths.append(pathlib.PurePath(k))
 		return tuple(paths)
+
+	def gen_output(self, destination):
+		pass
