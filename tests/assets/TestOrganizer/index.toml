@@ -1,0 +1,10 @@
+[meta]
+title = "Document 1"
+creation_date = 2024-09-22T10:27:00
+last_modified = 2024-09-22T18:27:00
+path = "about:applications"
+
+[content]
+markdown = """
+Example 1.
+"""
