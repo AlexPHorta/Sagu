@@ -171,8 +171,10 @@ class Organizer:
 # Make the output folder, with the website's structure folders and respective 
 # html files inside.
 
-	def __init__(self, library):
+	def __init__(self, library, builder):
 		self.origin = library
+		self.builder = builder,0
+		
 
 	def make_paths(self):
 		website_struct = self.origin.flat_tree
@@ -182,5 +184,7 @@ class Organizer:
 			paths.append(pathlib.PurePath(k))
 		return tuple(paths)
 
-	def gen_output(self, destination):
-		pass
+	def gen_output(self, destination): # a directory
+		paths = self.make_paths()
+		for p in paths:
+			pathlib.Path(destination, str(p)).mkdir(parents=True)

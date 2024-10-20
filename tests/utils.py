@@ -1,7 +1,9 @@
+import filecmp
+import io
 import shutil
 import tempfile
 
-from contextlib import contextmanager
+from contextlib import contextmanager, redirect_stdout
 
 
 # Stolen from https://getpelican.com
@@ -19,3 +21,9 @@ def temporary_folder():
 		yield tempdir
 	finally:
 	   shutil.rmtree(tempdir)
+
+def equal_dirs(dirs_to_compare): # filecmp.dircmp
+	with redirect_stdout(io.StringIO()) as f:
+		dirs_to_compare.report_full_closure()
+	s = f.getvalue() 
+	return not(any(('Only in' in s, 'Differing' in s, 'Trouble with' in s, 'funny' in s)))

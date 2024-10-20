@@ -7,7 +7,7 @@ import unittest.mock as mock
 import uuid
 
 from .assets import results
-from .utils import temporary_folder
+from .utils import equal_dirs, temporary_folder
 
 from src import ssg
 
@@ -139,10 +139,13 @@ class TestOrganizer(unittest.TestCase):
 		self.library = ssg.Library(asset("basic_paths.toml"))
 		self.library.add_post(post1)
 		self.library.add_post(post2)
-		self.organizer = ssg.Organizer(self.library)
+		self.builder = ssg.Builder(asset("TestBuilder/"))
+		self.template = self.builder.env.get_template("index.jinja")
+		self.organizer = ssg.Organizer(self.library, self.builder)
 
 	def test_organizer(self):
 		self.assertEqual(self.organizer.origin, self.library)
+		self.assertEqual(self.organizer.builder, self.builder)
 
 	def test_organizer_make_paths(self):
 		self.assertEqual(self.organizer.make_paths(), 
@@ -153,11 +156,8 @@ class TestOrganizer(unittest.TestCase):
 		ignores = ['index.jinja', 'index.toml']
 		with temporary_folder() as temp:
 			self.organizer.gen_output(temp)
-			self.assertEqual(filecmp.dircmp(
-								asset("TestOrganizer"), 
-								temp, 
-								ignore=ignores).common, 
-							 ['about'])
+			compare = filecmp.dircmp(temp, asset("TestOrganizer"), ignore=ignores)
+			self.assertTrue(equal_dirs(compare))
 
 
 if __name__ == '__main__':
