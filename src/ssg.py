@@ -8,6 +8,8 @@ import tomllib
 from jinja2 import Environment, FileSystemLoader, select_autoescape
 
 
+TEMPLATE = 'index.jinja'
+
 class Post:
 # Store information about the posts.
 
@@ -164,7 +166,9 @@ class Builder:
 # Make the html files.
 
 	def __init__(self, templates_dir):
-		self.env = Environment(loader=FileSystemLoader(templates_dir), autoescape=True)
+		self.env = Environment(loader=FileSystemLoader(templates_dir), 
+								keep_trailing_newline=True)
+		self.template = self.env.get_template(TEMPLATE)
 
 
 class Organizer:
@@ -173,18 +177,15 @@ class Organizer:
 
 	def __init__(self, library, builder):
 		self.origin = library
-		self.builder = builder,0
-		
+		self.builder = builder
 
-	def make_paths(self):
-		website_struct = self.origin.flat_tree
-		paths = []
-		for k in website_struct.keys():
-			k = k.replace(':', '/')
-			paths.append(pathlib.PurePath(k))
-		return tuple(paths)
+	def gen_output(self, destination): # the output directory
 
-	def gen_output(self, destination): # a directory
-		paths = self.make_paths()
-		for p in paths:
-			pathlib.Path(destination, str(p)).mkdir(parents=True)
+		for k, i in self.origin.flat_tree.items():
+			p = pathlib.PurePath(destination, *k.split(':'))
+			pathlib.Path(str(p)).mkdir(parents=True)
+
+			for id_, post in i.items():
+				# generate the html
+				post_html = self.builder.template.render(self.origin.get_post(id_))
+				pathlib.Path(str(p), 'index.html').write_text(post_html) # TODO: remove magic string

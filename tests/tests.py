@@ -111,12 +111,12 @@ class TestBuilder(unittest.TestCase):
 		"""The builder will manage the mixing of posts and templates."""
 		builder = ssg.Builder(asset("TestBuilder/"))
 		template = builder.env.get_template("basic.jinja")
-		self.assertEqual(template.render(name="Test"), "Hello, Test!")
+		self.assertEqual(template.render(name="Test"), "Hello, Test!\n")
 
-	def test_builder_autoescape_on(self):
-		"""The builder will have autoescape turned on by default."""
+	def test_builder_autoescape_off(self):
+		"""The builder will have autoescape turned off by default."""
 		builder = ssg.Builder(asset("TestBuilder/"))
-		self.assertTrue(builder.env.autoescape)
+		self.assertFalse(builder.env.autoescape)
 
 	def test_builder_build_post(self):
 		library = ssg.Library(asset("basic_paths.toml"))
@@ -126,10 +126,8 @@ class TestBuilder(unittest.TestCase):
 		builder = ssg.Builder(asset("TestBuilder/"))
 		template = builder.env.get_template("index.jinja")
 		with open(asset("TestBuilder/index.html")) as f:
-			# using html.unescape just to ease the comparison
-			self.assertEqual(html.unescape(
-							 template.render(library.get_post(post.id))), 
-							 f.read().strip())
+			self.assertEqual(template.render(library.get_post(post.id)), 
+							 f.read())
 
 class TestOrganizer(unittest.TestCase):
 
@@ -146,11 +144,6 @@ class TestOrganizer(unittest.TestCase):
 	def test_organizer(self):
 		self.assertEqual(self.organizer.origin, self.library)
 		self.assertEqual(self.organizer.builder, self.builder)
-
-	def test_organizer_make_paths(self):
-		self.assertEqual(self.organizer.make_paths(), 
-						 (pathlib.PurePath('about/applications'),
-						  pathlib.PurePath('about/getting_started')))
 
 	def test_organizer_gen_output(self):
 		ignores = ['index.jinja', 'index.toml']
