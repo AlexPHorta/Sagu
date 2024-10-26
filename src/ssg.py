@@ -11,6 +11,9 @@ from jinja2 import Environment, FileSystemLoader, select_autoescape
 
 TEMPLATE = 'index.jinja'
 
+RESERVED_AND_UNSAFE = r"[&$+,/:;=?@#<>\[\]{}^%~]+"
+
+
 class Post:
 # Store information about the posts.
 
@@ -86,19 +89,9 @@ class Post:
 			return post_path
 
 	def get_filename(self):
-		slug = self.sanitize(self._slug)
-		title = self.sanitize(self.title)
+		slug = sanitize(self._slug)
+		title = sanitize(self.title)
 		return slug or title
-
-	def sanitize(self, to_filename):
-		reserved_and_unsafe = re.compile(r"[&$+,/:;=?@#<>\[\]{}^%~]+")
-		filename = None
-		if to_filename is not None:
-			fn = to_filename.replace(' ', '-').lower()
-			fn = re.sub(reserved_and_unsafe, '', fn)
-			if len(fn) > 0:
-				filename = fn
-		return filename
 
 	def process_content(self):
 		final_content = ""
@@ -106,6 +99,18 @@ class Post:
 			if content_type == 'markdown':
 				final_content += markdown.markdown(contents)
 		return final_content
+
+def sanitize(to_filename):
+	reserved_unsafe = re.compile(RESERVED_AND_UNSAFE)
+	contains_readable_characters = re.compile(r"[A-Za-z0-9]+")
+	filename = None
+	if to_filename is not None:
+		fn = str(to_filename)
+		fn = fn.replace(' ', '-').lower()
+		fn = re.sub(reserved_unsafe, '', fn)
+		if len(fn) > 0 and re.search(contains_readable_characters, fn):
+			filename = fn
+	return filename
 
 
 class Library:

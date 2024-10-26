@@ -7,7 +7,7 @@ import unittest.mock as mock
 import uuid
 
 from .assets import results
-from .utils import equal_dirs, temporary_folder
+from .utils_for_testing import equal_dirs, temporary_folder
 
 from src import ssg
 
@@ -76,6 +76,26 @@ class TestPost(unittest.TestCase):
 		"""An invalid slug makes the filename fallback to the title."""
 		post = ssg.Post(asset("simple_post_unsafe_slug.toml"))
 		self.assertEqual(post.filename, "document-1")
+
+
+class TestSanitize(unittest.TestCase):
+
+	def test_sanitize(self):
+		self.assertEqual(ssg.sanitize(None), None)
+		self.assertEqual(ssg.sanitize(""), None)
+		self.assertEqual(ssg.sanitize("$"), None)
+		self.assertEqual(ssg.sanitize(" "), None)
+		self.assertEqual(ssg.sanitize("-"), None)
+		self.assertEqual(ssg.sanitize(ssg.RESERVED_AND_UNSAFE), None)
+		self.assertEqual(ssg.sanitize(0), "0")
+		self.assertEqual(ssg.sanitize("a"), "a")
+		self.assertEqual(ssg.sanitize("A"), "a")
+		self.assertEqual(ssg.sanitize("A a"), "a-a")
+		self.assertEqual(ssg.sanitize("A A"), "a-a")
+		self.assertEqual(ssg.sanitize("Te$t"), "tet")
+		self.assertEqual(ssg.sanitize("Te$t 2"), "tet-2")
+		self.assertEqual(ssg.sanitize("2 Te$t"), "2-tet")
+		self.assertEqual(ssg.sanitize("Last Test Indeed"), "last-test-indeed")
 
 
 class TestLibrary(unittest.TestCase):
