@@ -35,7 +35,8 @@ class TestPost(unittest.TestCase):
 			"last_update": datetime.datetime(2024, 9, 22, 10, 27),
 			"raw_content": results.basic["content"], "author": None, 
 			"authors": None, "category": None, "tags": None, "keywords": None, 
-			"slug": None, "summary": None, "status": None, "path": None}
+			"_slug": None, "summary": None, "status": None, "path": None, 
+			"filename": "document-title"}
 		for attr in attributes:
 			self.assertEqual(getattr(self.post, attr), attributes[attr])
 
@@ -50,8 +51,8 @@ class TestPost(unittest.TestCase):
 	def test_post_with_path(self):
 		"""A post with a path defined will be tested against the website's paths."""
 		library = ssg.Library(asset("basic_paths.toml"))
-		post1 = ssg.Post(asset("simple_ok_post.toml"))
-		self.assertTrue(post1.path in library.flat_tree)
+		post = ssg.Post(asset("simple_ok_post.toml"))
+		self.assertTrue(post.path in library.flat_tree)
 
 	def test_post_with_wrong_parent_path(self):
 		"""A post with a wrong path will trigger an exception."""
@@ -65,6 +66,16 @@ class TestPost(unittest.TestCase):
 		post = ssg.Post(asset("simple_ok_post_with_markdown_content.toml"), 
 							  website_path=library.flat_tree)
 		self.assertEqual(post.content, results.content_markdown)
+
+	def test_post_with_slug(self):
+		"""The slug, if present, defines the post's filename."""
+		post = ssg.Post(asset("simple_ok_post.toml"))
+		self.assertEqual(post.filename, "document-with-slug")
+
+	def test_post_slug_with_one_unsafe_character(self):
+		"""An invalid slug makes the filename fallback to the title."""
+		post = ssg.Post(asset("simple_post_unsafe_slug.toml"))
+		self.assertEqual(post.filename, "document-1")
 
 
 class TestLibrary(unittest.TestCase):
@@ -146,6 +157,7 @@ class TestOrganizer(unittest.TestCase):
 		self.assertEqual(self.organizer.builder, self.builder)
 
 	def test_organizer_gen_output(self):
+		# Filenames follow the title when no slug specified.
 		ignores = ['index.jinja', 'index.toml']
 		with temporary_folder() as temp:
 			self.organizer.gen_output(temp)

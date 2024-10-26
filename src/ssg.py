@@ -3,6 +3,7 @@ import datetime
 import hashlib
 import markdown
 import pathlib
+import re
 import tomllib
 
 from jinja2 import Environment, FileSystemLoader, select_autoescape
@@ -37,13 +38,15 @@ class Post:
 		self.category = m.get("category")
 		self.tags = m.get("tags")
 		self.keywords = m.get("keywords")
-		self.slug = m.get("slug")
+		self._slug = m.get("slug")
 		self.summary = m.get("summary")
 		self.status = m.get("status")
 
 		post_url_path = m.get("path")
 		self.path = post_url_path if post_url_path is None else self.parse_post_path(
 					post_url_path, paths=website_path)
+
+		self.filename = self.get_filename()
 		
 		self.raw_content = post_object["content"]
 		self.content = self.process_content()
@@ -81,6 +84,21 @@ class Post:
 				raise KeyError
 		else:
 			return post_path
+
+	def get_filename(self):
+		slug = self.sanitize(self._slug)
+		title = self.sanitize(self.title)
+		return slug or title
+
+	def sanitize(self, to_filename):
+		reserved_and_unsafe = re.compile(r"[&$+,/:;=?@#<>\[\]{}^%~]+")
+		filename = None
+		if to_filename is not None:
+			fn = to_filename.replace(' ', '-').lower()
+			fn = re.sub(reserved_and_unsafe, '', fn)
+			if len(fn) > 0:
+				filename = fn
+		return filename
 
 	def process_content(self):
 		final_content = ""
