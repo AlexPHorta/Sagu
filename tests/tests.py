@@ -35,7 +35,7 @@ class TestPost(unittest.TestCase):
 			"last_update": datetime.datetime(2024, 9, 22, 10, 27),
 			"raw_content": results.basic["content"], "author": None, 
 			"authors": None, "category": None, "tags": None, "keywords": None, 
-			"_slug": None, "summary": None, "status": None, "path": None, 
+			"slug": None, "summary": None, "status": None, "path": None, 
 			"filename": "document-title"}
 		for attr in attributes:
 			self.assertEqual(getattr(self.post, attr), attributes[attr])
@@ -132,8 +132,7 @@ class TestLibrary(unittest.TestCase):
 		library = ssg.Library(asset("basic_paths.toml"))
 		post = ssg.Post(asset("simple_ok_post.toml"), website_path=library.flat_tree)
 		library.add_post(post)
-		self.assertEqual(library.get_post(post.id), {'id':post.id, 
-						 'title':post.title, 'content':post.content})
+		self.assertEqual(library.get_post(post.id), post)
 
 
 class TestBuilder(unittest.TestCase):
@@ -157,7 +156,8 @@ class TestBuilder(unittest.TestCase):
 		builder = ssg.Builder(asset("TestBuilder/"))
 		template = builder.env.get_template("index.jinja")
 		with open(asset("TestBuilder/index.html")) as f:
-			self.assertEqual(template.render(library.get_post(post.id)), 
+			test_builder_post = library.get_post(post.id)
+			self.assertEqual(template.render(test_builder_post.get_contents()), 
 							 f.read())
 
 class TestOrganizer(unittest.TestCase):

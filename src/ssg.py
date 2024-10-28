@@ -41,7 +41,7 @@ class Post:
 		self.category = m.get("category")
 		self.tags = m.get("tags")
 		self.keywords = m.get("keywords")
-		self._slug = m.get("slug")
+		self.slug = m.get("slug")
 		self.summary = m.get("summary")
 		self.status = m.get("status")
 
@@ -89,7 +89,7 @@ class Post:
 			return post_path
 
 	def get_filename(self):
-		slug = sanitize(self._slug)
+		slug = sanitize(self.slug)
 		title = sanitize(self.title)
 		return slug or title
 
@@ -99,6 +99,9 @@ class Post:
 			if content_type == 'markdown':
 				final_content += markdown.markdown(contents)
 		return final_content
+
+	def get_contents(self):
+		return self.__dict__
 
 def sanitize(to_filename):
 	reserved_unsafe = re.compile(RESERVED_AND_UNSAFE)
@@ -168,9 +171,7 @@ class Library:
 		:param post_id: The id of the post (A string)
 		"""
 		post = self.find_key_nonrecursive(self.flat_tree, post_id)
-		resp = {'id':post.id, 'title':post.title, 
-				'content':post.content}
-		return resp
+		return post
 
 	# https://stackoverflow.com/a/2524202
 	def find_key_nonrecursive(self, a_dict, key):
@@ -210,5 +211,7 @@ class Organizer:
 
 			for id_, post in i.items():
 				# generate the html
-				post_html = self.builder.template.render(self.origin.get_post(id_))
-				pathlib.Path(str(p), 'index.html').write_text(post_html) # TODO: remove magic string
+				post = self.origin.get_post(id_)
+				filename = post.filename + ".html"
+				post_html = self.builder.template.render(post.get_contents())
+				pathlib.Path(str(p), filename).write_text(post_html) # TODO: remove magic string
