@@ -200,18 +200,18 @@ class Organizer:
 # html files inside.
 
 	def __init__(self, library, builder):
-		self.origin = library
-		self.builder = builder
+		self._library = library
+		self._builder = builder
 
 	def gen_output(self, destination): # the output directory
 
-		for k, i in self.origin.flat_tree.items():
+		for k, i in self._library.flat_tree.items():
 			p = pathlib.PurePath(destination, *k.split(':'))
 			pathlib.Path(str(p)).mkdir(parents=True)
 
 			for id_, post in i.items():
 				# generate the html
-				post = self.origin.get_post(id_)
+				post = self._library.get_post(id_)
 				filename = post.filename + ".html"
-				post_html = self.builder.template.render(post.get_contents())
+				post_html = self._builder.template.render(post.get_contents())
 				pathlib.Path(str(p), filename).write_text(post_html) # TODO: remove magic string
