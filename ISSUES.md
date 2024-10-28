@@ -8,7 +8,7 @@
 		- The author's name;
 		- The website's URL;
 		- It will create the following directory structure:
-			- project/
+			- project (name)/
 				- content/
 				- template/
 				- output/
