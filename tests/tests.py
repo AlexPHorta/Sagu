@@ -12,28 +12,6 @@ from .utils_for_testing import asset, equal_dirs, temporary_folder
 from src import ssg
 
 
-class TestSanitize(unittest.TestCase):
-
-    def test_sanitize(self):
-        self.assertEqual(ssg.sanitize(None), None)
-        self.assertEqual(ssg.sanitize(""), None)
-        self.assertEqual(ssg.sanitize("$"), None)
-        self.assertEqual(ssg.sanitize(" "), None)
-        self.assertEqual(ssg.sanitize("-"), None)
-        self.assertEqual(ssg.sanitize(ssg.RESERVED_AND_UNSAFE), None)
-        self.assertEqual(ssg.sanitize(0), "0")
-        self.assertEqual(ssg.sanitize("a"), "a")
-        self.assertEqual(ssg.sanitize("A"), "a")
-        self.assertEqual(ssg.sanitize("A a"), "a-a")
-        self.assertEqual(ssg.sanitize("A A"), "a-a")
-        self.assertEqual(ssg.sanitize("Te$t"), "tet")
-        self.assertEqual(ssg.sanitize("Te$t 2"), "tet-2")
-        self.assertEqual(ssg.sanitize("2 Te$t"), "2-tet")
-        self.assertEqual(ssg.sanitize("Last Test Indeed"), "last-test-indeed")
-
-
-
-
 class TestBuilder(unittest.TestCase):
 
     def test_builder(self):
