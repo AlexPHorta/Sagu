@@ -5,13 +5,13 @@ import unittest
 from .assets import results
 from .utils_for_testing import asset, equal_dirs, temporary_folder
 
-from src import ssg
+from ..src import structures
 
 
 class TestPost(unittest.TestCase):
 
     def setUp(self):
-        self.post = ssg.Post(asset("basic.toml"))
+        self.post = structures.Post(asset("basic.toml"))
 
     def test_reader(self):
         """Read the post's toml file and generate the post object."""
@@ -37,53 +37,53 @@ class TestPost(unittest.TestCase):
             cases = ('wrong_meta.toml', 'no_meta.toml', 'wrong_content.toml', 
                      'no_content.toml')
             for case in cases:
-                ssg.Post(asset("TestReader/" + case))
+                structures.Post(asset("TestReader/" + case))
 
     def test_post_with_path(self):
         """A post with a path defined will be tested against the website's paths."""
-        library = ssg.Library(asset("basic_paths.toml"))
-        post = ssg.Post(asset("simple_ok_post.toml"))
+        library = structures.Library(asset("basic_paths.toml"))
+        post = structures.Post(asset("simple_ok_post.toml"))
         self.assertTrue(post.path in library.flat_tree)
 
     def test_post_with_wrong_parent_path(self):
         """A post with a wrong path will trigger an exception."""
-        library = ssg.Library(asset("basic_paths.toml"))
+        library = structures.Library(asset("basic_paths.toml"))
         with self.assertRaises(KeyError):
-            ssg.Post(asset("wrong_parent_path.toml"), website_path=library.flat_tree)
+            structures.Post(asset("wrong_parent_path.toml"), website_path=library.flat_tree)
 
     def test_post_content_markdown(self):
         """Retrieve a post with markdown content."""
-        library = ssg.Library(asset("basic_paths.toml"))
-        post = ssg.Post(asset("simple_ok_post_with_markdown_content.toml"), 
+        library = structures.Library(asset("basic_paths.toml"))
+        post = structures.Post(asset("simple_ok_post_with_markdown_content.toml"), 
                               website_path=library.flat_tree)
         self.assertEqual(post.content, results.content_markdown)
 
     def test_post_with_slug(self):
         """The slug, if present, defines the post's filename."""
-        post = ssg.Post(asset("simple_ok_post.toml"))
+        post = structures.Post(asset("simple_ok_post.toml"))
         self.assertEqual(post.filename, "document-with-slug")
 
     def test_post_slug_with_one_unsafe_character(self):
         """An invalid slug makes the filename fallback to the title."""
-        post = ssg.Post(asset("simple_post_unsafe_slug.toml"))
+        post = structures.Post(asset("simple_post_unsafe_slug.toml"))
         self.assertEqual(post.filename, "document-1")
 
 
 class TestSanitize(unittest.TestCase):
 
     def test_sanitize(self):
-        self.assertEqual(ssg.sanitize(None), None)
-        self.assertEqual(ssg.sanitize(""), None)
-        self.assertEqual(ssg.sanitize("$"), None)
-        self.assertEqual(ssg.sanitize(" "), None)
-        self.assertEqual(ssg.sanitize("-"), None)
-        self.assertEqual(ssg.sanitize(ssg.RESERVED_AND_UNSAFE), None)
-        self.assertEqual(ssg.sanitize(0), "0")
-        self.assertEqual(ssg.sanitize("a"), "a")
-        self.assertEqual(ssg.sanitize("A"), "a")
-        self.assertEqual(ssg.sanitize("A a"), "a-a")
-        self.assertEqual(ssg.sanitize("A A"), "a-a")
-        self.assertEqual(ssg.sanitize("Te$t"), "tet")
-        self.assertEqual(ssg.sanitize("Te$t 2"), "tet-2")
-        self.assertEqual(ssg.sanitize("2 Te$t"), "2-tet")
-        self.assertEqual(ssg.sanitize("Last Test Indeed"), "last-test-indeed")
+        self.assertEqual(structures.sanitize(None), None)
+        self.assertEqual(structures.sanitize(""), None)
+        self.assertEqual(structures.sanitize("$"), None)
+        self.assertEqual(structures.sanitize(" "), None)
+        self.assertEqual(structures.sanitize("-"), None)
+        self.assertEqual(structures.sanitize(structures.RESERVED_AND_UNSAFE), None)
+        self.assertEqual(structures.sanitize(0), "0")
+        self.assertEqual(structures.sanitize("a"), "a")
+        self.assertEqual(structures.sanitize("A"), "a")
+        self.assertEqual(structures.sanitize("A a"), "a-a")
+        self.assertEqual(structures.sanitize("A A"), "a-a")
+        self.assertEqual(structures.sanitize("Te$t"), "tet")
+        self.assertEqual(structures.sanitize("Te$t 2"), "tet-2")
+        self.assertEqual(structures.sanitize("2 Te$t"), "2-tet")
+        self.assertEqual(structures.sanitize("Last Test Indeed"), "last-test-indeed")

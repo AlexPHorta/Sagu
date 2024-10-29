@@ -1,0 +1,68 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "ssg"
+dynamic = ["version"]
+description = 'A static site generator.'
+readme = "README.md"
+requires-python = ">=3.8"
+license = "MIT"
+keywords = []
+authors = [
+  { name = "AlexHorta", email = "buey.horta@gmail.com" },
+]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Programming Language :: Python",
+  "Programming Language :: Python :: 3.8",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: Implementation :: CPython",
+  "Programming Language :: Python :: Implementation :: PyPy",
+]
+dependencies = [
+"Markdown>=3.7",
+"Jinja2>=3.1.4",
+]
+
+[project.urls]
+Documentation = "https://github.com/AlexHorta/ssg#readme"
+Issues = "https://github.com/AlexHorta/ssg/issues"
+Source = "https://github.com/AlexHorta/ssg"
+
+[tool.hatch.version]
+path = "src/__about__.py"
+
+[tool.hatch.envs.types]
+extra-dependencies = [
+  "mypy>=1.0.0",
+]
+[tool.hatch.envs.types.scripts]
+check = "mypy --install-types --non-interactive {args:src tests}"
+
+[tool.hatch.envs.hatch-test]
+default-args = ["tests"]
+randomize = false
+
+[tool.coverage.run]
+source_pkgs = ["ssg", "tests"]
+branch = true
+parallel = true
+omit = [
+  "src/__about__.py",
+]
+
+[tool.coverage.paths]
+ssg = ["src/ssg", "*/ssg/src/ssg"]
+tests = ["tests", "*/ssg/tests"]
+
+[tool.coverage.report]
+exclude_lines = [
+  "no cov",
+  "if __name__ == .__main__.:",
+  "if TYPE_CHECKING:",
+]

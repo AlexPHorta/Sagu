@@ -9,28 +9,28 @@ import uuid
 from .assets import results
 from .utils_for_testing import asset, equal_dirs, temporary_folder
 
-from src import ssg
+from ..src import structures
 
 
 class TestBuilder(unittest.TestCase):
 
     def test_builder(self):
         """The builder will manage the mixing of posts and templates."""
-        builder = ssg.Builder(asset("TestBuilder/"))
+        builder = structures.Builder(asset("TestBuilder/"))
         template = builder.env.get_template("basic.jinja")
         self.assertEqual(template.render(name="Test"), "Hello, Test!\n")
 
     def test_builder_autoescape_off(self):
         """The builder will have autoescape turned off by default."""
-        builder = ssg.Builder(asset("TestBuilder/"))
+        builder = structures.Builder(asset("TestBuilder/"))
         self.assertFalse(builder.env.autoescape)
 
     def test_builder_build_post(self):
-        library = ssg.Library(asset("basic_paths.toml"))
-        post = ssg.Post(asset("TestBuilder/index.toml"), 
+        library = structures.Library(asset("basic_paths.toml"))
+        post = structures.Post(asset("TestBuilder/index.toml"), 
                         website_path=library.flat_tree)
         library.add_post(post)
-        builder = ssg.Builder(asset("TestBuilder/"))
+        builder = structures.Builder(asset("TestBuilder/"))
         template = builder.env.get_template("index.jinja")
         with open(asset("TestBuilder/index.html")) as f:
             test_builder_post = library.get_post(post.id)
@@ -40,14 +40,14 @@ class TestBuilder(unittest.TestCase):
 class TestOrganizer(unittest.TestCase):
 
     def setUp(self):
-        post1 = ssg.Post(asset("simple_ok_post.toml"))
-        post2 = ssg.Post(asset("simple_ok_alternative_post.toml"))
-        self.library = ssg.Library(asset("basic_paths.toml"))
+        post1 = structures.Post(asset("simple_ok_post.toml"))
+        post2 = structures.Post(asset("simple_ok_alternative_post.toml"))
+        self.library = structures.Library(asset("basic_paths.toml"))
         self.library.add_post(post1)
         self.library.add_post(post2)
-        self.builder = ssg.Builder(asset("TestBuilder/"))
+        self.builder = structures.Builder(asset("TestBuilder/"))
         self.template = self.builder.env.get_template("index.jinja")
-        self.organizer = ssg.Organizer(self.library, self.builder)
+        self.organizer = structures.Organizer(self.library, self.builder)
 
     def test_organizer(self):
         self.assertEqual(self.organizer.library, self.library)
