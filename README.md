@@ -2,5 +2,10 @@
 
 > Porque aprender reinventando a roda é divertido!
 
+## Dependências
+
+- Markdown
+- Jinja2
+
 
 
