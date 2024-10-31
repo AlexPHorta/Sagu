@@ -40,7 +40,7 @@ def create_project():
 
 def parse_args(args):
     parser = argparse.ArgumentParser()
-    parser.add_argument("-c", "--create", action="store_true", 
+    parser.add_argument("-c", "--create", action="store_true",
         help="Create a project with a wizard.")
     return parser.parse_args(args)
 

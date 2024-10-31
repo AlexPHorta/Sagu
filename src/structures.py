@@ -1,5 +1,4 @@
 import collections
-import datetime
 import hashlib
 import markdown
 import pathlib
@@ -28,11 +27,11 @@ class Post:
         self.post_path = post_fs_path
         post_object = self.reader(self.post_path)
         m = post_object["meta"]
-        
+
         self.title = m["title"]
         self.creation_date = m["creation_date"]
         self.last_update = m["creation_date"]
-        
+
         self.id = hashlib.md5(bytes(f"{self.title}{self.creation_date.isoformat()}",
             encoding="utf-8"), usedforsecurity=False).hexdigest()
 
@@ -50,7 +49,7 @@ class Post:
                     post_url_path, paths=website_path)
 
         self.filename = self.get_filename()
-        
+
         self.raw_content = post_object["content"]
         self.content = self.process_content()
 
@@ -121,7 +120,7 @@ class Library:
 
     def __init__(self, paths_configuration=None):
         self.size = 0
-        
+
         self.tree = self.load_paths(paths_configuration)
         self.flat_tree = self.flatten(self.tree) if paths_configuration is not None else None
 
@@ -143,7 +142,7 @@ class Library:
         :param separator: The string used to separate flattened keys
         :return: A flattened dictionary
         """
-        
+
         items = []
         for key, value in dictionary.items():
             new_key = str(parent_key) + separator + key if parent_key else key
@@ -161,7 +160,7 @@ class Library:
         """
 
         if the_post.path in self.flat_tree:
-            self.flat_tree[the_post.path].update({the_post.id: the_post}) 
+            self.flat_tree[the_post.path].update({the_post.id: the_post})
             self.size += 1
 
     def get_post(self, post_id):
@@ -170,8 +169,7 @@ class Library:
 
         :param post_id: The id of the post (A string)
         """
-        post = self.find_key_nonrecursive(self.flat_tree, post_id)
-        return post
+        return self.find_key_nonrecursive(self.flat_tree, post_id)
 
     # https://stackoverflow.com/a/2524202
     def find_key_nonrecursive(self, a_dict, key):
@@ -190,13 +188,13 @@ class Builder:
 # Make the html files.
 
     def __init__(self, templates_dir):
-        self.env = Environment(loader=FileSystemLoader(templates_dir), 
+        self.env = Environment(loader=FileSystemLoader(templates_dir),
                                 keep_trailing_newline=True)
         self.template = self.env.get_template(TEMPLATE)
 
 
 class Organizer:
-# Make the output folder, with the website's structure folders and respective 
+# Make the output folder, with the website's structure folders and respective
 # html files inside.
 
     def __init__(self, library, builder):

@@ -1,10 +1,10 @@
-import unittest
+import pytest
 
 from ..src import app
 
 
-class TestMain(unittest.TestCase):
+class TestMain:
 
     def test_main_init(self):
         args = app.parse_args(['--create'])
-        self.assertTrue(args.create)
+        assert args.create is True
