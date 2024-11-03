@@ -1,12 +1,10 @@
 import datetime
+
 import pytest
 
+from ..src import structures
 from .assets import results
 from .utils_for_testing import asset
-
-from ..src import structures
-
-
 
 
 class TestPost:

@@ -1,9 +1,9 @@
 import filecmp
+
 import pytest
 
-from .utils_for_testing import asset, equal_dirs, temporary_folder
-
 from ..src import structures
+from .utils_for_testing import asset, equal_dirs, temporary_folder
 
 
 class TestBuilder:

@@ -1,7 +1,6 @@
 import argparse
 import sys
 
-
 GREETING = """Bento's static site generator!
 
 Answer the following questions to create the necessary files.

@@ -1,12 +1,11 @@
 import collections
 import hashlib
-import markdown
 import pathlib
 import re
+
+import markdown
 import tomllib
-
-from jinja2 import Environment, FileSystemLoader, select_autoescape
-
+from jinja2 import Environment, FileSystemLoader
 
 TEMPLATE = 'index.jinja'
 
