@@ -6,7 +6,6 @@ from .utils_for_testing import asset
 
 
 class TestLibrary:
-
     @pytest.fixture
     def library(self):
         return structures.Library(asset("basic_paths.toml"))
@@ -24,10 +23,10 @@ class TestLibrary:
 
     def test_library_with_path_and_posts(self, library):
         """Posts added to the library will be tested against the paths when added."""
-        cases = {"simple_ok_post.toml": ('about:applications',
-                            '073032467b1bffb192b560d04f9b0192'),
-                 "simple_ok_alternative_post.toml": ('about:getting_started',
-                             '87ce9d57e6f1a53a887e4834b9d620e0')}
+        cases = {
+            "simple_ok_post.toml": ("about:applications", "073032467b1bffb192b560d04f9b0192"),
+            "simple_ok_alternative_post.toml": ("about:getting_started", "87ce9d57e6f1a53a887e4834b9d620e0"),
+        }
         for case, attrs in cases.items():
             post = structures.Post(asset(case), website_path=library.flat_tree)
             library.add_post(post)

@@ -8,7 +8,6 @@ from .utils_for_testing import asset
 
 
 class TestPost:
-
     @pytest.fixture
     def post(self):
         return structures.Post(asset("basic.toml"))
@@ -19,23 +18,31 @@ class TestPost:
 
     def test_basic_post(self, post):
         """A basic post has the title, the creation date, and the content."""
-        attributes = {"id": '161b7313299edeaa9a130fea6021382f',
+        attributes = {
+            "id": "161b7313299edeaa9a130fea6021382f",
             "title": "Document title",
-            "creation_date": datetime.datetime(2024, 9, 22, 10, 27),
-            "last_update": datetime.datetime(2024, 9, 22, 10, 27),
-            "raw_content": results.basic["content"], "author": None,
-            "authors": None, "category": None, "tags": None, "keywords": None,
-            "slug": None, "summary": None, "status": None, "path": None,
-            "filename": "document-title"}
+            "creation_date": datetime.datetime(2024, 9, 22, 10, 27),  # noqa: DTZ001
+            "last_update": datetime.datetime(2024, 9, 22, 10, 27),  # noqa: DTZ001
+            "raw_content": results.basic["content"],
+            "author": None,
+            "authors": None,
+            "category": None,
+            "tags": None,
+            "keywords": None,
+            "slug": None,
+            "summary": None,
+            "status": None,
+            "path": None,
+            "filename": "document-title",
+        }
         for attr in attributes:
             assert getattr(post, attr) == attributes[attr]
 
     def test_wrong_post_format(self):
         """Check if there's meta and content tables."""
-        cases = ('wrong_meta.toml', 'no_meta.toml', 'wrong_content.toml',
-                'no_content.toml')
+        cases = ("wrong_meta.toml", "no_meta.toml", "wrong_content.toml", "no_content.toml")
         for case in cases:
-            with pytest.raises(KeyError):
+            with pytest.raises(structures.InvalidMapSectionsError):
                 structures.Post(asset("TestReader/" + case))
 
     def test_post_with_path(self):
@@ -53,8 +60,7 @@ class TestPost:
     def test_post_content_markdown(self):
         """Retrieve a post with markdown content."""
         library = structures.Library(asset("basic_paths.toml"))
-        post = structures.Post(asset("simple_ok_post_with_markdown_content.toml"),
-                              website_path=library.flat_tree)
+        post = structures.Post(asset("simple_ok_post_with_markdown_content.toml"), website_path=library.flat_tree)
         assert post.content == results.content_markdown
 
     def test_post_with_slug(self):
@@ -69,7 +75,6 @@ class TestPost:
 
 
 class TestSanitize:
-
     def test_sanitize(self):
         assert structures.sanitize(None) is None
         assert structures.sanitize("") is None

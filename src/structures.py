@@ -7,13 +7,18 @@ import markdown
 import tomllib
 from jinja2 import Environment, FileSystemLoader
 
-TEMPLATE = 'index.jinja'
+TEMPLATE = "index.jinja"
 
 RESERVED_AND_UNSAFE = r"[&$+,/:;=?@#<>\[\]{}^%~]+"
 
 
+class InvalidMapSectionsError(Exception):
+    def __init__(self):
+        super().__init__("Invalid sections in website map file")
+
+
 class Post:
-# Store information about the posts.
+    # Store information about the posts.
 
     def __init__(self, post_fs_path, website_path=None):
         """
@@ -31,8 +36,9 @@ class Post:
         self.creation_date = m["creation_date"]
         self.last_update = m["creation_date"]
 
-        self.id = hashlib.md5(bytes(f"{self.title}{self.creation_date.isoformat()}",
-            encoding="utf-8"), usedforsecurity=False).hexdigest()
+        self.id = hashlib.md5(
+            bytes(f"{self.title}{self.creation_date.isoformat()}", encoding="utf-8"), usedforsecurity=False
+        ).hexdigest()
 
         self.author = m.get("author")
         self.authors = m.get("authors")
@@ -44,8 +50,7 @@ class Post:
         self.status = m.get("status")
 
         post_url_path = m.get("path")
-        self.path = post_url_path if post_url_path is None else self.parse_post_path(
-                    post_url_path, paths=website_path)
+        self.path = post_url_path if post_url_path is None else self.parse_post_path(post_url_path, paths=website_path)
 
         self.filename = self.get_filename()
 
@@ -64,8 +69,8 @@ class Post:
             with open(post_path, "rb") as post_file:
                 post = tomllib.load(post_file)
             all((post["meta"], post["content"]))
-        except KeyError:
-            raise KeyError("Wrong file sections.")
+        except KeyError as err:
+            raise InvalidMapSectionsError from err
 
         return post
 
@@ -81,7 +86,7 @@ class Post:
         if paths is not None:
             if post_path in paths:
                 return post_path
-            else: # noqa: RET505
+            else:  # noqa: RET505
                 raise KeyError
         else:
             return post_path
@@ -94,12 +99,13 @@ class Post:
     def process_content(self):
         final_content = ""
         for content_type, contents in self.raw_content.items():
-            if content_type == 'markdown':
+            if content_type == "markdown":
                 final_content += markdown.markdown(contents)
         return final_content
 
     def get_contents(self):
         return self.__dict__
+
 
 def sanitize(to_filename):
     reserved_unsafe = re.compile(RESERVED_AND_UNSAFE)
@@ -107,15 +113,15 @@ def sanitize(to_filename):
     filename = None
     if to_filename is not None:
         fn = str(to_filename)
-        fn = fn.replace(' ', '-').lower()
-        fn = re.sub(reserved_unsafe, '', fn)
+        fn = fn.replace(" ", "-").lower()
+        fn = re.sub(reserved_unsafe, "", fn)
         if len(fn) > 0 and re.search(contains_readable_characters, fn):
             filename = fn
     return filename
 
 
 class Library:
-# Store information about the website structure and the posts.
+    # Store information about the website structure and the posts.
 
     def __init__(self, paths_configuration=None):
         self.size = 0
@@ -124,7 +130,6 @@ class Library:
         self.flat_tree = self.flatten(self.tree) if paths_configuration is not None else None
 
     def load_paths(self, paths):
-
         if paths is not None:
             with open(paths, "rb") as paths_file:
                 paths = tomllib.load(paths_file)
@@ -132,7 +137,7 @@ class Library:
         return paths
 
     # Adapted from https://stackoverflow.com/a/62186053
-    def flatten(self, dictionary, parent_key=False, separator=':'): # noqa: FBT002
+    def flatten(self, dictionary, parent_key=False, separator=":"):  # noqa: FBT002
         """
         Turn a nested dictionary into a flattened dictionary
 
@@ -180,31 +185,29 @@ class Library:
                 return d[key]
             for v in d.values():
                 if isinstance(v, dict):
-                    stack.append(v) # noqa: PERF401
+                    stack.append(v)  # noqa: PERF401
         return
 
 
 class Builder:
-# Make the html files.
+    # Make the html files.
 
     def __init__(self, templates_dir):
-        self.env = Environment(loader=FileSystemLoader(templates_dir),
-                                keep_trailing_newline=True)
+        self.env = Environment(loader=FileSystemLoader(templates_dir), autoescape=True, keep_trailing_newline=True)
         self.template = self.env.get_template(TEMPLATE)
 
 
 class Organizer:
-# Make the output folder, with the website's structure folders and respective
-# html files inside.
+    # Make the output folder, with the website's structure folders and respective
+    # html files inside.
 
     def __init__(self, library, builder):
         self.library = library
         self.builder = builder
 
-    def gen_output(self, destination): # the output directory
-
+    def gen_output(self, destination):  # the output directory
         for k, i in self.library.flat_tree.items():
-            p = pathlib.PurePath(destination, *k.split(':'))
+            p = pathlib.PurePath(destination, *k.split(":"))
             pathlib.Path(str(p)).mkdir(parents=True)
 
             for id_ in i:
@@ -212,4 +215,4 @@ class Organizer:
                 post = self.library.get_post(id_)
                 filename = post.filename + ".html"
                 post_html = self.builder.template.render(post.get_contents())
-                pathlib.Path(str(p), filename).write_text(post_html) # TODO: remove magic string
+                pathlib.Path(str(p), filename).write_text(post_html)  # TODO: remove magic string

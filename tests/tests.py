@@ -7,7 +7,6 @@ from .utils_for_testing import asset, equal_dirs, temporary_folder
 
 
 class TestBuilder:
-
     def test_builder(self):
         """The builder will manage the mixing of posts and templates."""
         builder = structures.Builder(asset("TestBuilder/"))
@@ -21,8 +20,7 @@ class TestBuilder:
 
     def test_builder_build_post(self):
         library = structures.Library(asset("basic_paths.toml"))
-        post = structures.Post(asset("TestBuilder/index.toml"),
-                        website_path=library.flat_tree)
+        post = structures.Post(asset("TestBuilder/index.toml"), website_path=library.flat_tree)
         library.add_post(post)
         builder = structures.Builder(asset("TestBuilder/"))
         template = builder.env.get_template("index.jinja")
@@ -30,17 +28,20 @@ class TestBuilder:
             test_builder_post = library.get_post(post.id)
             assert template.render(test_builder_post.get_contents()) == f.read()
 
-class TestOrganizer:
 
+class TestOrganizer:
     pytest.fixture()
+
     def post1(self):
         return structures.Post(asset("simple_ok_post.toml"))
 
     pytest.fixture()
+
     def post2(self):
         return structures.Post(asset("simple_ok_alternative_post.toml"))
 
     pytest.fixture()
+
     def library(self, post1, post2):
         library = structures.Library(asset("basic_paths.toml"))
         library.add_post(post1)
@@ -48,14 +49,17 @@ class TestOrganizer:
         return library
 
     pytest.fixture()
+
     def builder(self):
         return structures.Builder(asset("TestBuilder/"))
 
     pytest.fixture()
+
     def template(self, builder):
         return builder.env.get_template("index.jinja")
 
     pytest.fixture()
+
     def organizer(self):
         return structures.Organizer(self.library, self.builder)
 
@@ -65,7 +69,7 @@ class TestOrganizer:
 
     def test_organizer_gen_output(self, organizer):
         # Filenames follow the title when no slug specified.
-        ignores = ['index.jinja', 'index.toml']
+        ignores = ["index.jinja", "index.toml"]
         with temporary_folder() as temp:
             organizer.gen_output(temp)
             compare = filecmp.dircmp(temp, asset("TestOrganizer"), ignore=ignores)
