@@ -9,7 +9,7 @@ Answer the following questions to create the necessary files.
 
 
 def create_project():
-    print(GREETING)
+    print(GREETING) # noqa: T201
 
     default_settings = {
         "main_directory": '.',

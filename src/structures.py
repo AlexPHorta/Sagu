@@ -82,7 +82,7 @@ class Post:
         if paths is not None:
             if post_path in paths:
                 return post_path
-            else:
+            else: # noqa: RET505
                 raise KeyError
         else:
             return post_path
@@ -182,6 +182,7 @@ class Library:
             for k, v in d.items():
                 if isinstance(v, dict):
                     stack.append(v)
+        return
 
 
 class Builder:
