@@ -16,31 +16,38 @@ DEFAULT_SETTINGS = {
 }
 
 def create_project():
+    user_settings = DEFAULT_SETTINGS.copy()
     print(GREETING)  # noqa: T201
 
     if (
-        f := input(f"> Where do you want to create your website? [Default: '{DEFAULT_SETTINGS["main_directory"]}'] ")
+        md := get_input(prompt=f"> Where do you want to create your website? [Default: '{DEFAULT_SETTINGS["main_directory"]}'] ")
         != ""
     ):
-        DEFAULT_SETTINGS["main_directory"] = f
+        user_settings["main_directory"] = md
 
-    DEFAULT_SETTINGS["website_title"] = input("> What's the website's title? ")
-    DEFAULT_SETTINGS["website_author"] = input("> What's the author's name? ")
+    user_settings["website_title"] = get_input(prompt="> What's the website's title? ")
+    user_settings["website_author"] = get_input(prompt="> What's the author's name? ")
 
     if (
-        f := input(f"> What's the default language of the website? [Default: {DEFAULT_SETTINGS["website_language"]}]")
+        dl := get_input(prompt=f"> What's the default language of the website? [Default: {DEFAULT_SETTINGS["website_language"]}]")
         == ""
     ):
-        DEFAULT_SETTINGS["website_language"] = f
+        user_settings["website_language"] = dl
 
-    DEFAULT_SETTINGS["website_url"] = input(
-        "> What will be the website's URL " "(e.g. https://example.com)? [Default: empty]"
+    user_settings["website_url"] = get_input(
+        prompt="> What will be the website's URL " "(e.g. https://example.com)? [Default: empty]"
     )
 
-    if f := input(f"> What's your timezone? [Default: {DEFAULT_SETTINGS["website_timezone"]}]") == "":
-        DEFAULT_SETTINGS["website_timezone"] = f
+    if tz := get_input(prompt=f"> What's your timezone? [Default: {DEFAULT_SETTINGS["website_timezone"]}]") == "":
+        user_settings["website_timezone"] = tz
 
-    return DEFAULT_SETTINGS
+    return user_settings
+
+def get_input(user_input=None, prompt=None):
+    if user_input is None:
+        return input(prompt)
+    else:
+        return user_input
 
 
 def parse_args(args):
