@@ -133,7 +133,7 @@ class Library:
         return paths
 
     # Adapted from https://stackoverflow.com/a/62186053
-    def flatten(self, dictionary, parent_key=False, separator=':'):
+    def flatten(self, dictionary, parent_key=False, separator=':'): # noqa: FBT002
         """
         Turn a nested dictionary into a flattened dictionary
 
@@ -179,9 +179,9 @@ class Library:
             d = stack.pop()
             if key in d:
                 return d[key]
-            for k, v in d.items():
+            for v in d.values():
                 if isinstance(v, dict):
-                    stack.append(v)
+                    stack.append(v) # noqa: PERF401
         return
 
 
@@ -208,7 +208,7 @@ class Organizer:
             p = pathlib.PurePath(destination, *k.split(':'))
             pathlib.Path(str(p)).mkdir(parents=True)
 
-            for id_, post in i.items():
+            for id_ in i:
                 # generate the html
                 post = self.library.get_post(id_)
                 filename = post.filename + ".html"
