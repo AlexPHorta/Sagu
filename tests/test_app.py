@@ -1,21 +1,19 @@
 import os.path
 import pytest
 
-from .context import ssg
-
-print(dir(ssg))
+from src.ssg import app
 
 
 class TestMain:
     def test_main_init(self):
-        args = ssg.app.parse_args(["--create"])
+        args = app.parse_args(["--create"])
         assert args.create is True
 
     def test_create_project_only_with_defaults(self, monkeypatch):
 
         def mockinput():
-            return ssg.app.get_input()
+            return app.get_input()
 
-        monkeypatch.setattr("ssg.app.get_input", lambda: "")
+        monkeypatch.setattr("app.get_input", lambda: "")
 
-        assert ssg.app.create_project() == ssg.app.DEFAULT_SETTINGS
+        assert app.create_project() == app.DEFAULT_SETTINGS

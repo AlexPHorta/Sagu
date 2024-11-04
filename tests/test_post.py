@@ -1,16 +1,15 @@
 import datetime
-
 import pytest
 
+from src.ssg import structures
 from .assets import results
-from .context import ssg
 from .utils_for_testing import asset
 
 
 class TestPost:
     @pytest.fixture
     def post(self):
-        return ssg.structures.Post(asset("basic.toml"))
+        return structures.Post(asset("basic.toml"))
 
     def test_reader(self, post):
         """Read the post's toml file and generate the post object."""
@@ -42,52 +41,52 @@ class TestPost:
         """Check if there's meta and content tables."""
         cases = ("wrong_meta.toml", "no_meta.toml", "wrong_content.toml", "no_content.toml")
         for case in cases:
-            with pytest.raises(ssg.structures.InvalidMapSectionsError):
-                ssg.structures.Post(asset("TestReader/" + case))
+            with pytest.raises(structures.InvalidMapSectionsError):
+                structures.Post(asset("TestReader/" + case))
 
     def test_post_with_path(self):
         """A post with a path defined will be tested against the website's paths."""
-        library = ssg.structures.Library(asset("basic_paths.toml"))
-        post = ssg.structures.Post(asset("simple_ok_post.toml"))
+        library = structures.Library(asset("basic_paths.toml"))
+        post = structures.Post(asset("simple_ok_post.toml"))
         assert post.path in library.flat_tree
 
     def test_post_with_wrong_parent_path(self):
         """A post with a wrong path will trigger an exception."""
-        library = ssg.structures.Library(asset("basic_paths.toml"))
+        library = structures.Library(asset("basic_paths.toml"))
         with pytest.raises(KeyError):
-            ssg.structures.Post(asset("wrong_parent_path.toml"), website_path=library.flat_tree)
+            structures.Post(asset("wrong_parent_path.toml"), website_path=library.flat_tree)
 
     def test_post_content_markdown(self):
         """Retrieve a post with markdown content."""
-        library = ssg.structures.Library(asset("basic_paths.toml"))
-        post = ssg.structures.Post(asset("simple_ok_post_with_markdown_content.toml"), website_path=library.flat_tree)
+        library = structures.Library(asset("basic_paths.toml"))
+        post = structures.Post(asset("simple_ok_post_with_markdown_content.toml"), website_path=library.flat_tree)
         assert post.content == results.content_markdown
 
     def test_post_with_slug(self):
         """The slug, if present, defines the post's filename."""
-        post = ssg.structures.Post(asset("simple_ok_post.toml"))
+        post = structures.Post(asset("simple_ok_post.toml"))
         assert post.filename == "document-with-slug"
 
     def test_post_slug_with_one_unsafe_character(self):
         """An invalid slug makes the filename fallback to the title."""
-        post = ssg.structures.Post(asset("simple_post_unsafe_slug.toml"))
+        post = structures.Post(asset("simple_post_unsafe_slug.toml"))
         assert post.filename == "document-1"
 
 
 class TestSanitize:
     def test_sanitize(self):
-        assert ssg.structures.sanitize(None) is None
-        assert ssg.structures.sanitize("") is None
-        assert ssg.structures.sanitize("$") is None
-        assert ssg.structures.sanitize(" ") is None
-        assert ssg.structures.sanitize("-") is None
-        assert ssg.structures.sanitize(ssg.structures.RESERVED_AND_UNSAFE) is None
-        assert ssg.structures.sanitize(0) == "0"
-        assert ssg.structures.sanitize("a") == "a"
-        assert ssg.structures.sanitize("A") == "a"
-        assert ssg.structures.sanitize("A a") == "a-a"
-        assert ssg.structures.sanitize("A A") == "a-a"
-        assert ssg.structures.sanitize("Te$t") == "tet"
-        assert ssg.structures.sanitize("Te$t 2") == "tet-2"
-        assert ssg.structures.sanitize("2 Te$t") == "2-tet"
-        assert ssg.structures.sanitize("Last Test Indeed") == "last-test-indeed"
+        assert structures.sanitize(None) is None
+        assert structures.sanitize("") is None
+        assert structures.sanitize("$") is None
+        assert structures.sanitize(" ") is None
+        assert structures.sanitize("-") is None
+        assert structures.sanitize(structures.RESERVED_AND_UNSAFE) is None
+        assert structures.sanitize(0) == "0"
+        assert structures.sanitize("a") == "a"
+        assert structures.sanitize("A") == "a"
+        assert structures.sanitize("A a") == "a-a"
+        assert structures.sanitize("A A") == "a-a"
+        assert structures.sanitize("Te$t") == "tet"
+        assert structures.sanitize("Te$t 2") == "tet-2"
+        assert structures.sanitize("2 Te$t") == "2-tet"
+        assert structures.sanitize("Last Test Indeed") == "last-test-indeed"
