@@ -35,17 +35,18 @@ Issues = "https://github.com/AlexHorta/ssg/issues"
 Source = "https://github.com/AlexHorta/ssg"
 
 [tool.hatch.version]
-path = "src/__about__.py"
+path = "__about__.py"
 
 [tool.hatch.envs.types]
 extra-dependencies = [
   "mypy>=1.0.0",
 ]
 [tool.hatch.envs.types.scripts]
-check = "mypy --install-types --non-interactive {args:src tests}"
+check = "mypy --install-types --non-interactive {args:ssg tests}"
 
 [tool.hatch.envs.hatch-test]
 default-args = ["tests"]
+extra-args = ["--import-mode=importlib"]
 randomize = false
 
 [tool.coverage.run]
@@ -53,11 +54,11 @@ source_pkgs = ["ssg", "tests"]
 branch = true
 parallel = true
 omit = [
-  "src/__about__.py",
+  "__about__.py",
 ]
 
 [tool.coverage.paths]
-ssg = ["src/ssg", "*/ssg/src/ssg"]
+ssg = ["ssg", "*/ssgen/src/ssg"]
 tests = ["tests", "*/ssg/tests"]
 
 [tool.coverage.report]

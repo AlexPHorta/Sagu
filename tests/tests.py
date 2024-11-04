@@ -1,5 +1,4 @@
 import filecmp
-
 import pytest
 
 from .context import src
