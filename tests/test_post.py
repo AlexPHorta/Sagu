@@ -1,7 +1,9 @@
 import datetime
+
 import pytest
 
 from src.ssg import structures
+
 from .assets import results
 from .utils_for_testing import asset
 

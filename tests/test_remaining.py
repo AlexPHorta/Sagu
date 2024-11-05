@@ -1,7 +1,9 @@
 import filecmp
+
 import pytest
 
 from src.ssg import structures
+
 from .utils_for_testing import asset, equal_dirs, temporary_folder
 
 
@@ -12,10 +14,10 @@ class TestBuilder:
         template = builder.env.get_template("basic.jinja")
         assert template.render(name="Test") == "Hello, Test!\n"
 
-    def test_builder_autoescape_off(self):
-        """The builder will have autoescape turned off by default."""
+    def test_builder_autoescape_on(self):
+        """The builder will have autoescape turned on by default."""
         builder = structures.Builder(asset("TestBuilder/"))
-        assert builder.env.autoescape is False
+        assert builder.env.autoescape is True
 
     def test_builder_build_post(self):
         library = structures.Library(asset("basic_paths.toml"))

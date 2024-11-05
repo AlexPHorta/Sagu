@@ -15,12 +15,15 @@ DEFAULT_SETTINGS = {
     "website_timezone": "Europe/Rome",
 }
 
+
 def create_project():
     user_settings = DEFAULT_SETTINGS.copy()
     print(GREETING)  # noqa: T201
 
     if (
-        md := get_input(prompt=f"> Where do you want to create your website? [Default: '{DEFAULT_SETTINGS["main_directory"]}'] ")
+        md := get_input(
+            prompt=f"> Where do you want to create your website? [Default: '{DEFAULT_SETTINGS["main_directory"]}'] "
+        )
         != ""
     ):
         user_settings["main_directory"] = md
@@ -29,7 +32,9 @@ def create_project():
     user_settings["website_author"] = get_input(prompt="> What's the author's name? ")
 
     if (
-        dl := get_input(prompt=f"> What's the default language of the website? [Default: {DEFAULT_SETTINGS["website_language"]}]")
+        dl := get_input(
+            prompt=f"> What's the default language of the website? [Default: {DEFAULT_SETTINGS["website_language"]}]"
+        )
         == ""
     ):
         user_settings["website_language"] = dl
@@ -43,11 +48,9 @@ def create_project():
 
     return user_settings
 
+
 def get_input(user_input=None, prompt=None):
-    if user_input is None:
-        return input(prompt)
-    else:
-        return user_input
+    return input(prompt) if user_input is None else user_input
 
 
 def parse_args(args):

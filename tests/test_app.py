@@ -1,6 +1,3 @@
-import os.path
-import pytest
-
 from src.ssg import app
 
 
@@ -10,7 +7,6 @@ class TestMain:
         assert args.create is True
 
     def test_create_project_only_with_defaults(self, monkeypatch):
-
         def mockinput():
             return app.get_input()
 
