@@ -215,4 +215,4 @@ class Organizer:
                 post = self.library.get_post(id_)
                 filename = post.filename + ".html"
                 post_html = self.builder.template.render(post.get_contents())
-                pathlib.Path(str(p), filename).write_text(post_html)  # TODO: remove magic string
+                pathlib.Path(str(p), filename).write_text(post_html)
