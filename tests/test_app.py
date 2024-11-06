@@ -1,3 +1,4 @@
+import pytest
 
 from src.ssg import app
 
@@ -39,3 +40,21 @@ class TestMain:
         result = app.create_project()
 
         assert result == app.DEFAULT_SETTINGS
+
+    def test_create_project_with_user_info(self, monkeypatch):
+        inputs = iter(['/home/documents/', 'Test Project', 'Test Author', 'pt', 'www.example.com', 'America/Sao_Paulo'])
+        def mock_input(prompt):
+            return next(inputs)
+
+        monkeypatch.setattr("builtins.input", mock_input)
+
+        result = app.create_project()
+
+        assert result == {
+                        "main_directory": "/home/documents/",
+                        "website_title": "Test Project",
+                        "website_author": "Test Author",
+                        "website_language": "pt",
+                        "website_url": "www.example.com",
+                        "website_timezone": "America/Sao_Paulo",
+                        }
