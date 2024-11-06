@@ -35,7 +35,7 @@ def create_project():
         dl := get_input(
             prompt=f"> What's the default language of the website? [Default: {DEFAULT_SETTINGS["website_language"]}]"
         )
-        == ""
+        != ""
     ):
         user_settings["website_language"] = dl
 
@@ -43,7 +43,7 @@ def create_project():
         prompt="> What will be the website's URL " "(e.g. https://example.com)? [Default: empty]"
     )
 
-    if tz := get_input(prompt=f"> What's your timezone? [Default: {DEFAULT_SETTINGS["website_timezone"]}]") == "":
+    if tz := get_input(prompt=f"> What's your timezone? [Default: {DEFAULT_SETTINGS["website_timezone"]}]") != "":
         user_settings["website_timezone"] = tz
 
     return user_settings

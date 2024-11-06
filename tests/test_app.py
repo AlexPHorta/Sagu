@@ -26,16 +26,17 @@ class TestGetInput:
         assert app.get_input(user_input="Test input", prompt="No need for that") == "Test input"
 
 
-
 class TestMain:
     def test_main_init(self):
         args = app.parse_args(["--create"])
         assert args.create is True
 
-    # def test_create_project_only_with_defaults(self, monkeypatch):
-    #     def mockinput():
-    #         return app.get_input()
+    def test_create_project_only_with_defaults(self, monkeypatch):
+        def mock_input(prompt):
+            return ""
 
-    #     monkeypatch.setattr("app.get_input", lambda: "")
+        monkeypatch.setattr("builtins.input", mock_input)
 
-    #     assert app.create_project() == app.DEFAULT_SETTINGS
+        result = app.create_project()
+
+        assert result == app.DEFAULT_SETTINGS
