@@ -48,10 +48,8 @@ def create_project():
 
     return user_settings
 
-
 def get_input(user_input=None, prompt=None):
-    return input(prompt) if user_input is None else user_input
-
+    return input(prompt) if user_input is None else str(user_input)
 
 def parse_args(args):
     parser = argparse.ArgumentParser()
