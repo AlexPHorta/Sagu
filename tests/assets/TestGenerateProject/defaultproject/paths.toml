@@ -1,0 +1,19 @@
+# This is the paths file. This is where you'll define your project's folder structure.
+# Just add tables in TOML's format, like this:
+# 
+# [animals.dogs]
+# [animals.dogs.images]
+# [animals.cats]
+# [animals.cats.images]
+# [contact]
+# 
+# You'll end up with the following website structure (rooted in the output folder):
+#
+# animals/
+# animals/dogs/
+# animals/dogs/images/
+# animals/cats/
+# animals/cats/images/
+# contact/
+#
+######################################################################################

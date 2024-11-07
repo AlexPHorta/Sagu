@@ -8,7 +8,7 @@ Answer the following questions to create the necessary files.
 
 DEFAULT_SETTINGS = {
     "main_directory": ".",
-    "website_title": "",
+    "website_title": "Default Project",
     "website_author": "",
     "website_language": "en",
     "website_url": "",
@@ -17,7 +17,7 @@ DEFAULT_SETTINGS = {
 
 user_settings = {}
 
-def create_project():
+def get_user_settings():
     user_settings = DEFAULT_SETTINGS.copy()
     print(GREETING)  # noqa: T201
 
@@ -27,7 +27,12 @@ def create_project():
     if md != "":
         user_settings["main_directory"] = md
 
-    user_settings["website_title"] = get_input(prompt="> What's the website's title? ")
+    wt = get_input(
+                prompt=f"> What's the website's title? [Default: '{DEFAULT_SETTINGS["website_title"]}'] "
+    )
+    if md != "":
+        user_settings["website_title"] = wt
+
     user_settings["website_author"] = get_input(prompt="> What's the author's name? ")
 
     dl = get_input(
@@ -59,4 +64,4 @@ if __name__ == "__main__":
     args = parse_args(sys.argv[1:])
 
     if args.create:
-        user_settings = create_project()
+        user_settings = get_user_settings()

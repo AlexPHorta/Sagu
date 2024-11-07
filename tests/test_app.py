@@ -1,6 +1,7 @@
 import pytest
 
 from src.ssg import app
+from .utils_for_testing import asset, equal_dirs, temporary_folder
 
 
 class TestGetInput:
@@ -31,30 +32,47 @@ class TestMain:
         args = app.parse_args(["--create"])
         assert args.create is True
 
-    def test_create_project_only_with_defaults(self, monkeypatch):
+
+class TestGetUserSettings:
+    def test_get_user_settings_only_with_defaults(self, monkeypatch):
         def mock_input(prompt):
             return ""
 
         monkeypatch.setattr("builtins.input", mock_input)
 
-        result = app.create_project()
+        result = app.get_user_settings()
 
         assert result == app.DEFAULT_SETTINGS
 
-    def test_create_project_with_user_info(self, monkeypatch):
-        inputs = iter(['/home/documents/', 'Test Project', 'Test Author', 'pt', 'www.example.com', 'America/Sao_Paulo'])
+    def test_get_user_settings_with_user_info(self, monkeypatch):
+        inputs = iter(['/home/documents/testproject', 'Test Project', 'Test Author', 'pt', 'www.example.com', 'America/Sao_Paulo'])
+
         def mock_input(prompt):
             return next(inputs)
 
         monkeypatch.setattr("builtins.input", mock_input)
 
-        result = app.create_project()
+        result = app.get_user_settings()
 
         assert result == {
-                        "main_directory": "/home/documents/",
+                        "main_directory": "/home/documents/testproject",
                         "website_title": "Test Project",
                         "website_author": "Test Author",
                         "website_language": "pt",
                         "website_url": "www.example.com",
                         "website_timezone": "America/Sao_Paulo",
                         }
+
+
+class TestGenerateProject:
+    def test_generate_project_with_defaults(self, monkeypatch):
+        def mock_input(prompt):
+            return ""
+        monkeypatch.setattr("builtins.input", mock_input)
+        user_settings = app.get_user_settings()
+
+        with temporary_folder() as temp:
+            app.generate_project(temp, user_settings["website_title"])
+            compare = filecmp.dircmp(temp, asset("TestGenerateProject"), ignore=ignores)
+            assert equal_dirs(compare) is True
+
