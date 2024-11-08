@@ -17,6 +17,9 @@ DEFAULT_SETTINGS = {
 
 user_settings = {}
 
+def generate_project(destination_folder, project_settings):
+    ...
+
 def get_user_settings():
     user_settings = DEFAULT_SETTINGS.copy()
     print(GREETING)  # noqa: T201

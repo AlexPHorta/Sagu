@@ -1,3 +1,4 @@
+import filecmp
 import pytest
 
 from src.ssg import app
@@ -71,8 +72,10 @@ class TestGenerateProject:
         monkeypatch.setattr("builtins.input", mock_input)
         user_settings = app.get_user_settings()
 
+        ignores = []
+
         with temporary_folder() as temp:
-            app.generate_project(temp, user_settings["website_title"])
+            app.generate_project(temp, user_settings)
             compare = filecmp.dircmp(temp, asset("TestGenerateProject"), ignore=ignores)
             assert equal_dirs(compare) is True
 
