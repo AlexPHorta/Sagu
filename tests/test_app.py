@@ -43,7 +43,7 @@ class TestGetUserSettings:
 
         result = app.get_user_settings()
 
-        assert result == app.DEFAULT_SETTINGS
+        assert result == dict([kv[0] for kv in app.DEFAULT_SETTINGS])
 
     def test_get_user_settings_with_user_info(self, monkeypatch):
         inputs = iter(['/home/documents/testproject', 'Test Project', 'Test Author', 'pt', 'www.example.com', 'America/Sao_Paulo'])
@@ -72,10 +72,8 @@ class TestGenerateProject:
         monkeypatch.setattr("builtins.input", mock_input)
         user_settings = app.get_user_settings()
 
-        ignores = []
-
         with temporary_folder() as temp:
             app.generate_project(temp, user_settings)
-            compare = filecmp.dircmp(temp, asset("TestGenerateProject"), ignore=ignores)
+            compare = filecmp.dircmp(temp, asset("TestGenerateProject"))
             assert equal_dirs(compare) is True
 

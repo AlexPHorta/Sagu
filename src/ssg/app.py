@@ -6,51 +6,31 @@ GREETING = """Bento's static site generator!
 Answer the following questions to create the necessary files.
 """
 
-DEFAULT_SETTINGS = {
-    "main_directory": ".",
-    "website_title": "Default Project",
-    "website_author": "",
-    "website_language": "en",
-    "website_url": "",
-    "website_timezone": "Europe/Rome",
-}
+DEFAULT_SETTINGS = [
+    [["main_directory", "."], f"> Where do you want to create your website? "],
+    [["website_title", "Default Project"], f"> What's the website's title? "],
+    [["website_author", ""], f"> What's the author's name? "],
+    [["website_language", "en"], f"> What's the default language of the website? "],
+    [["website_url", ""], f"> What will be the website's URL " "(e.g. https://example.com)? "],
+    [["website_timezone", "Europe/Rome"], f"> What's your timezone? "],
+]
 
-user_settings = {}
 
 def generate_project(destination_folder, project_settings):
     ...
 
 def get_user_settings():
-    user_settings = DEFAULT_SETTINGS.copy()
+    user_settings = {}
     print(GREETING)  # noqa: T201
 
-    md = get_input(
-                prompt=f"> Where do you want to create your website? [Default: '{DEFAULT_SETTINGS["main_directory"]}'] "
-    )
-    if md != "":
-        user_settings["main_directory"] = md
-
-    wt = get_input(
-                prompt=f"> What's the website's title? [Default: '{DEFAULT_SETTINGS["website_title"]}'] "
-    )
-    if md != "":
-        user_settings["website_title"] = wt
-
-    user_settings["website_author"] = get_input(prompt="> What's the author's name? ")
-
-    dl = get_input(
-        prompt=f"> What's the default language of the website? [Default: {DEFAULT_SETTINGS["website_language"]}]"
-    )
-    if dl != "":
-        user_settings["website_language"] = dl
-
-    user_settings["website_url"] = get_input(
-        prompt="> What will be the website's URL " "(e.g. https://example.com)? [Default: empty]"
-    )
-
-    tz = get_input(prompt=f"> What's your timezone? [Default: {DEFAULT_SETTINGS["website_timezone"]}]")
-    if tz != "":
-        user_settings["website_timezone"] = tz
+    for setting in DEFAULT_SETTINGS:
+        key = setting[0][0]
+        default = setting[0][1]
+        user_choice = get_input(prompt=f"{setting[1]} [Default: '{default}'] ")
+        if user_choice != "":
+            user_settings.update({key: user_choice})
+        else:
+            user_settings.update({key: default})
 
     return user_settings
 
