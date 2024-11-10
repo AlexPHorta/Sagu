@@ -1,4 +1,5 @@
 import argparse
+import pathlib
 import sys
 
 GREETING = """Bento's static site generator!
@@ -16,8 +17,15 @@ DEFAULT_SETTINGS = [
 ]
 
 
-def generate_project(destination_folder, project_settings):
-    ...
+def generate_project(project_settings):
+    settings = project_settings
+    project_dir = ''.join(settings["website_title"].lower().split(' '))
+    if settings["main_directory"] == ".":
+        dest = pathlib.Path(pathlib.Path.cwd(), project_dir)
+    else:
+        dest = pathlib.Path(pathlib.Path.cwd(), settings["main_directory"], project_dir)
+    dest.mkdir(parents=True)
+
 
 def get_user_settings():
     user_settings = {}

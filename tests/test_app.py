@@ -1,4 +1,5 @@
 import filecmp
+import pathlib
 import pytest
 
 from src.ssg import app
@@ -66,14 +67,43 @@ class TestGetUserSettings:
 
 
 class TestGenerateProject:
-    def test_generate_project_with_defaults(self, monkeypatch):
-        def mock_input(prompt):
-            return ""
-        monkeypatch.setattr("builtins.input", mock_input)
-        user_settings = app.get_user_settings()
+    def test_generate_project_with_non_existent_folder(self, monkeypatch):
+        user_settings = {
+                        "main_directory": "test/within/",
+                        "website_title": "Test Project",
+                        "website_author": "Test Author",
+                        "website_language": "pt",
+                        "website_url": "www.example.com",
+                        "website_timezone": "America/Sao_Paulo",
+        }
 
         with temporary_folder() as temp:
-            app.generate_project(temp, user_settings)
+
+            monkeypatch.chdir(temp)
+
+            app.generate_project(user_settings)
+            project = pathlib.PurePath('test/within/testproject')
+            assert pathlib.Path(project).resolve().exists() is True
+
+    def test_generate_project_with_defaults(self, monkeypatch):
+        user_settings = {
+                        "main_directory": ".",
+                        "website_title": "Test Project",
+                        "website_author": "Test Author",
+                        "website_language": "pt",
+                        "website_url": "www.example.com",
+                        "website_timezone": "America/Sao_Paulo",
+        }
+
+        with temporary_folder() as temp:
+
+            monkeypatch.chdir(temp)
+
+            app.generate_project(user_settings)
+            project = pathlib.PurePath('testproject')
+            assert pathlib.Path(project).resolve().exists() is True
+
+    def test_generate_project_full(self):
+        with temporary_folder() as temp:
             compare = filecmp.dircmp(temp, asset("TestGenerateProject"))
             assert equal_dirs(compare) is True
-
