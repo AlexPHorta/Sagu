@@ -57,10 +57,12 @@ def get_user_settings():
 
 
 def get_input(user_input=None, prompt=None):
+    """Auxiliary function to ease the testing of prompts"""
     return input(prompt) if user_input is None else str(user_input)
 
 
 def parse_args(args):
+    """Auxiliary function to ease the testing of the parser"""
     parser = argparse.ArgumentParser()
     parser.add_argument("-c", "--create", action="store_true", help="Create a project with a wizard.")
     return parser.parse_args(args)
@@ -70,4 +72,4 @@ if __name__ == "__main__":
     args = parse_args(sys.argv[1:])
 
     if args.create:
-        user_settings = get_user_settings()
+        generate_project(get_user_settings())

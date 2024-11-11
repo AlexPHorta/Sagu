@@ -18,7 +18,7 @@ class InvalidMapSectionsError(Exception):
 
 
 class Post:
-    # Store information about the posts.
+    """Store information about the posts."""
 
     def __init__(self, post_fs_path, website_path=None):
         """
@@ -92,11 +92,13 @@ class Post:
             return post_path
 
     def get_filename(self):
+        """Return the filename for the post"""
         slug = sanitize(self.slug)
         title = sanitize(self.title)
         return slug or title
 
     def process_content(self):
+        """Convert the post content to markdown"""
         final_content = ""
         for content_type, contents in self.raw_content.items():
             if content_type == "markdown":
@@ -108,6 +110,7 @@ class Post:
 
 
 def sanitize(to_filename):
+    """Auxiliary function to sanitize the titles and slugs provided in the post file"""
     reserved_unsafe = re.compile(RESERVED_AND_UNSAFE)
     contains_readable_characters = re.compile(r"[A-Za-z0-9]+")
     filename = None
@@ -121,7 +124,7 @@ def sanitize(to_filename):
 
 
 class Library:
-    # Store information about the website structure and the posts.
+    """Store information about the website structure and the posts."""
 
     def __init__(self, paths_configuration=None):
         self.size = 0
