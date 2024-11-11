@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="{{ website_language }}">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>{{ website_title }}</title>
+    <link rel="stylesheet" href="css/main.css" />
+    <link rel="icon" href="images/favicon.png" />
+  </head>
+
+  <body>
+
+    <header>
+      <hgroup><h1><a href="{{ website_url }}/">{{ website_title }}</a></h1></hgroup>
+      <nav>
+        <ul>
+          {% for title, link in menu_items %}
+            <li><a href="{{ link }}">{{ title }}</a></li>
+          {% endfor %}
+          {% if display_pages_on_menu %}
+            {% for p in pages %}
+              <li><a href="{{ website_url }}/{{ p.url }}" {% if p==page %} aria-current="page" {% endif %}>{{ p.title }}</a></li>
+            {% endfor %}
+          {% endif %}
+          {% if display_categories_on_menu %}
+            {% for cat, null in categories %}
+              <li><a href="{{ website_url }}/{{ cat.url }}" {% if cat==category %} aria-current="page" {% endif %}>{{ cat }}</a></li>
+            {% endfor %}
+          {% endif %}
+        </ul>
+      </nav>
+    </header>
+
+    <main>
+      <p>TEST</p>
+      {% block content %}
+      {% endblock %}
+    </main>
+
+    <footer>
+      <address>
+        Powered by <a rel="nofollow" href="https://getsagu.com/">Sagu</a>.
+      </address>
+    </footer>
+
+  </body>
+</html>
