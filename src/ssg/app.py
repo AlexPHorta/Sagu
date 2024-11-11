@@ -39,9 +39,6 @@ def generate_project(project_settings):
     shutil.copyfile(paths, pathlib.Path(dest, 'paths.toml'))
     shutil.copyfile(settings, pathlib.Path(dest, 'settings.toml'))
 
-    for r, d, f in dest.walk():
-        print(r, d, f)
-
     return
 
 def get_user_settings():

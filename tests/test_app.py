@@ -99,7 +99,15 @@ class TestGenerateProject:
             project = pathlib.PurePath('testproject')
             assert pathlib.Path(project).resolve().exists() is True
 
-    def test_generate_project_full(self):
+    def test_generate_project_full(self, mock_user_settings, monkeypatch):
+        new_settings = mock_user_settings
+        new_directory = '.'
+        new_settings['main_directory'] = new_directory
+
         with temporary_folder() as temp:
+
+            monkeypatch.chdir(temp)
+
+            app.generate_project(new_settings)
             compare = filecmp.dircmp(temp, asset("TestGenerateProject"))
             assert equal_dirs(compare) is True
