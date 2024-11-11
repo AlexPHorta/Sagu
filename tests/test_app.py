@@ -6,6 +6,19 @@ from src.ssg import app
 from .utils_for_testing import asset, equal_dirs, temporary_folder
 
 
+@pytest.fixture(scope='module')
+def mock_user_settings():
+    settings = {
+                "main_directory": "/home/documents/testproject",
+                "website_title": "Test Project",
+                "website_author": "Test Author",
+                "website_language": "pt",
+                "website_url": "www.example.com",
+                "website_timezone": "America/Sao_Paulo",
+    }
+    return settings
+
+
 class TestGetInput:
     def test_get_input_prompt(self, monkeypatch):
         expected_prompt = "Enter something: "
@@ -46,8 +59,8 @@ class TestGetUserSettings:
 
         assert result == dict([kv[0] for kv in app.DEFAULT_SETTINGS])
 
-    def test_get_user_settings_with_user_info(self, monkeypatch):
-        inputs = iter(['/home/documents/testproject', 'Test Project', 'Test Author', 'pt', 'www.example.com', 'America/Sao_Paulo'])
+    def test_get_user_settings_with_user_info(self, mock_user_settings, monkeypatch):
+        inputs = iter(mock_user_settings.values())
 
         def mock_input(prompt):
             return next(inputs)
@@ -56,50 +69,33 @@ class TestGetUserSettings:
 
         result = app.get_user_settings()
 
-        assert result == {
-                        "main_directory": "/home/documents/testproject",
-                        "website_title": "Test Project",
-                        "website_author": "Test Author",
-                        "website_language": "pt",
-                        "website_url": "www.example.com",
-                        "website_timezone": "America/Sao_Paulo",
-                        }
+        assert result == mock_user_settings
 
 
 class TestGenerateProject:
-    def test_generate_project_with_non_existent_folder(self, monkeypatch):
-        user_settings = {
-                        "main_directory": "test/within/",
-                        "website_title": "Test Project",
-                        "website_author": "Test Author",
-                        "website_language": "pt",
-                        "website_url": "www.example.com",
-                        "website_timezone": "America/Sao_Paulo",
-        }
+    def test_generate_project_with_non_existent_folder(self, mock_user_settings, monkeypatch):
+        new_settings = mock_user_settings
+        new_directory = 'test/within/testproject'
+        new_settings['main_directory'] = new_directory
 
         with temporary_folder() as temp:
 
             monkeypatch.chdir(temp)
 
-            app.generate_project(user_settings)
-            project = pathlib.PurePath('test/within/testproject')
+            app.generate_project(new_settings)
+            project = pathlib.PurePath(new_directory)
             assert pathlib.Path(project).resolve().exists() is True
 
-    def test_generate_project_with_defaults(self, monkeypatch):
-        user_settings = {
-                        "main_directory": ".",
-                        "website_title": "Test Project",
-                        "website_author": "Test Author",
-                        "website_language": "pt",
-                        "website_url": "www.example.com",
-                        "website_timezone": "America/Sao_Paulo",
-        }
+    def test_generate_project_with_defaults(self, mock_user_settings, monkeypatch):
+        new_settings = mock_user_settings
+        new_directory = '.'
+        new_settings['main_directory'] = new_directory
 
         with temporary_folder() as temp:
 
             monkeypatch.chdir(temp)
 
-            app.generate_project(user_settings)
+            app.generate_project(new_settings)
             project = pathlib.PurePath('testproject')
             assert pathlib.Path(project).resolve().exists() is True
 
