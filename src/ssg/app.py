@@ -1,6 +1,9 @@
 import argparse
 import pathlib
+import shutil
 import sys
+
+RESOURCES = pathlib.Path(pathlib.Path(__file__).parent, 'resources')
 
 GREETING = """Bento's static site generator!
 
@@ -18,14 +21,28 @@ DEFAULT_SETTINGS = [
 
 
 def generate_project(project_settings):
-    settings = project_settings
-    project_dir = ''.join(settings["website_title"].lower().split(' '))
-    if settings["main_directory"] == ".":
-        dest = pathlib.Path(pathlib.Path.cwd(), project_dir)
-    else:
-        dest = pathlib.Path(pathlib.Path.cwd(), settings["main_directory"], project_dir)
+    project_settings = project_settings
+    paths = pathlib.Path(RESOURCES, 'template_paths.toml').resolve()
+    settings = pathlib.Path(RESOURCES, 'template_settings.toml').resolve()
+
+    # Make the project's folder
+    project_dir = ''.join(project_settings["website_title"].lower().split(' '))
+    dest = pathlib.Path(pathlib.Path.cwd(), project_settings["main_directory"], project_dir)
     dest.mkdir(parents=True)
 
+    # Create the inside folders
+    pathlib.Path(dest, 'content').mkdir()
+    pathlib.Path(dest, 'output').mkdir()
+    pathlib.Path(dest, 'templates').mkdir()
+
+    # Copy the path and settings files
+    shutil.copyfile(paths, pathlib.Path(dest, 'paths.toml'))
+    shutil.copyfile(settings, pathlib.Path(dest, 'settings.toml'))
+
+    for r, d, f in dest.walk():
+        print(r, d, f)
+
+    return
 
 def get_user_settings():
     user_settings = {}
