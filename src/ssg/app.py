@@ -3,7 +3,7 @@ import pathlib
 import shutil
 import sys
 
-RESOURCES = pathlib.Path(pathlib.Path(__file__).parent, 'resources')
+RESOURCES = pathlib.Path(pathlib.Path(__file__).parent, "resources")
 
 GREETING = """Bento's static site generator!
 
@@ -11,35 +11,34 @@ Answer the following questions to create the necessary files.
 """
 
 DEFAULT_SETTINGS = [
-    [["main_directory", "."], f"> Where do you want to create your website? "],
-    [["website_title", "Default Project"], f"> What's the website's title? "],
-    [["website_author", ""], f"> What's the author's name? "],
-    [["website_language", "en"], f"> What's the default language of the website? "],
-    [["website_url", ""], f"> What will be the website's URL " "(e.g. https://example.com)? "],
-    [["website_timezone", "Europe/Rome"], f"> What's your timezone? "],
+    [["main_directory", "."], "> Where do you want to create your website? "],
+    [["website_title", "Default Project"], "> What's the website's title? "],
+    [["website_author", ""], "> What's the author's name? "],
+    [["website_language", "en"], "> What's the default language of the website? "],
+    [["website_url", ""], "> What will be the website's URL " "(e.g. https://example.com)? "],
+    [["website_timezone", "Europe/Rome"], "> What's your timezone? "],
 ]
 
 
 def generate_project(project_settings):
-    project_settings = project_settings
-    paths = pathlib.Path(RESOURCES, 'template_paths.toml').resolve()
-    settings = pathlib.Path(RESOURCES, 'template_settings.toml').resolve()
+    _project_settings = project_settings
+    paths = pathlib.Path(RESOURCES, "template_paths.toml").resolve()
+    settings = pathlib.Path(RESOURCES, "template_settings.toml").resolve()
 
     # Make the project's folder
-    project_dir = ''.join(project_settings["website_title"].lower().split(' '))
-    dest = pathlib.Path(pathlib.Path.cwd(), project_settings["main_directory"], project_dir)
+    project_dir = "".join(_project_settings["website_title"].lower().split(" "))
+    dest = pathlib.Path(pathlib.Path.cwd(), _project_settings["main_directory"], project_dir)
     dest.mkdir(parents=True)
 
     # Create the inside folders
-    pathlib.Path(dest, 'content').mkdir()
-    pathlib.Path(dest, 'output').mkdir()
-    pathlib.Path(dest, 'templates').mkdir()
+    pathlib.Path(dest, "content").mkdir()
+    pathlib.Path(dest, "output").mkdir()
+    pathlib.Path(dest, "templates").mkdir()
 
     # Copy the path and settings files
-    shutil.copyfile(paths, pathlib.Path(dest, 'paths.toml'))
-    shutil.copyfile(settings, pathlib.Path(dest, 'settings.toml'))
+    shutil.copyfile(paths, pathlib.Path(dest, "paths.toml"))
+    shutil.copyfile(settings, pathlib.Path(dest, "settings.toml"))
 
-    return
 
 def get_user_settings():
     user_settings = {}
@@ -56,8 +55,10 @@ def get_user_settings():
 
     return user_settings
 
+
 def get_input(user_input=None, prompt=None):
     return input(prompt) if user_input is None else str(user_input)
+
 
 def parse_args(args):
     parser = argparse.ArgumentParser()

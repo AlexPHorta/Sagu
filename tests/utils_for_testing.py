@@ -6,7 +6,7 @@ from contextlib import contextmanager, redirect_stdout
 
 
 def asset(asset_name):
-    assets = pathlib.Path(pathlib.Path(__file__).parent, 'assets')
+    assets = pathlib.Path(pathlib.Path(__file__).parent, "assets")
     return pathlib.Path(assets, asset_name).absolute()
 
 

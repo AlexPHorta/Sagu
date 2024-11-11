@@ -1,22 +1,23 @@
 import filecmp
 import pathlib
+
 import pytest
 
 from src.ssg import app
+
 from .utils_for_testing import asset, equal_dirs, temporary_folder
 
 
-@pytest.fixture(scope='module')
+@pytest.fixture(scope="module")
 def mock_user_settings():
-    settings = {
-                "main_directory": "/home/documents/testproject",
-                "website_title": "Test Project",
-                "website_author": "Test Author",
-                "website_language": "pt",
-                "website_url": "www.example.com",
-                "website_timezone": "America/Sao_Paulo",
+    return {
+        "main_directory": "/home/documents/testproject",
+        "website_title": "Test Project",
+        "website_author": "Test Author",
+        "website_language": "pt",
+        "website_url": "www.example.com",
+        "website_timezone": "America/Sao_Paulo",
     }
-    return settings
 
 
 class TestGetInput:
@@ -50,7 +51,7 @@ class TestMain:
 
 class TestGetUserSettings:
     def test_get_user_settings_only_with_defaults(self, monkeypatch):
-        def mock_input(prompt):
+        def mock_input(prompt):  # noqa: ARG001
             return ""
 
         monkeypatch.setattr("builtins.input", mock_input)
@@ -62,7 +63,7 @@ class TestGetUserSettings:
     def test_get_user_settings_with_user_info(self, mock_user_settings, monkeypatch):
         inputs = iter(mock_user_settings.values())
 
-        def mock_input(prompt):
+        def mock_input(prompt):  # noqa: ARG001
             return next(inputs)
 
         monkeypatch.setattr("builtins.input", mock_input)
@@ -75,11 +76,10 @@ class TestGetUserSettings:
 class TestGenerateProject:
     def test_generate_project_with_non_existent_folder(self, mock_user_settings, monkeypatch):
         new_settings = mock_user_settings
-        new_directory = 'test/within/testproject'
-        new_settings['main_directory'] = new_directory
+        new_directory = "test/within/testproject"
+        new_settings["main_directory"] = new_directory
 
         with temporary_folder() as temp:
-
             monkeypatch.chdir(temp)
 
             app.generate_project(new_settings)
@@ -88,24 +88,22 @@ class TestGenerateProject:
 
     def test_generate_project_with_defaults(self, mock_user_settings, monkeypatch):
         new_settings = mock_user_settings
-        new_directory = '.'
-        new_settings['main_directory'] = new_directory
+        new_directory = "."
+        new_settings["main_directory"] = new_directory
 
         with temporary_folder() as temp:
-
             monkeypatch.chdir(temp)
 
             app.generate_project(new_settings)
-            project = pathlib.PurePath('testproject')
+            project = pathlib.PurePath("testproject")
             assert pathlib.Path(project).resolve().exists() is True
 
     def test_generate_project_full(self, mock_user_settings, monkeypatch):
         new_settings = mock_user_settings
-        new_directory = '.'
-        new_settings['main_directory'] = new_directory
+        new_directory = "."
+        new_settings["main_directory"] = new_directory
 
         with temporary_folder() as temp:
-
             monkeypatch.chdir(temp)
 
             app.generate_project(new_settings)
