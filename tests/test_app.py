@@ -102,6 +102,11 @@ class TestGenerateProject:
         new_settings = mock_user_settings
         new_directory = "."
         new_settings["main_directory"] = new_directory
+        new_settings["SITENAME"] = "Lorem Ipsum"
+        new_settings["SITEAUTHOR"] = "Cebolinha"
+        new_settings["SITELANGUAGE"] = "fr"
+        new_settings["SITEURL"] = "www.cebolinhateste.com"
+        new_settings["SITETIMEZONE"] = "America/Sao_Paulo"
 
         with temporary_folder() as temp:
             monkeypatch.chdir(temp)
