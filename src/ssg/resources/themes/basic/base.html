@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ website_language }}">
+<html lang="{{ SITELANGUAGE }}">
   <head>
     <meta charset="utf-8" />
     <meta http-equiv="x-ua-compatible" content="ie=edge" />
@@ -11,9 +11,9 @@
   </head>
 
   <body>
-
+<!-- 
     <header>
-      <hgroup><h1><a href="{{ website_url }}/">{{ website_title }}</a></h1></hgroup>
+      <hgroup><h1><a href="{{ SITEURL }}/">{{ website_title }}</a></h1></hgroup>
       <nav>
         <ul>
           {% for title, link in menu_items %}
@@ -21,18 +21,18 @@
           {% endfor %}
           {% if display_pages_on_menu %}
             {% for p in pages %}
-              <li><a href="{{ website_url }}/{{ p.url }}" {% if p==page %} aria-current="page" {% endif %}>{{ p.title }}</a></li>
+              <li><a href="{{ SITEURL }}/{{ p.url }}" {% if p==page %} aria-current="page" {% endif %}>{{ p.title }}</a></li>
             {% endfor %}
           {% endif %}
           {% if display_categories_on_menu %}
             {% for cat, null in categories %}
-              <li><a href="{{ website_url }}/{{ cat.url }}" {% if cat==category %} aria-current="page" {% endif %}>{{ cat }}</a></li>
+              <li><a href="{{ SITEURL }}/{{ cat.url }}" {% if cat==category %} aria-current="page" {% endif %}>{{ cat }}</a></li>
             {% endfor %}
           {% endif %}
         </ul>
       </nav>
     </header>
-
+-->
     <main>
       <p>TEST</p>
       {% block content %}

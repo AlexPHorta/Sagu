@@ -12,11 +12,11 @@ Answer the following questions to create the necessary files.
 
 DEFAULT_SETTINGS = [
     [["main_directory", "."], "> Where do you want to create your website? "],
-    [["website_title", "Default Project"], "> What's the website's title? "],
-    [["website_author", ""], "> What's the author's name? "],
-    [["website_language", "en"], "> What's the default language of the website? "],
-    [["website_url", ""], "> What will be the website's URL " "(e.g. https://example.com)? "],
-    [["website_timezone", "Europe/Rome"], "> What's your timezone? "],
+    [["SITENAME", "Default Project"], "> What's the website's title? "],
+    [["SITEAUTHOR", ""], "> What's the author's name? "],
+    [["SITELANGUAGE", "en"], "> What's the default language of the website? "],
+    [["SITEURL", ""], "> What will be the website's URL " "(e.g. https://example.com)? "],
+    [["SITETIMEZONE", "Europe/Rome"], "> What's your timezone? "],
 ]
 
 
@@ -26,7 +26,7 @@ def generate_project(project_settings):
     settings = pathlib.Path(RESOURCES, "template_settings.toml").resolve()
 
     # Make the project's folder
-    project_dir = "".join(_project_settings["website_title"].lower().split(" "))
+    project_dir = "".join(_project_settings["SITENAME"].lower().split(" "))
     dest = pathlib.Path(pathlib.Path.cwd(), _project_settings["main_directory"], project_dir)
     dest.mkdir(parents=True)
 

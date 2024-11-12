@@ -12,11 +12,11 @@ from .utils_for_testing import asset, equal_dirs, temporary_folder
 def mock_user_settings():
     return {
         "main_directory": "/home/documents/testproject",
-        "website_title": "Test Project",
-        "website_author": "Test Author",
-        "website_language": "pt",
-        "website_url": "www.example.com",
-        "website_timezone": "America/Sao_Paulo",
+        "SITENAME": "Test Project",
+        "SITEAUTHOR": "Test Author",
+        "SITELANGUAGE": "pt",
+        "SITEURL": "www.example.com",
+        "SITETIMEZONE": "America/Sao_Paulo",
     }
 
 
