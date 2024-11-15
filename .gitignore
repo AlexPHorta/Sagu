@@ -206,4 +206,7 @@ bh_unicode_properties.cache
 # https://packagecontrol.io/packages/sublime-github
 GitHub.sublime-settings
 
+# Geany project files
+*.geany
+
 # End of https://www.toptal.com/developers/gitignore/api/python,sublimetext
