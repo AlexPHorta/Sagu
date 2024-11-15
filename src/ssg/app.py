@@ -23,6 +23,12 @@ DEFAULT_SETTINGS = [
 
 
 def generate_project(project_settings):
+    """Generate the project directory based on the user's answers.
+
+    Positional arguments
+    :project_settings: Dir
+    """
+
     _project_settings = project_settings
     paths = pathlib.Path(RESOURCES, "template_paths.toml").resolve()
     settings = pathlib.Path(RESOURCES, "template_settings.toml").resolve()
@@ -47,6 +53,7 @@ def generate_project(project_settings):
 
 
 def get_user_settings():
+    """Get the initial user settings to generate the website project."""
     user_settings = {}
     print(GREETING)  # noqa: T201
 
@@ -63,12 +70,12 @@ def get_user_settings():
 
 
 def get_input(user_input=None, prompt=None):
-    """Auxiliary function to ease the testing of prompts"""
+    """Auxiliary function to ease the testing of prompts."""
     return input(prompt) if user_input is None else str(user_input)
 
 
 def parse_args(args):
-    """Auxiliary function to ease the testing of the parser"""
+    """Auxiliary function to ease the testing of the parser."""
     parser = argparse.ArgumentParser()
     parser.add_argument("-c", "--create", action="store_true", help="Create a project with a wizard.")
     return parser.parse_args(args)
