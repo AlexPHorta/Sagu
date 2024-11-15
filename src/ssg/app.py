@@ -31,7 +31,6 @@ def generate_project(project_settings):
 
     _project_settings = project_settings
     paths = pathlib.Path(RESOURCES, "template_paths.toml").resolve()
-    settings = pathlib.Path(RESOURCES, "template_settings.toml").resolve()
 
     # Make the project's folder
     project_dir = "".join(_project_settings["SITENAME"].lower().split(" "))
@@ -46,9 +45,9 @@ def generate_project(project_settings):
     # Copy the path file
     shutil.copyfile(paths, pathlib.Path(dest, "paths.toml"))
 
-    #Build and copy the settings file
+    # Build and copy the settings file
     with open(pathlib.Path(dest, "settings.toml"), "wb") as s:
-        del _project_settings['main_directory']
+        del _project_settings["main_directory"]
         tomli_w.dump(_project_settings, s)
 
 

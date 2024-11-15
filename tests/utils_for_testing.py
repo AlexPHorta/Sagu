@@ -29,9 +29,9 @@ def temporary_folder():
 
 
 def equal_dirs(dir1, dir2, **kwargs):  # filecmp.dircmp
-    compare = filecmp.dircmp(dir1, dir2, ignore=kwargs.get('ignore'))
+    compare = filecmp.dircmp(dir1, dir2, ignore=kwargs.get("ignore"))
     with redirect_stdout(io.StringIO()) as f:
         compare.report_full_closure()
     s = f.getvalue()
-    print(s)
+    print(s)  # noqa: T201
     return not (any(("Only in" in s, "Differing" in s, "Trouble with" in s, "funny" in s)))
