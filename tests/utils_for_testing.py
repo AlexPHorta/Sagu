@@ -31,4 +31,5 @@ def equal_dirs(dirs_to_compare):  # filecmp.dircmp
     with redirect_stdout(io.StringIO()) as f:
         dirs_to_compare.report_full_closure()
     s = f.getvalue()
+    print(s)
     return not (any(("Only in" in s, "Differing" in s, "Trouble with" in s, "funny" in s)))
