@@ -1,5 +1,3 @@
-import filecmp
-
 import pytest
 
 from src.ssg import structures
@@ -67,5 +65,4 @@ class TestOrganizer:
         ignores = ["index.jinja", "index.toml"]
         with temporary_folder() as temp:
             organizer.gen_output(temp)
-            compare = filecmp.dircmp(temp, asset("TestOrganizer"), ignore=ignores)
-            assert equal_dirs(compare) is True
+            assert equal_dirs(temp, asset("TestOrganizer"), ignore=ignores) is True

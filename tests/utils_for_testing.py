@@ -1,3 +1,4 @@
+import filecmp
 import io
 import pathlib
 import shutil
@@ -27,9 +28,10 @@ def temporary_folder():
         shutil.rmtree(tempdir)
 
 
-def equal_dirs(dirs_to_compare):  # filecmp.dircmp
+def equal_dirs(dir1, dir2, **kwargs):  # filecmp.dircmp
+    compare = filecmp.dircmp(dir1, dir2, ignore=kwargs.get('ignore'))
     with redirect_stdout(io.StringIO()) as f:
-        dirs_to_compare.report_full_closure()
+        compare.report_full_closure()
     s = f.getvalue()
     print(s)
     return not (any(("Only in" in s, "Differing" in s, "Trouble with" in s, "funny" in s)))

@@ -1,4 +1,3 @@
-import filecmp
 import pathlib
 
 import pytest
@@ -112,5 +111,4 @@ class TestGenerateProject:
             monkeypatch.chdir(temp)
 
             app.generate_project(new_settings)
-            compare = filecmp.dircmp(temp, asset("TestGenerateProject"))
-            assert equal_dirs(compare) is True
+            assert equal_dirs(temp, asset("TestGenerateProject")) is True
