@@ -1,7 +1,6 @@
 import pathlib
 
 import pytest
-
 from src.ssg import app
 
 from .utils_for_testing import asset, equal_dirs, temporary_folder
@@ -101,7 +100,7 @@ class TestGenerateProject:
         new_settings = mock_user_settings
         new_directory = "."
         new_settings["main_directory"] = new_directory
-        new_settings["SITENAME"] = "Lorem Ipsum"
+        new_settings["SITENAME"] = "Título com Acento"
         new_settings["SITEAUTHOR"] = "Cebolinha"
         new_settings["SITELANGUAGE"] = "fr"
         new_settings["SITEURL"] = "www.cebolinhateste.com"
