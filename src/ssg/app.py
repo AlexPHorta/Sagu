@@ -3,6 +3,8 @@ import pathlib
 import shutil
 import sys
 
+import tomli_w
+
 RESOURCES = pathlib.Path(pathlib.Path(__file__).parent, "resources")
 
 GREETING = """Bento's static site generator!
@@ -35,9 +37,13 @@ def generate_project(project_settings):
     pathlib.Path(dest, "output").mkdir()
     pathlib.Path(dest, "templates").mkdir()
 
-    # Copy the path and settings files
+    # Copy the path file
     shutil.copyfile(paths, pathlib.Path(dest, "paths.toml"))
-    shutil.copyfile(settings, pathlib.Path(dest, "settings.toml"))
+
+    #Build and copy the settings file
+    with open(pathlib.Path(dest, "settings.toml"), "wb") as s:
+        del _project_settings['main_directory']
+        tomli_w.dump(_project_settings, s)
 
 
 def get_user_settings():

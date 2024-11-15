@@ -27,6 +27,7 @@ classifiers = [
 dependencies = [
 "Markdown>=3.7",
 "Jinja2>=3.1.4",
+"tomli-w>=1.0.0",
 ]
 
 [project.urls]
