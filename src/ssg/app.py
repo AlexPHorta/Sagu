@@ -2,6 +2,7 @@ import argparse
 import pathlib
 import shutil
 import sys
+import unicodedata
 
 import tomli_w
 
@@ -80,8 +81,15 @@ def parse_args(args):
     return parser.parse_args(args)
 
 
-if __name__ == "__main__":
-    args = parse_args(sys.argv[1:])
+def normalize_name(name):
+    norm_name = []
+    for c in name:
+        decomp = unicodedata.decomposition(c)
+        if decomp == '':
+            norm_name.append(c)
+        else:
+            norm_name.append(chr(int(decomp.split()[0], 16)))
+    return ''.join(norm_name)
 
     if args.create:
         generate_project(get_user_settings())

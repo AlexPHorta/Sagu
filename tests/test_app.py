@@ -111,3 +111,9 @@ class TestGenerateProject:
 
             app.generate_project(new_settings)
             assert equal_dirs(temp, asset("TestGenerateProject")) is True
+
+
+class TestNormalizeName:
+
+    def test_normalize(self):
+        assert app.normalize_name("Título") == "Titulo"
