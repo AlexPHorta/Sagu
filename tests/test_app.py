@@ -1,4 +1,5 @@
 import pathlib
+import tomllib
 
 import pytest
 from src.ssg import app
@@ -110,7 +111,9 @@ class TestGenerateProject:
             monkeypatch.chdir(temp)
 
             app.generate_project(new_settings)
-            assert equal_dirs(temp, asset("TestGenerateProject")) is True
+            assert equal_dirs(temp, asset("TestGenerateProject"), ignore=["settings.toml"]) is True
+            with open(pathlib.Path(temp, asset("TestGenerateProject"), "titulocomacento/settings.toml"), "rb") as t:
+                assert tomllib.load(t) == new_settings
 
 
 class TestNormalizeName:

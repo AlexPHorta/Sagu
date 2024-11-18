@@ -27,14 +27,15 @@ def generate_project(project_settings):
     """Generate the project directory based on the user's answers.
 
     Positional arguments
-    :project_settings: Dir
+    :project_settings: Dictionary
     """
 
     _project_settings = project_settings
     paths = pathlib.Path(RESOURCES, "template_paths.toml").resolve()
 
     # Make the project's folder
-    project_dir = "".join(_project_settings["SITENAME"].lower().split(" "))
+    normalized = normalize_name(_project_settings["SITENAME"])
+    project_dir = "".join(normalized.lower().split(" "))
     dest = pathlib.Path(pathlib.Path.cwd(), _project_settings["main_directory"], project_dir)
     dest.mkdir(parents=True)
 
