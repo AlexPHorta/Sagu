@@ -85,11 +85,13 @@ def parse_args(args):
 def normalize_name(name):
     norm_name = []
     for c in name:
+        normalized = ""
         decomp = unicodedata.decomposition(c)
         if decomp == '':
-            norm_name.append(c)
+            normalized = c
         else:
-            norm_name.append(chr(int(decomp.split()[0], 16)))
+            normalized = chr(int(decomp.split()[0], 16))
+        norm_name.append(normalized.casefold())
     return ''.join(norm_name)
 
     if args.create:
