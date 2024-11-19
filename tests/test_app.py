@@ -1,7 +1,8 @@
 import pathlib
-import tomllib
 
 import pytest
+import tomllib
+
 from src.ssg import app
 
 from .utils_for_testing import asset, equal_dirs, temporary_folder
@@ -117,10 +118,8 @@ class TestGenerateProject:
 
 
 class TestNormalizeName:
-
     def test_normalize(self):
         assert app.normalize_name("") == ""
         assert app.normalize_name("á") == "a"
         assert app.normalize_name("Título") == "titulo"
         assert app.normalize_name("Straße") == "strasse"
-        

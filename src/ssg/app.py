@@ -87,12 +87,9 @@ def normalize_name(name):
     for c in name:
         normalized = ""
         decomp = unicodedata.decomposition(c)
-        if decomp == '':
-            normalized = c
-        else:
-            normalized = chr(int(decomp.split()[0], 16))
+        normalized = c if decomp == "" else chr(int(decomp.split()[0], 16))
         norm_name.append(normalized.casefold())
-    return ''.join(norm_name)
+    return "".join(norm_name)
 
 
 if __name__ == "__main__":
