@@ -94,5 +94,9 @@ def normalize_name(name):
         norm_name.append(normalized.casefold())
     return ''.join(norm_name)
 
+
+if __name__ == "__main__":
+    args = parse_args(sys.argv[1:])
+
     if args.create:
         generate_project(get_user_settings())
