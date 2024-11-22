@@ -39,10 +39,13 @@ def generate_project(project_settings):
     dest = pathlib.Path(pathlib.Path.cwd(), _project_settings["main_directory"], project_dir)
     dest.mkdir(parents=True)
 
-    # Create the inside folders
     pathlib.Path(dest, "content").mkdir()
     pathlib.Path(dest, "output").mkdir()
-    pathlib.Path(dest, "templates").mkdir()
+
+    # Create the themes folder, with the basic theme inside
+    themes = pathlib.Path(dest, "themes")
+    themes.mkdir()
+    shutil.copytree(pathlib.Path(RESOURCES, 'themes'), themes, dirs_exist_ok=True)
 
     # Copy the path file
     shutil.copyfile(paths, pathlib.Path(dest, "paths.toml"))
