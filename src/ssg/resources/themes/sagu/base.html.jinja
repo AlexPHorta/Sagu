@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    {% block head %}
     <meta charset="utf-8" />
     <meta http-equiv="x-ua-compatible" content="ie=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -12,11 +13,13 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap" rel="stylesheet">
+    {% endblock %}
   </head>
 
   <body>
 
     <header>
+      {% block header %}
         <h1>{{ SITENAME }}</h1>
         <nav>
             <menu>
@@ -27,11 +30,13 @@
                 <li><a href="#">Contact</a></li>
             </menu>
         </nav>
+      {% endblock %}
     </header>
 
     <hr class="style14" />
 
     <main>
+      {% block content %}
       <ul id="breadcrumb">
           <li><a href="#">Home</a></li>
           <li><a href="#">Articles</a></li>
@@ -113,12 +118,15 @@
       <p>Nam sollicitudin odio nulla curabitur efficitur. Commodo sed ridiculus etiam vitae tempus laoreet per. Sit nec suscipit platea; arcu platea dapibus. Iaculis pretium quam erat nunc lectus pulvinar habitant. Ex molestie tortor rhoncus etiam habitasse class. Laoreet accumsan sapien et platea convallis. Lectus aenean parturient habitant sapien finibus aliquam amet. Et dictum enim condimentum arcu tristique quam duis adipiscing. Magnis tincidunt donec ultricies posuere luctus elit.</p>
 
       <p>Aenean sollicitudin egestas suspendisse consectetur nascetur dictum consequat hendrerit vel. Hendrerit taciti felis malesuada, natoque accumsan luctus cubilia. Integer dictumst nunc dictumst pulvinar lacus fringilla adipiscing per non. Posuere placerat nam magna cubilia quam, nulla penatibus magnis. Convallis faucibus dictumst porta potenti cursus sociosqu est quis egestas. Vitae gravida commodo felis sagittis justo. Rhoncus dolor augue, purus felis fermentum maecenas. Leo primis neque torquent leo mollis. Massa class magna habitasse leo phasellus tellus. Consectetur dolor placerat neque vivamus ut nostra a.</p>
+      {% endblock %}
     </main>
 
     <hr class="style14" />
 
     <footer>
+      {% block footer %}
         <p>&#169; 2024 <a href="https://www.buey.net.br">Buey</a> - Made by <a rel="nofollow" href="https://getsagu.com/">Sagu</a> - Theme <a rel="nofollow" href="https://getsagu.com/">Sagu</a></p>
+      {% endblock %}
     </footer>
 
   </body>
