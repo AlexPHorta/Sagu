@@ -9,7 +9,7 @@ body {
     padding: 0 20%;
 }
 
-hr.style14 { 
+hr.frame { 
   border: 0; 
   height: 1px; 
   background-image: -webkit-linear-gradient(left, #DDDDDD, #CCC9C9, #DDDDDD);
