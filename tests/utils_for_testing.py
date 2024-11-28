@@ -8,7 +8,7 @@ from contextlib import contextmanager, redirect_stdout
 
 def asset(asset_name):
     assets = pathlib.Path(pathlib.Path(__file__).parent, "assets")
-    return pathlib.Path(assets, asset_name).absolute()
+    return pathlib.Path(assets, asset_name).resolve(strict=True)
 
 
 # Stolen from https://getpelican.com
