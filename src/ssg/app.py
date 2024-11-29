@@ -1,6 +1,8 @@
 import argparse
+import sys
 
 from src.ssg import kickstart
+
 
 def parse_args(args):
     """Auxiliary function to ease the testing of the parser."""
@@ -13,4 +15,4 @@ if __name__ == "__main__":
     args = parse_args(sys.argv[1:])
 
     if args.create:
-        generate_project(kickstart.get_user_settings())
+        kickstart.generate_project(kickstart.get_user_settings())

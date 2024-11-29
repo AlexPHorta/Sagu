@@ -1,11 +1,8 @@
-import collections
 import hashlib
-import pathlib
 import re
 
 import markdown
 import tomllib
-from jinja2 import Environment, FileSystemLoader
 
 TEMPLATE = "index.jinja"
 
@@ -121,101 +118,3 @@ def sanitize(to_filename):
         if len(fn) > 0 and re.search(contains_readable_characters, fn):
             filename = fn
     return filename
-
-
-class Library:
-    """Store information about the website structure and the posts."""
-
-    def __init__(self, paths_configuration=None):
-        self.size = 0
-
-        self.tree = self.load_paths(paths_configuration)
-        self.flat_tree = self.flatten(self.tree) if paths_configuration is not None else None
-
-    def load_paths(self, paths):
-        if paths is not None:
-            with open(paths, "rb") as paths_file:
-                paths = tomllib.load(paths_file)
-
-        return paths
-
-    # Adapted from https://stackoverflow.com/a/62186053
-    def flatten(self, dictionary, parent_key=False, separator=":"):  # noqa: FBT002
-        """
-        Turn a nested dictionary into a flattened dictionary
-
-        :param dictionary: The dictionary to flatten
-        :param parent_key: The string to prepend to dictionary's keys
-        :param separator: The string used to separate flattened keys
-        :return: A flattened dictionary
-        """
-
-        items = []
-        for key, value in dictionary.items():
-            new_key = str(parent_key) + separator + key if parent_key else key
-            if isinstance(value, collections.abc.MutableMapping) and len(value) > 0:
-                items.extend(self.flatten(value, new_key, separator).items())
-            else:
-                items.append((new_key, value))
-        return dict(items)
-
-    def add_post(self, the_post):
-        """
-        Add a post to the website structure
-
-        :param the_post: The post instance
-        """
-
-        if the_post.path in self.flat_tree:
-            self.flat_tree[the_post.path].update({the_post.id: the_post})
-            self.size += 1
-
-    def get_post(self, post_id):
-        """
-        Return a post's information to be processed.
-
-        :param post_id: The id of the post (A string)
-        """
-        return self.find_key_nonrecursive(self.flat_tree, post_id)
-
-    # https://stackoverflow.com/a/2524202
-    def find_key_nonrecursive(self, a_dict, key):
-        """Find a key in a nested dictionary."""
-        stack = [a_dict]
-        while stack:
-            d = stack.pop()
-            if key in d:
-                return d[key]
-            for v in d.values():
-                if isinstance(v, dict):
-                    stack.append(v)  # noqa: PERF401
-        return
-
-
-class Builder:
-    # Make the html files.
-
-    def __init__(self, templates_dir):
-        self.env = Environment(loader=FileSystemLoader(templates_dir), autoescape=True, keep_trailing_newline=True)
-        self.template = self.env.get_template(TEMPLATE)
-
-
-class Organizer:
-    # Make the output folder, with the website's structure folders and respective
-    # html files inside.
-
-    def __init__(self, library, builder):
-        self.library = library
-        self.builder = builder
-
-    def gen_output(self, destination):  # the output directory
-        for k, i in self.library.flat_tree.items():
-            p = pathlib.PurePath(destination, *k.split(":"))
-            pathlib.Path(str(p)).mkdir(parents=True)
-
-            for id_ in i:
-                # generate the html
-                post = self.library.get_post(id_)
-                filename = post.filename + ".html"
-                post_html = self.builder.template.render(post.get_contents())
-                pathlib.Path(str(p), filename).write_text(post_html)

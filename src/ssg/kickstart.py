@@ -1,6 +1,5 @@
 import pathlib
 import shutil
-import sys
 import unicodedata
 
 import tomli_w
@@ -44,7 +43,7 @@ def generate_project(project_settings):
     # Create the themes folder, with the basic theme inside
     themes = pathlib.Path(dest, "themes")
     themes.mkdir()
-    shutil.copytree(pathlib.Path(RESOURCES, 'themes'), themes, dirs_exist_ok=True)
+    shutil.copytree(pathlib.Path(RESOURCES, "themes"), themes, dirs_exist_ok=True)
 
     # Copy the path file
     shutil.copyfile(paths, pathlib.Path(dest, "paths.toml"))
@@ -85,4 +84,3 @@ def normalize_name(name):
 def get_input(user_input=None, prompt=None):
     """Auxiliary function to ease the testing of prompts."""
     return input(prompt) if user_input is None else str(user_input)
-

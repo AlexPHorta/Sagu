@@ -1,29 +1,26 @@
-import pytest
+from src.ssg import builder, library, post
 
-from src.ssg import structures
-
-from .utils_for_testing import asset, equal_dirs, temporary_folder
+from .utils_for_testing import asset
 
 
 class TestBuilder:
     def test_builder(self):
         """The builder will manage the mixing of posts and templates."""
-        builder = structures.Builder(asset("TestBuilder/"))
-        template = builder.env.get_template("basic.jinja")
+        _builder = builder.Builder(asset("TestBuilder/"))
+        template = _builder.env.get_template("basic.jinja")
         assert template.render(name="Test") == "Hello, Test!\n"
 
     def test_builder_autoescape_on(self):
         """The builder will have autoescape turned on by default."""
-        builder = structures.Builder(asset("TestBuilder/"))
-        assert builder.env.autoescape is True
+        _builder = builder.Builder(asset("TestBuilder/"))
+        assert _builder.env.autoescape is True
 
     def test_builder_build_post(self):
-        library = structures.Library(asset("basic_paths.toml"))
-        post = structures.Post(asset("TestBuilder/index.toml"), website_path=library.flat_tree)
-        library.add_post(post)
-        builder = structures.Builder(asset("TestBuilder/"))
-        template = builder.env.get_template("index.jinja")
+        _library = library.Library(asset("basic_paths.toml"))
+        _post = post.Post(asset("TestBuilder/index.toml"), website_path=_library.flat_tree)
+        _library.add_post(_post)
+        _builder = builder.Builder(asset("TestBuilder/"))
+        template = _builder.env.get_template("index.jinja")
         with open(asset("TestBuilder/index.html")) as f:
-            test_builder_post = library.get_post(post.id)
+            test_builder_post = _library.get_post(_post.id)
             assert template.render(test_builder_post.get_contents()) == f.read()
-
