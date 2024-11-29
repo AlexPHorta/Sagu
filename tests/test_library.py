@@ -1,3 +1,5 @@
+import io
+
 import pytest
 
 from src.ssg import library, post
@@ -16,6 +18,15 @@ class TestLibrary:
         _library = library.Library()
         assert _library.size == 0
         assert _library.flat_tree is None
+
+    def test_passing_no_toml_file(self):
+        """The website path must be defined in a toml file."""
+        with pytest.raises(library.InvalidPathFileError):
+            with io.StringIO(initial_value="Invalid") as invalid_file:
+                library.Library(invalid_file)
+        with pytest.raises(library.InvalidPathFileError):
+            with io.BytesIO(b"Invalid") as invalid_file:
+                library.Library(invalid_file)
 
     def test_empty_library_with_path(self):
         """The website map is defined in a toml file."""

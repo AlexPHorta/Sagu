@@ -3,6 +3,11 @@ import collections
 import tomllib
 
 
+class InvalidPathFileError(Exception):
+    def __init__(self):
+        super().__init__("Invalid website map file")
+
+
 class Library:
     """Store information about the website structure and the posts."""
 
@@ -14,8 +19,11 @@ class Library:
 
     def load_paths(self, paths):
         if paths is not None:
-            with open(paths, "rb") as paths_file:
-                paths = tomllib.load(paths_file)
+            try:
+                with open(paths, "rb") as paths_file:
+                    paths = tomllib.load(paths_file)
+            except TypeError as err:
+                raise InvalidPathFileError
 
         return paths
 
