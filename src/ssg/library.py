@@ -18,6 +18,7 @@ class Library:
         self.flat_tree = self.flatten(self.tree) if paths_configuration is not None else None
 
     def load_paths(self, paths):
+        """Load the website's paths from a toml file."""
         if paths is not None:
             try:
                 with open(paths, "rb") as paths_file:
@@ -45,7 +46,19 @@ class Library:
                 items.extend(self.flatten(value, new_key, separator).items())
             else:
                 items.append((new_key, value))
-        return dict(items)
+
+        flat_paths = dict(items)
+
+        if not self.validate(flat_paths):
+            raise InvalidPathFileError
+
+        return flat_paths
+
+    def validate(self, flat_dict):
+        for v in flat_dict.values():
+            if not (isinstance(v, dict) and len(v)==0):
+                return False
+        return True
 
     def add_post(self, the_post):
         """

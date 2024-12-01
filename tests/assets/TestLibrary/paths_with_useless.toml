@@ -1,0 +1,33 @@
+[about]
+[about.applications]
+[about.quotes]
+[about.getting_started]
+
+useless_key = "value"
+
+[downloads]
+[downloads.all_releases]
+[downloads.source_code]
+[downloads.windows]
+[downloads.mac_os]
+[downloads.other_platforms]
+
+another_one = 3.14
+
+[documentation]
+[documentation.beginners_guide]
+[documentation.developers_guide]
+[documentation.faq]
+
+spec.color = "this is invalid too"
+spec.shape = "and this one"
+spec.empty.values.wrong.too = ""
+
+[community]
+[community.mailing_lists]
+[community.forums]
+[community.conferences]
+
+[news]
+
+
