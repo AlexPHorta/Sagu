@@ -28,14 +28,14 @@ class TestLibrary:
             with io.BytesIO(b"Invalid") as invalid_file:
                 library.Library(invalid_file)
 
+    def test_empty_library_with_useless_entries(self):
+        with pytest.raises(library.InvalidPathFileError):
+            _library = library.Library(asset("TestLibrary/paths_with_useless.toml"))
+
     def test_empty_library_with_path(self):
         """The website map is defined in a toml file."""
         _library = library.Library(asset("TestLibrary/paths.toml"))
         assert _library.flat_tree == results.test_flat_paths
-
-    def test_empty_library_with_useless_entries(self):
-        with pytest.raises(library.InvalidPathFileError):
-            _library = library.Library(asset("TestLibrary/paths_with_useless.toml"))
 
     def test_library_with_path_and_posts(self, mock_library):
         """Posts added to the library will be tested against the paths when added."""
