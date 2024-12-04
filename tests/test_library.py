@@ -29,6 +29,7 @@ class TestLibrary:
                 library.Library(invalid_file)
 
     def test_empty_library_with_useless_entries(self):
+        """The website map must generate a flat dict with empty dicts as values."""
         with pytest.raises(library.InvalidPathFileError):
             _library = library.Library(asset("TestLibrary/paths_with_useless.toml"))
 
