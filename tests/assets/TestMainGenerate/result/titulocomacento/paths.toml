@@ -1,0 +1,24 @@
+#
+# This is the paths file. This is where you'll define your project's folder structure.
+# Just add tables (only tables, no key/value pairs, no nothing) in TOML's format, like this:
+# 
+# [animals.dogs]
+# [animals.dogs.images]
+# [animals.cats]
+# [animals.cats.images]
+# [contact]
+# 
+# You'll end up with the following website structure (rooted in the output folder):
+#
+# animals/
+# animals/dogs/
+# animals/dogs/images/
+# animals/cats/
+# animals/cats/images/
+# contact/
+#
+# In your posts, add the following directive in the [meta] section to place the post
+# in the corresponding folder. For example:
+#
+# path = "animals:dogs:images"
+#

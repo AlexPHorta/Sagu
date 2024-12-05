@@ -1,0 +1,5 @@
+SITENAME = "Título com Acento"
+SITEAUTHOR = "Cebolinha"
+SITELANGUAGE = "fr"
+SITEURL = "www.cebolinhateste.com"
+SITETIMEZONE = "America/Sao_Paulo"

@@ -4,6 +4,9 @@ import sys
 from src.ssg import kickstart
 
 
+def generate():
+    ...
+
 def parse_args(args):
     """Auxiliary function to ease the testing of the parser."""
     parser = argparse.ArgumentParser()
