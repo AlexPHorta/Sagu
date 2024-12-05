@@ -1,4 +1,5 @@
 import argparse
+import shutil
 
 import pytest
 
@@ -22,5 +23,9 @@ class TestMain:
 
     def test_main_generate_website(self):
         with temporary_folder() as temp:
-            assert False
-            # assert equal_dirs(temp, asset("TestOrganizer"), ignore=ignores) is True
+            # Copy a basic website project to temp
+            shutil.copytree(asset("TestMainGenerate"), temp,
+                            ignore=shutil.ignore_patterns("result"),
+                            dirs_exist_ok=True)
+            app.generate()
+            assert equal_dirs(temp, asset("TestMainGenerate/result")) is True

@@ -1,0 +1,35 @@
+[meta]
+title = "Mastiff"
+creation_date = 2024-09-22T10:27:00
+last_modified = 2024-09-22T18:27:00
+slug = "the-colossal-mastiff"
+path = "animals:dogs"
+
+[content]
+markdown = """
+The Mastiff, often referred to as the **English Mastiff**, is one of the largest dog breeds and is known for its imposing size, gentle nature, and loyal temperament. Here are some key points about the breed:
+
+## Appearance:
+- **Size**: Mastiffs are massive dogs, with males often weighing between **160–230 pounds (72–104 kg)** and females slightly smaller.
+- **Height**: They typically stand around **27–30 inches (69–76 cm)** at the shoulder, with males being taller.
+- **Build**: They have a broad, muscular body with a deep chest and a strong, square-shaped head.
+- **Coat**: Their coat is short, dense, and straight, often coming in colors like **fawn, apricot, or brindle**, with a dark mask on the face.
+
+## Temperament:
+- Despite their size, Mastiffs are known as **gentle giants**. They are calm, affectionate, and good with families.
+- They are naturally protective and make excellent watchdogs without being overly aggressive.
+- Mastiffs are typically friendly and patient with children, though their size requires supervision around small kids.
+
+## History:
+- The Mastiff's history dates back thousands of years, with ancestors believed to have been used as guard dogs, war dogs, and hunting companions in ancient civilizations.
+- In England, they were refined into the breed we know today, used as protectors of estates and livestock.
+
+## Care Needs:
+- **Exercise**: They require moderate exercise to stay healthy but don’t need intense activity. Daily walks and playtime are sufficient.
+- **Training**: Early socialization and consistent, positive reinforcement training are essential to manage their size and ensure good behavior.
+- **Health**: Mastiffs are prone to certain health issues, including **hip dysplasia**, **bloat**, and heart problems. Regular vet check-ups are crucial.
+- **Lifespan**: They generally live between **6–10 years**, which is typical for giant breeds.
+
+## Fun Fact:
+The Mastiff holds a record for being one of the heaviest dogs ever recorded. A Mastiff named **Zorba** weighed an astounding **343 pounds (156 kg)** in the late 1980s!
+"""

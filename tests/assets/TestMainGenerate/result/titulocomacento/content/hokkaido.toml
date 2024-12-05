@@ -1,0 +1,37 @@
+[meta]
+title = "Hokkaido"
+creation_date = 2024-09-22T10:29:00
+last_modified = 2024-09-24T18:28:00
+slug = "the-ancient-hokkaido"
+path = "animals:dogs"
+
+[content]
+markdown = """
+The **Hokkaido** dog, also known as the **Ainu dog**, is a rare and ancient breed from Japan, renowned for its loyalty, resilience, and adaptability to harsh climates. Here’s an overview of the breed:
+
+## Appearance:
+- **Size**: Medium-sized dogs weighing between **44–66 pounds (20–30 kg)**, with a height of **18–22 inches (46–56 cm)** at the shoulder.
+- **Build**: Compact and muscular with a sturdy, athletic frame.
+- **Coat**: Dense, double-coated fur designed for cold weather, available in various colors, including **red, white, black, brindle, sesame, and wolf-grey**.
+- **Features**: Triangular, upright ears, almond-shaped eyes, and a curled or sickle-shaped tail.
+
+## Temperament:
+- **Loyal and Devoted**: Strongly bonded to their families and protective by nature.
+- **Intelligent**: Quick learners but can be independent, so training requires patience and consistency.
+- **Brave and Alert**: Known for their courage and excellent guarding abilities.
+- **Social**: Friendly with family members but can be reserved around strangers and other animals without proper socialization.
+
+## History:
+- Originating from **Hokkaido**, Japan, the breed is believed to have been brought by the **Ainu people**, indigenous to the region, over 1,000 years ago.
+- Traditionally used for **hunting large game**, including bears, the Hokkaido dog is known for its remarkable endurance and tracking skills in rugged terrains and severe weather.
+
+## Care Needs:
+- **Exercise**: High energy levels require regular physical activity, such as long walks, hikes, or active play.
+- **Training**: Early socialization and consistent, positive training methods are key to managing their independent streak.
+- **Grooming**: Weekly brushing is sufficient most of the year, but shedding increases during seasonal coat changes.
+- **Health**: Generally healthy, but they may be prone to certain conditions like **hip dysplasia** or **collie eye anomaly**.
+- **Lifespan**: They typically live between **11–13 years**.
+
+## Fun Fact:
+The Hokkaido dog was designated as a **Natural Monument of Japan** in 1937 due to its cultural and historical significance.
+"""
