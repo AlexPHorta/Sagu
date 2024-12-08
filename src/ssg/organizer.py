@@ -11,7 +11,7 @@ class Organizer:
 
     def gen_output(self, destination):  # the output directory
         for k, i in self.library.flat_tree.items():
-            p = pathlib.PurePath(destination, *k.split(":"))
+            p = pathlib.Path(destination, *k.split(":"))
             pathlib.Path(str(p)).mkdir(parents=True)
 
             for id_ in i:

@@ -55,3 +55,13 @@ class TestLibrary:
         _post = post.Post(asset("simple_ok_post.toml"), website_path=mock_library.flat_tree)
         mock_library.add_post(_post)
         assert mock_library.get_post(_post.id) == _post
+
+    def test_flatten(self):
+        cases = [
+                ({"A": {}}, {"A": {}}),
+                ({"A": {"B": {}}}, {"A": {}, "A:B": {}}),
+                ({"A": {"B": {"C": {}}}}, {"A": {}, "A:B": {}, "A:B:C": {}}),
+        ]
+        lib = library.Library()
+        for case in cases:
+            assert lib.flatten(case[0]) == case[1]

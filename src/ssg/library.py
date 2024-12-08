@@ -43,6 +43,7 @@ class Library:
         for key, value in dictionary.items():
             new_key = str(parent_key) + separator + key if parent_key else key
             if isinstance(value, collections.abc.MutableMapping) and len(value) > 0:
+                items.append((new_key, {}))
                 items.extend(self.flatten(value, new_key, separator).items())
             else:
                 items.append((new_key, value))

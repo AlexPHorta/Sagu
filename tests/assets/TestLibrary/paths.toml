@@ -5,6 +5,7 @@
 
 [downloads]
 [downloads.all_releases]
+[downloads.all_releases.yearly]
 [downloads.source_code]
 [downloads.windows]
 [downloads.mac_os]
@@ -21,5 +22,3 @@
 [community.conferences]
 
 [news]
-
-

@@ -1,0 +1,36 @@
+[meta]
+title = "Siamese"
+creation_date = 2022-10-22T10:27:00
+last_modified = 2024-09-02T18:27:00
+slug = "siamese-cat"
+path = "animals:cats"
+
+[content]
+markdown = """
+The **Siamese cat** is one of the most well-known and distinctive cat breeds, cherished for its striking appearance, vocal nature, and affectionate personality. Here’s an overview of this elegant breed:
+
+### Appearance:
+- **Size**: Medium-sized cats weighing **6–14 pounds (2.7–6.4 kg)**, with a sleek, muscular body.
+- **Coat**: Short, fine, and glossy, with a unique **color-point pattern**. Their bodies are lighter in color, with darker shades on the ears, face, paws, and tail. Common colors include **seal point, chocolate point, blue point, and lilac point**.
+- **Eyes**: Bright, almond-shaped, and a vivid **blue**—one of their most captivating features.
+- **Ears**: Large and pointed, giving them a regal and alert look.
+
+### Temperament:
+- **Affectionate and Social**: Siamese cats love human companionship and often form strong bonds with their owners.
+- **Talkative**: Known for their loud, expressive voices, they’re not shy about "talking" to their humans.
+- **Playful and Energetic**: These cats are curious and enjoy interactive play, climbing, and exploring.
+- **Intelligent**: They are highly trainable and can even learn tricks, but they also need mental stimulation to prevent boredom.
+
+### History:
+- The Siamese cat originated in **Thailand** (formerly Siam) and has been revered for centuries, appearing in ancient manuscripts like the **Tamra Maew** (The Cat Book Poems).
+- They were considered sacred and kept by royalty, eventually making their way to the West in the late 19th century.
+
+### Care Needs:
+- **Grooming**: Minimal grooming is needed due to their short coat. Weekly brushing helps maintain their sleek appearance.
+- **Exercise and Stimulation**: They need plenty of playtime and toys to engage their active minds and bodies.
+- **Health**: Siamese cats are generally healthy but may be prone to conditions such as **progressive retinal atrophy**, **respiratory issues**, and **dental problems**.
+- **Lifespan**: They typically live **12–15 years** or more with proper care.
+
+### Fun Fact:
+Siamese cats are often the inspiration for artistic and cultural portrayals of elegant, exotic felines, and their characteristic "pointed" coat pattern arises from a temperature-sensitive genetic trait.
+"""

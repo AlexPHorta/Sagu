@@ -15,17 +15,22 @@ test_paths = {
 }
 
 test_flat_paths = {
+    "about": {},
     "about:applications": {},
     "about:quotes": {},
     "about:getting_started": {},
+    "downloads": {},
     "downloads:all_releases": {},
+    "downloads:all_releases:yearly": {},
     "downloads:source_code": {},
     "downloads:windows": {},
     "downloads:mac_os": {},
     "downloads:other_platforms": {},
+    "documentation": {},
     "documentation:beginners_guide": {},
     "documentation:developers_guide": {},
     "documentation:faq": {},
+    "community": {},
     "community:mailing_lists": {},
     "community:forums": {},
     "community:conferences": {},

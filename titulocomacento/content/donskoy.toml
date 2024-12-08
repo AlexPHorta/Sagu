@@ -1,0 +1,38 @@
+[meta]
+title = "Donskoy"
+creation_date = 2023-09-22T10:27:00
+last_modified = 2024-04-22T18:27:00
+slug = "donskoy"
+path = "animals:cats"
+
+[content]
+markdown = """
+The **Donskoy** cat, also known as the **Don Sphynx**, is a rare and striking breed known for its hairless appearance and affectionate nature. Here’s a detailed overview of this unique breed:
+
+## Appearance:
+- **Size**: Medium-sized cats weighing **6–12 pounds (2.7–5.5 kg)**, with a muscular yet elegant build.
+- **Coat**: Typically hairless, though some may have a fine, velvety fuzz. There are also variations with short, soft fur that may disappear with age. Their skin is warm and wrinkled, especially around the face and neck.
+- **Colors**: The Donskoy comes in a wide range of skin and coat colors and patterns, including solid, tabby, and bicolor.
+- **Eyes**: Almond-shaped, expressive eyes that enhance their exotic appearance.
+- **Ears**: Large, wide-set, and upright, giving them a curious and alert look.
+
+## Temperament:
+- **Affectionate and Social**: Donskoy cats love human interaction and are incredibly loyal to their families.
+- **Intelligent**: They are highly trainable and enjoy games, puzzles, and learning tricks.
+- **Playful**: Energetic and curious, they love to explore and interact with toys or people.
+- **Friendly**: These cats are good with children, other cats, and even dogs, making them great family pets.
+
+## History:
+- The Donskoy originated in **Russia** in 1987 when a hairless kitten named Varvara was rescued by a breeder in the city of Rostov-on-Don.
+- Unlike the better-known Sphynx cat, the Donskoy's hairlessness is caused by a **dominant gene** rather than a recessive one.
+
+## Care Needs:
+- **Skin Care**: Without fur, Donskoys require regular baths to remove oil buildup and maintain healthy skin.
+- **Warmth**: They are sensitive to cold and prefer warm, cozy environments. Sweaters or heated beds can help them stay comfortable.
+- **Exercise**: They are active cats and benefit from climbing, running, and playing with interactive toys.
+- **Health**: Generally healthy, though they may be prone to skin issues and dental problems. Regular vet visits are important.
+- **Lifespan**: They typically live **12–15 years** or more with proper care.
+
+## Fun Fact:
+The Donskoy's hairlessness doesn’t make them hypoallergenic, as cat allergies are caused by proteins in saliva and skin, not fur. However, some allergy sufferers may find them easier to live with.
+"""

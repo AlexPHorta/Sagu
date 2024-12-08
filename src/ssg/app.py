@@ -1,11 +1,30 @@
 import argparse
+import pathlib
 import sys
 
-from src.ssg import kickstart
+from src.ssg import builder, kickstart, library, organizer, post
+
+THEME = 'sagu'
 
 
-def generate():
-    ...
+def generate(paths_file = 'paths.toml', root='.'):
+    root = pathlib.Path(root)
+    lib = library.Library(pathlib.Path(root, paths_file))
+
+    # Add the posts to library
+    for p in pathlib.Path(root, 'content').iterdir():
+        print(p)
+        lib.add_post(post.Post(p))
+        print(lib.flat_tree)
+
+    # Set up the builder
+    theme = pathlib.Path(root, 'themes', THEME)
+    build = builder.Builder(theme)
+
+    # Set up the organizer
+    organize = organizer.Organizer(lib, build)
+    organize.gen_output(pathlib.Path(root, 'output'))
+
 
 def parse_args(args):
     """Auxiliary function to ease the testing of the parser."""
