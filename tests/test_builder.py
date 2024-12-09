@@ -4,7 +4,7 @@ from .utils_for_testing import asset
 
 
 class TestBuilder:
-    def test_builder(self):
+    def test_builder(self, capsys):
         """The builder will manage the mixing of posts and templates."""
         _builder = builder.Builder(asset("TestBuilder/"))
         template = _builder.env.get_template("basic.jinja")

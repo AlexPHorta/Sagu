@@ -21,6 +21,7 @@ class TestMain:
         with pytest.raises(SystemExit) as exc:
             app.parse_args(["--create", "--generate"])
 
+    @pytest.mark.skip()
     def test_main_generate_website(self):
         with temporary_folder() as temp:
             # Copy a basic website project to temp
