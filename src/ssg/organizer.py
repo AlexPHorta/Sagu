@@ -12,7 +12,7 @@ class Organizer:
     def gen_output(self, destination):  # the output directory
         for k, i in self.library.flat_tree.items():
             p = pathlib.Path(destination, *k.split(":"))
-            pathlib.Path(str(p)).mkdir(parents=True)
+            pathlib.Path(str(p)).mkdir(parents=True, exist_ok=True)
 
             for id_ in i:
                 # generate the html

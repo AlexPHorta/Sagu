@@ -2,24 +2,24 @@ import argparse
 import pathlib
 import sys
 
-from src.ssg import builder, kickstart, library, organizer, post
+# from src.ssg import builder, kickstart, library, organizer, post
+from ssg import builder, kickstart, library, organizer, post
 
 THEME = 'sagu'
 
 
 def generate(paths_file = 'paths.toml', root='.'):
     root = pathlib.Path(root)
+    settings = {"website_root": root}
     lib = library.Library(pathlib.Path(root, paths_file))
 
     # Add the posts to library
     for p in pathlib.Path(root, 'content').iterdir():
-        print(p)
         lib.add_post(post.Post(p))
-        print(lib.flat_tree)
 
     # Set up the builder
     theme = pathlib.Path(root, 'themes', THEME)
-    build = builder.Builder(theme)
+    build = builder.Builder(theme, settings)
 
     # Set up the organizer
     organize = organizer.Organizer(lib, build)

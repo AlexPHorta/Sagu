@@ -52,7 +52,7 @@ class Post:
         self.filename = self.get_filename()
 
         self.raw_content = post_object["content"]
-        self.content = self.process_content()
+        self.maincontent = self.process_content()
 
     def reader(self, post_path):
         """

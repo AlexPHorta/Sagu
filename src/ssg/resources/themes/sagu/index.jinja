@@ -1,14 +1,14 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ SITELANGUAGE }}">
   <head>
     {% block head %}
     <meta charset="utf-8" />
     <meta http-equiv="x-ua-compatible" content="ie=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Example</title>
-    <link rel="stylesheet" href="static/css/reset.css" />
-    <link rel="stylesheet" href="static/css/base.css" />
+    <title>{{ SITENAME }}</title>
+    <link rel="stylesheet" href="{{ STATIC }}/css/reset.css" />
+    <link rel="stylesheet" href="{{ STATIC }}/css/base.css" />
     <link rel="icon" href="static/images/favicon.png" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -20,21 +20,16 @@
 
     <header>
         <h1>{{ SITENAME }}</h1>
-        {% include "menu.html.jinja" %}
+        {% include "menu.jinja" %}
     </header>
 
     <hr class="frame" />
 
     <main>
-      {% include "breadcrumb.html.jinja" %}
+      {% include "breadcrumb.jinja" %}
 
-      {% block content %}
+      {% include "content.jinja" %}
 
-      <h2>You need to fill it</h2>
-
-      <p>It seems you need to write something to fill this place.</p>
-
-      {% endblock %}
     </main>
 
     <hr class="frame" />
