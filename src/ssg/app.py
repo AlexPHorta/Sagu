@@ -1,16 +1,34 @@
 import argparse
 import pathlib
 import sys
+import tomllib
 
-# from src.ssg import builder, kickstart, library, organizer, post
-from ssg import builder, kickstart, library, organizer, post
+from src.ssg import builder, kickstart, library, organizer, post
+# from ssg import builder, kickstart, library, organizer, post
 
-THEME = 'sagu'
 
+def load_settings(root):
+    settings = {"website_root": root}
+
+    try:
+        with open("settings.toml", 'rb') as s:
+            settings.update(tomllib.load(s))
+    except:
+        raise TypeError("Wrong settings file type")
+
+    settings.update({"THEME_STATIC": pathlib.Path(
+                                        root,
+                                        "themes",
+                                        settings["THEME"],
+                                        settings["STATIC"]
+                                        ).absolute()})
+
+    return settings
 
 def generate(paths_file = 'paths.toml', root='.'):
     root = pathlib.Path(root)
-    settings = {"website_root": root}
+    settings = load_settings(root)
+    
     lib = library.Library(pathlib.Path(root, paths_file))
 
     # Add the posts to library
@@ -18,7 +36,7 @@ def generate(paths_file = 'paths.toml', root='.'):
         lib.add_post(post.Post(p))
 
     # Set up the builder
-    theme = pathlib.Path(root, 'themes', THEME)
+    theme = pathlib.Path(root, 'themes', settings["THEME"])
     build = builder.Builder(theme, settings)
 
     # Set up the organizer

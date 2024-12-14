@@ -3,3 +3,14 @@ SITEAUTHOR = ""
 SITELANGUAGE = "en"
 SITEURL = ""
 SITETIMEZONE = "Europe/Rome"
+
+THEME = "sagu"
+BASETEMPLATE = "index.jinja"
+STATIC = "static"
+
+MENUITEMS = [
+{ link = "animals/dogs/the-noble-akita.html", title = "Akita" },
+{ link = "animals/cats/kurilian-bobtail-has-a-bobbed-tail.html", title = "Kurilian Bobtail" },
+{ link = "animals/cats/donskoy.html", title = "Donskoy" },
+{ link = "animals/dogs/the-colossal-mastiff.html", title = "Mastiff" }
+]

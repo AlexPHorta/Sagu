@@ -62,7 +62,7 @@ class TestPost:
         """Retrieve a post with markdown content."""
         _library = library.Library(asset("basic_paths.toml"))
         _post = post.Post(asset("simple_ok_post_with_markdown_content.toml"), website_path=_library.flat_tree)
-        assert _post.content == results.content_markdown
+        assert _post.maincontent == results.content_markdown
 
     def test_post_with_slug(self):
         """The slug, if present, defines the post's filename."""

@@ -15,6 +15,19 @@ class TestOrganizer:
         return post.Post(asset("simple_ok_alternative_post.toml"))
 
     @pytest.fixture
+    def mock_settings(self):
+        settings = {"SITENAME": "Default Project",
+                    "SITEAUTHOR": "TestAuthor",
+                    "SITELANGUAGE": "en",
+                    "SITEURL": "www.test.com",
+                    "SITETIMEZONE": "Europe/Rome",
+                    "THEME": "sagu",
+                    "BASETEMPLATE": "index.jinja",
+                    "STATIC": "static",
+                    }
+        return settings
+
+    @pytest.fixture
     def mock_library(self, post1, post2):
         _library = library.Library(asset("basic_paths.toml"))
         _library.add_post(post1)
@@ -22,12 +35,12 @@ class TestOrganizer:
         return _library
 
     @pytest.fixture
-    def mock_builder(self):
-        return builder.Builder(asset("TestBuilder/"))
+    def mock_builder(self, mock_settings):
+        return builder.Builder(asset("TestBuilder/"), mock_settings)
 
     @pytest.fixture
     def template(self, mock_builder):
-        return mock_builder.env.get_template("index.jinja")
+        return mock_builder.template
 
     @pytest.fixture
     def mock_organizer(self, mock_library, mock_builder):
