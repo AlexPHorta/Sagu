@@ -13,18 +13,42 @@ class TestPost:
     def mock_post(self):
         return post.Post(asset("basic.toml"))
 
-    def test_reader(self, mock_post):
-        """Read the post's toml file and generate the post object."""
-        assert mock_post.reader(mock_post.post_path) == results.basic
+    @pytest.fixture
+    def mock_basic_post_results(self):
+        basic = {
+            "meta": {"title": "Document title",
+                     "creation_date": datetime.datetime(2024, 9, 22, 10, 27)},  # noqa: DTZ001
+            "content": {"markdown": "Example text.\n"},
+        }
+        return basic
 
-    def test_basic_post(self, mock_post):
+    @pytest.fixture
+    def mock_markdown_content(self):
+        content_markdown = (
+            "<p>Markdown is a <strong>lightweight markup language</strong> "
+            "used to format plain text. It's simple to use and can be "
+            "converted to HTML or other formats. Below are some key "
+            "features of markdown:</p>\n<h3>1. Headers</h3>\n<p>You can "
+            "create headers by using the <code>#</code> symbol:\n- "
+            "<code>#</code> for a main header (H1)\n- <code>##</code> for "
+            "a subheader (H2)\n- <code>###</code> for a smaller header "
+            "(H3), and so on.</p>\n<p>Example:\n```markdown</p>\n<h1>This "
+            "is an H1</h1>\n<h2>This is an H2</h2>"
+        )
+        return content_markdown
+
+    def test_reader(self, mock_post, mock_basic_post_results):
+        """Read the post's toml file and generate the post object."""
+        assert mock_post.reader(mock_post.post_path) == mock_basic_post_results
+
+    def test_basic_post(self, mock_post, mock_basic_post_results):
         """A basic post has the title, the creation date, and the content."""
         attributes = {
             "id": "161b7313299edeaa9a130fea6021382f",
             "title": "Document title",
             "creation_date": datetime.datetime(2024, 9, 22, 10, 27),  # noqa: DTZ001
             "last_update": datetime.datetime(2024, 9, 22, 10, 27),  # noqa: DTZ001
-            "raw_content": results.basic["content"],
+            "raw_content": mock_basic_post_results["content"],
             "author": None,
             "authors": None,
             "category": None,
@@ -55,14 +79,14 @@ class TestPost:
     def test_post_with_wrong_parent_path(self):
         """A post with a wrong path will trigger an exception."""
         _library = library.Library(asset("basic_paths.toml"))
-        with pytest.raises(KeyError):
+        with pytest.raises(post.InvalidPostPathError):
             post.Post(asset("wrong_parent_path.toml"), website_path=_library.flat_tree)
 
-    def test_post_content_markdown(self):
+    def test_post_content_markdown(self, mock_markdown_content):
         """Retrieve a post with markdown content."""
         _library = library.Library(asset("basic_paths.toml"))
         _post = post.Post(asset("simple_ok_post_with_markdown_content.toml"), website_path=_library.flat_tree)
-        assert _post.maincontent == results.content_markdown
+        assert _post.maincontent == mock_markdown_content
 
     def test_post_with_slug(self):
         """The slug, if present, defines the post's filename."""
@@ -87,6 +111,7 @@ class TestSanitize:
         assert post.sanitize("a") == "a"
         assert post.sanitize("A") == "a"
         assert post.sanitize("A a") == "a-a"
+        assert post.sanitize("a A") == "a-a"
         assert post.sanitize("A A") == "a-a"
         assert post.sanitize("Te$t") == "tet"
         assert post.sanitize("Te$t 2") == "tet-2"
