@@ -13,6 +13,10 @@ class InvalidMapSectionsError(Exception):
     def __init__(self):
         super().__init__("Invalid sections in website map file")
 
+class InvalidPostPathError(Exception):
+    def __init__(self):
+        super().__init__("Invalid path defined in post file")
+
 
 class Post:
     """Store information about the posts."""
@@ -84,7 +88,7 @@ class Post:
             if post_path in paths:
                 return post_path
             else:  # noqa: RET505
-                raise KeyError
+                raise InvalidPostPathError
         else:
             return post_path
 
