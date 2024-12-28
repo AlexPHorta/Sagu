@@ -12,7 +12,8 @@ def load_settings(root):
 
     try:
         with open("settings.toml", 'rb') as s:
-            settings.update(tomllib.load(s))
+            user_settings = tomllib.load(s)
+            settings.update(user_settings)
     except:
         raise TypeError("Wrong settings file type")
 

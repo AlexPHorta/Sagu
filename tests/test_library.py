@@ -56,6 +56,11 @@ class TestLibrary:
         mock_library.add_post(_post)
         assert mock_library.get_post(_post.id) == _post
 
+    def test_get_post_by_slug(self, mock_library):
+        _post = post.Post(asset("simple_ok_post.toml"), website_path=mock_library.flat_tree)
+        mock_library.add_post(_post)
+        assert mock_library.get_post_by_slug("document-with-slug") == _post
+
     def test_flatten(self):
         cases = [
                 ({"A": {}}, {"A": {}}),

@@ -80,6 +80,9 @@ class Library:
         """
         return self.find_key_nonrecursive(self.flat_tree, post_id)
 
+    def get_post_by_slug(self, slug):
+        ...
+
     # https://stackoverflow.com/a/2524202
     def find_key_nonrecursive(self, a_dict, key):
         """Find a key in a nested dictionary."""
