@@ -7,3 +7,9 @@ SITETIMEZONE = "America/Sao_Paulo"
 THEME = "sagu"
 BASETEMPLATE = "index.jinja"
 STATIC = "static"
+
+MENUITEMS = [
+{ title = "Akita", link = "the-noble-akita"},
+{ title = "Donskoy", link = "donskoy"}
+]
+

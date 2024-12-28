@@ -1,7 +1,7 @@
 <nav>
     <menu>
-        {% for title, link in MENUITEMS %}
-            <li><a href="{{ link }}">{{ title }}</a></li>
+        {% for item in MENUITEMS %}
+            <li><a href="{{ item.link }}">{{ item.title }}</a></li>
         {% endfor %}
     </menu>
 </nav>
