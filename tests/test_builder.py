@@ -39,5 +39,5 @@ class TestBuilder:
         _builder = builder.Builder(asset("TestBuilder/"), mock_settings)
         template = _builder.template
         with open(asset("TestBuilder/index.html")) as f:
-            test_builder_post = _library.get_post(_post.id)
+            test_builder_post = _library.get_post_by_id(_post.id)
             assert template.render(test_builder_post.get_contents()) == f.read()

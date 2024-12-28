@@ -16,7 +16,7 @@ class Organizer:
 
             for id_ in i:
                 # generate the html
-                post = self.library.get_post(id_)
+                post = self.library.get_post_by_id(id_)
                 filename = post.filename + ".html"
                 post_html = self.builder.template.render(post.get_contents())
                 pathlib.Path(str(p), filename).write_text(post_html)

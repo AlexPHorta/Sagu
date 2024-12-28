@@ -54,7 +54,7 @@ class TestPost:
             "category": None,
             "tags": None,
             "keywords": None,
-            "slug": None,
+            "slug": "document-title",
             "summary": None,
             "status": None,
             "path": None,
@@ -98,6 +98,11 @@ class TestPost:
         _post = post.Post(asset("simple_post_unsafe_slug.toml"))
         assert _post.filename == "document-1"
 
+    def test_post_no_slug(self):
+        """If no slug was specified, parse the title to get one."""
+        _post = post.Post(asset("basic.toml"))
+        assert _post.filename == "document-title"
+        assert _post.slug == "document-title"
 
 class TestSanitize:
     def test_sanitize(self):

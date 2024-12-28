@@ -69,10 +69,10 @@ class Library:
         """
 
         if the_post.path in self.flat_tree:
-            self.flat_tree[the_post.path].update({the_post.id: the_post})
+            self.flat_tree[the_post.path].update({frozenset((the_post.id, the_post.slug)): the_post})
             self.size += 1
 
-    def get_post(self, post_id):
+    def get_post_by_id(self, post_id):
         """
         Return a post's information to be processed.
 
@@ -80,8 +80,8 @@ class Library:
         """
         return self.find_key_nonrecursive(self.flat_tree, post_id)
 
-    def get_post_by_slug(self, slug):
-        ...
+    def get_post_by_slug(self, post_slug):
+        return self.find_key_nonrecursive(self.flat_tree, post_slug)
 
     # https://stackoverflow.com/a/2524202
     def find_key_nonrecursive(self, a_dict, key):
@@ -89,8 +89,9 @@ class Library:
         stack = [a_dict]
         while stack:
             d = stack.pop()
-            if key in d:
-                return d[key]
+            for k in d.keys():
+                if key in k:
+                    return d[k]
             for v in d.values():
                 if isinstance(v, dict):
                     stack.append(v)  # noqa: PERF401

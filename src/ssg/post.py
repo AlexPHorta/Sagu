@@ -46,7 +46,7 @@ class Post:
         self.category = m.get("category")
         self.tags = m.get("tags")
         self.keywords = m.get("keywords")
-        self.slug = m.get("slug")
+        self.slug = m.get("slug") if m.get("slug") is not None else sanitize(self.title)
         self.summary = m.get("summary")
         self.status = m.get("status")
 
