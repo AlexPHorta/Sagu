@@ -2,7 +2,7 @@ import datetime
 
 import pytest
 
-from src.ssg import library, post
+from src.sagu import library, post
 
 from .assets import results
 from .utils_for_testing import asset

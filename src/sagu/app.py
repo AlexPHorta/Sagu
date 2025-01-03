@@ -3,7 +3,7 @@ import pathlib
 import sys
 import tomllib
 
-from src.ssg import builder, kickstart, library, organizer, post
+from src.sagu import builder, kickstart, library, organizer, post
 # from ssg import builder, kickstart, library, organizer, post
 
 

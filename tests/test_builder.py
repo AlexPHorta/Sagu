@@ -1,6 +1,6 @@
 import pytest
 
-from src.ssg import builder, library, post
+from src.sagu import builder, library, post
 
 from .utils_for_testing import asset
 

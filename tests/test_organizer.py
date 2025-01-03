@@ -1,6 +1,6 @@
 import pytest
 
-from src.ssg import builder, library, organizer, post
+from src.sagu import builder, library, organizer, post
 
 from .utils_for_testing import asset, equal_dirs, temporary_folder
 

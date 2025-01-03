@@ -3,7 +3,7 @@ import pathlib
 import pytest
 import tomllib
 
-from src.ssg import kickstart
+from src.sagu import kickstart
 
 from .utils_for_testing import asset, equal_dirs, temporary_folder
 

@@ -3,7 +3,7 @@ import shutil
 
 import pytest
 
-from src.ssg import app
+from src.sagu import app
 from .utils_for_testing import asset, equal_dirs, temporary_folder
 
 

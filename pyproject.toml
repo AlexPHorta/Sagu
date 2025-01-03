@@ -21,6 +21,7 @@ classifiers = [
   "Programming Language :: Python :: 3.10",
   "Programming Language :: Python :: 3.11",
   "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
   "Programming Language :: Python :: Implementation :: CPython",
   "Programming Language :: Python :: Implementation :: PyPy",
 ]
@@ -36,7 +37,7 @@ Issues = "https://github.com/AlexHorta/ssg/issues"
 Source = "https://github.com/AlexHorta/ssg"
 
 [tool.hatch.version]
-path = "src/ssg/__about__.py"
+path = "sagu/__init__.py"
 
 [tool.hatch.envs.hatch-test]
 pythonpath = "ssg"
@@ -46,18 +47,18 @@ extra-dependencies = [
   "mypy>=1.0.0",
 ]
 [tool.hatch.envs.types.scripts]
-check = "mypy --install-types --non-interactive {args:src/ssg tests}"
+check = "mypy --install-types --non-interactive {args:src/sagu tests}"
 
 [tool.coverage.run]
 source_pkgs = ["ssg", "tests"]
 branch = true
 parallel = true
 omit = [
-  "src/ssg/__about__.py",
+  "src/sagu/__about__.py",
 ]
 
 [tool.coverage.paths]
-ssg = ["src/ssg", "*/ssgen/src/ssg"]
+ssg = ["src/sagu", "*/ssgen/src/sagu"]
 tests = ["tests", "*/ssg/tests"]
 
 [tool.coverage.report]
