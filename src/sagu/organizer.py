@@ -14,9 +14,9 @@ class Organizer:
             p = pathlib.Path(destination, *k.split(":"))
             pathlib.Path(str(p)).mkdir(parents=True, exist_ok=True)
 
-            for id_ in i:
+            for _post in i.values():
                 # generate the html
-                post = self.library.get_post_by_id(id_)
+                post = self.library.get_post_by_id(_post.id)
                 filename = post.filename + ".html"
                 post_html = self.builder.template.render(post.get_contents())
                 pathlib.Path(str(p), filename).write_text(post_html)
