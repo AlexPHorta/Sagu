@@ -1,8 +1,8 @@
 import hashlib
 import re
+import tomllib
 
 import markdown
-import tomllib
 
 TEMPLATE = "index.jinja"
 
