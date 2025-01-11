@@ -3,7 +3,7 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
-name = "ssg"
+name = "Sagu"
 dynamic = ["version"]
 description = 'A static site generator.'
 readme = "README.md"
@@ -40,7 +40,12 @@ Source = "https://github.com/AlexHorta/ssg"
 path = "sagu/__init__.py"
 
 [tool.hatch.envs.hatch-test]
-pythonpath = "ssg"
+pythonpath = "sagu"
+dependencies = [
+"Markdown>=3.7",
+"Jinja2>=3.1.4",
+"tomli-w>=1.0.0",
+]
 
 [tool.hatch.envs.types]
 extra-dependencies = [
@@ -50,7 +55,7 @@ extra-dependencies = [
 check = "mypy --install-types --non-interactive {args:src/sagu tests}"
 
 [tool.coverage.run]
-source_pkgs = ["ssg", "tests"]
+source_pkgs = ["sagu", "tests"]
 branch = true
 parallel = true
 omit = [
@@ -59,7 +64,7 @@ omit = [
 
 [tool.coverage.paths]
 ssg = ["src/sagu", "*/ssgen/src/sagu"]
-tests = ["tests", "*/ssg/tests"]
+tests = ["tests", "*/sagu/tests"]
 
 [tool.coverage.report]
 exclude_lines = [
