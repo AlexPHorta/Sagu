@@ -3,9 +3,9 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
-name = "Sagu"
+name = "sagu"
 dynamic = ["version"]
-description = 'A static site generator.'
+description = 'A static website generator.'
 readme = "README.md"
 requires-python = ">=3.8"
 license = "MIT"
@@ -16,36 +16,25 @@ authors = [
 classifiers = [
   "Development Status :: 4 - Beta",
   "Programming Language :: Python",
-  "Programming Language :: Python :: 3.8",
   "Programming Language :: Python :: 3.9",
   "Programming Language :: Python :: 3.10",
   "Programming Language :: Python :: 3.11",
   "Programming Language :: Python :: 3.12",
-  "Programming Language :: Python :: 3.13",
   "Programming Language :: Python :: Implementation :: CPython",
   "Programming Language :: Python :: Implementation :: PyPy",
 ]
 dependencies = [
 "Markdown>=3.7",
-"Jinja2>=3.1.4",
-"tomli-w>=1.0.0",
-]
+"Jinja2>=3.1.5",
+"tomli-w>=1.1.0"]
 
 [project.urls]
-Documentation = "https://github.com/AlexHorta/ssg#readme"
-Issues = "https://github.com/AlexHorta/ssg/issues"
-Source = "https://github.com/AlexHorta/ssg"
+Documentation = "https://github.com/AlexPHorta/Sagu#readme"
+Issues = "https://github.com/AlexPHorta/Sagu/issues"
+Source = "https://github.com/AlexPHorta/Sagu"
 
 [tool.hatch.version]
-path = "sagu/__init__.py"
-
-[tool.hatch.envs.hatch-test]
-pythonpath = "sagu"
-dependencies = [
-"Markdown>=3.7",
-"Jinja2>=3.1.4",
-"tomli-w>=1.0.0",
-]
+path = "src/sagu/__about__.py"
 
 [tool.hatch.envs.types]
 extra-dependencies = [
@@ -63,7 +52,7 @@ omit = [
 ]
 
 [tool.coverage.paths]
-ssg = ["src/sagu", "*/ssgen/src/sagu"]
+sagu = ["src/sagu", "*/sagu/src/sagu"]
 tests = ["tests", "*/sagu/tests"]
 
 [tool.coverage.report]
