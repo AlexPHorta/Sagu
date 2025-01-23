@@ -3,15 +3,16 @@ import pathlib
 import sys
 import tomllib
 
-from src.sagu import builder, kickstart, library, organizer, post
-# from ssg import builder, kickstart, library, organizer, post
+# from src.sagu import builder, kickstart, library, organizer, post
+from sagu import builder, kickstart, library, organizer, post
 
 
 def load_settings(root):
     settings = {"website_root": root}
 
     try:
-        with open("settings.toml", 'rb') as s:
+        settings_file = pathlib.Path(root, "settings.toml").absolute()
+        with open(settings_file, 'rb') as s:
             user_settings = tomllib.load(s)
             settings.update(user_settings)
     except:
