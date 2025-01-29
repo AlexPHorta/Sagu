@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="{{ SITELANGUAGE }}">
+  <head>
+    {% block head %}
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>{{ SITENAME }}</title>
+    <link rel="stylesheet" href="{{ THEME_STATIC }}/css/reset.css" />
+    <link rel="stylesheet" href="{{ THEME_STATIC }}/css/base.css" />
+    <link rel="icon" href="static/images/favicon.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap" rel="stylesheet">
+    {% endblock %}
+  </head>
+
+  <body>
+    
+    <header>
+        <h1>{{ SITENAME }}</h1>
+<nav>
+    <menu>
+        {% for item in MENUITEMS %}
+            {% autoescape false %}
+            <li><a href="{{ item.href }}">{{ item.title }}</a></li>
+            {% endautoescape %}
+        {% endfor %}
+    </menu>
+</nav>
+    </header>
+
+    <hr class="frame" />
+
+    <main>
+<ul id="breadcrumb">
+    <li><a href="#">Home</a></li>
+    <li><a href="#">Articles</a></li>
+</ul>
+
+{% if maincontent %}
+<h2>{{ title }}</h2>
+{{ maincontent|safe }}
+{% else %}
+<h2>You need to write something here!</h2>
+{% endif %}
+
+    </main>
+
+    <hr class="frame" />
+
+    <footer>
+      {% block footer %}
+        <p>&#169; 2024 <a href="https://www.buey.net.br">Buey</a> - Made by <a rel="nofollow" href="https://getsagu.com/">Sagu</a> - Theme <a rel="nofollow" href="https://getsagu.com/">Sagu</a></p>
+      {% endblock %}
+    </footer>
+
+  </body>
+</html>

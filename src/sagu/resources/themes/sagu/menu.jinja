@@ -1,7 +1,9 @@
 <nav>
     <menu>
         {% for item in MENUITEMS %}
-            <li><a href="{{ item.link }}">{{ item.title }}</a></li>
+            {% autoescape false %}
+            <li><a href="{{ item.href }}">{{ item.title }}</a></li>
+            {% endautoescape %}
         {% endfor %}
     </menu>
 </nav>

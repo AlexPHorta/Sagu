@@ -17,6 +17,15 @@ class TestBuilder:
                     "THEME": "sagu",
                     "BASETEMPLATE": "index.jinja",
                     "STATIC": "static",
+                    "MENUITEMS": [
+                        { "href": "animals/dogs/the-noble-akita.html",
+                          "title": "Akita" },
+                        { "href": "animals/cats/kurilian-bobtail-has-a-bobbed-tail.html",
+                          "title": "Kurilian Bobtail" },
+                        { "href": "animals/cats/donskoy.html",
+                          "title": "Donskoy" },
+                        { "href": "animals/dogs/the-colossal-mastiff.html",
+                          "title": "Mastiff" }]
                     }
         return settings
 
@@ -39,5 +48,16 @@ class TestBuilder:
         _builder = builder.Builder(asset("TestBuilder/"), mock_settings)
         template = _builder.template
         with open(asset("TestBuilder/index.html")) as f:
+            test_builder_post = _library.get_post_by_id(_post.id)
+            assert template.render(test_builder_post.get_contents()) == f.read()
+    
+    def test_builder_build_post_complete(self, mock_settings):
+        mock_settings["BASETEMPLATE"] = "full.jinja"
+        _library = library.Library(asset("TestBuilder/full/paths.toml"))
+        _post = post.Post(asset("TestBuilder/full/full.toml"), website_path=_library.flat_tree)
+        _library.add_post(_post)
+        _builder = builder.Builder(asset("TestBuilder/full/"), mock_settings)
+        template = _builder.template
+        with open(asset("TestBuilder/full/full.html")) as f:
             test_builder_post = _library.get_post_by_id(_post.id)
             assert template.render(test_builder_post.get_contents()) == f.read()

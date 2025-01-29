@@ -3,8 +3,7 @@ import pathlib
 import sys
 import tomllib
 
-# from src.sagu import builder, kickstart, library, organizer, post
-from sagu import builder, kickstart, library, organizer, post
+from src.sagu import builder, kickstart, library, organizer, post
 
 
 def load_settings(root):
