@@ -6,7 +6,7 @@ SITETIMEZONE = "Europe/Rome"
 
 THEME = "sagu"
 BASETEMPLATE = "index.jinja"
-STATIC = "static"
+THEME_STATIC = "static"
 
 MENUITEMS = [
 { href = "animals/dogs/the-noble-akita.html", title = "Akita" },
